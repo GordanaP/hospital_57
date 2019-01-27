@@ -8,7 +8,7 @@
 
 </head>
 
-<body class="bg-grey-lighter">
+<body class="bg-grey-lighter text-grey-darker">
     <div id="app">
 
         <div class="flex">

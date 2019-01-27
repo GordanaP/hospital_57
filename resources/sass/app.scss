@@ -75,3 +75,14 @@
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+
+.button-teal {
+    @apply .bg-teal-light .text-lg;
+    color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 #4dc0b5;
+}
+
+.button-teal:hover {
+    @apply .bg-teal;
+    color: #FFFFFF;
+}

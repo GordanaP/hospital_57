@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-main-header h-header p-3  flex items-center justify-between">
+<nav class="bg-white custom-shadow h-14 p-3 flex items-center justify-between">
     @auth
         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
             <span class="text-grey-darker">Hello, {{ Auth::user()->name }}</span>

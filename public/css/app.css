@@ -13610,6 +13610,10 @@ table {
   height: 3rem;
 }
 
+.h-14 {
+  height: 3.75rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -16684,6 +16688,18 @@ table {
  * @import "utilities/skew-transforms";
  */
 
+.button-teal {
+  background-color: #64d5ca;
+  font-size: 1.125rem;
+  color: #fff;
+  box-shadow: 0 2px 4px 0 #4dc0b5;
+}
+
+.button-teal:hover {
+  background-color: #4dc0b5;
+  color: #fff;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;
@@ -19212,6 +19228,10 @@ table {
 
   .sm\:h-12 {
     height: 3rem;
+  }
+
+  .sm\:h-14 {
+    height: 3.75rem;
   }
 
   .sm\:h-16 {
@@ -24788,6 +24808,10 @@ table {
     height: 3rem;
   }
 
+  .md\:h-14 {
+    height: 3.75rem;
+  }
+
   .md\:h-16 {
     height: 4rem;
   }
@@ -30362,6 +30386,10 @@ table {
     height: 3rem;
   }
 
+  .lg\:h-14 {
+    height: 3.75rem;
+  }
+
   .lg\:h-16 {
     height: 4rem;
   }
@@ -35934,6 +35962,10 @@ table {
 
   .xl\:h-12 {
     height: 3rem;
+  }
+
+  .xl\:h-14 {
+    height: 3.75rem;
   }
 
   .xl\:h-16 {

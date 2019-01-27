@@ -1,0 +1,43 @@
+/* --------------------------------------------------------------------------------
+                                    Datatable
+--------------------------------------------------------------------------------*/
+table.admin-table { border-bottom: 1px solid #e6e6e6 !important }
+table.admin-table thead th {
+    border-top: 1px solid #e6e6e6 !important;
+    border-bottom: 1px solid #e6e6e6!important;
+    vertical-align: middle;
+}
+table.admin-table tbody tr td { border-top: none !important; padding-left: 16px; }
+
+.dt-buttons, .dataTables_info {margin-left: 20px; margin-top: 20px;}
+.dataTables_length {margin-left: 20px;}
+.dataTables_filter {margin-right: 20px;}
+.dataTables_length select, .dataTables_filter input { height: 34px; border-radius: 2px }
+.dt-button {border-color: #ddd !important; background-image: linear-gradient(to bottom, #fff 0%, #e9e9e9 100%);}
+.dt-button.delete-checked {display: none; border: 2px solid #64D5CA!important; background: #fff }
+
+/* Pagination buttons */
+li.paginate_button.page-item,
+li.paginate_button.page-item.active {
+  padding: 8px 0 !important; margin-right: 8px;
+}
+li.paginate_button.page-item.next,
+li.paginate_button.page-item.previous {
+  padding: 8px 0;
+}
+
+li.paginate_button.page-item a.page-link,
+li.paginate_button.page-item.next a.page-link,
+li.paginate_button.page-item.previous a.page-link {
+  background: #fff !important; border: none !important;
+}
+
+li.paginate_button.page-item:hover,
+li.paginate_button.page-item.active:hover,
+li.paginate_button.page-item.next:hover,
+li.paginate_button.page-item.previous:hover {
+  background: #fff !important; border: #fff !important; font-weight: bold;
+}
+
+a.page-link { background: #F3EBFF !important; border-color: #ddd !important; color:#666 !important;}
+li.paginate_button.page-item.active a.page-link { color: #000 !important; font-weight: bold }

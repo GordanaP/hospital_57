@@ -1,4 +1,4 @@
-<div class="bg-teal-lighter h-header p-3 flex items-center">
+<div class="bg-teal-lighter h-14 p-3 flex items-center">
     <h5>
         <a href="#">
             Laraoffice
@@ -10,8 +10,13 @@
     <ul class="nav flex-column">
         <li class="nav-item text-base py-2">
             <a href="#" class="hover:text-blue-lighter active">
-                <span data-feather="home" class="mr-2"></span>
-                Dashboard <span class="sr-only">(current)</span>
+                <span data-feather="home" class="mr-2"></span> Dashboard
+                <span class="sr-only">(current)</span>
+            </a>
+        </li>
+        <li class="nav-item text-base py-2">
+            <a href="{{ route('users.index') }}" class="hover:text-blue-lighter">
+                <span data-feather="users" class="mr-2"></span> Users
             </a>
         </li>
     </ul>
