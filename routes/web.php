@@ -8,4 +8,8 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
 
-Route::resource('users', 'User\UserController');
+Route::delete('users/{user?}', 'User\UserController@destroy')
+    ->name('users.destroy');
+Route::resource('users', 'User\UserController', [
+    'except' => 'destroy'
+]);

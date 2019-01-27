@@ -27,12 +27,20 @@
 @endsection
 
 @section('scripts')
-
-    <!-- Datatable -->
     <script>
+
+        // Datatable
         var usersTable = $('#usersTable');
         var usersIndexUrl = "{{ route('api.users.index') }}";
 
         @include('users.js._datatable')
+
+        var usersDeleteButton = 'deleteUser';
+        var usersDeleteUrl = "{{ route('users.destroy') }}";
+        var usersCheckbox = 'users';
+        var usersLocation = '#usersIndexTable';
+
+        @include('users.js._delete')
+
     </script>
 @endsection

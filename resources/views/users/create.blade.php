@@ -8,7 +8,7 @@
         <h4>Create User</h4>
 
         <a href="{{ route('users.index') }}" class="underline text-teal text-lg">
-            Back
+            Back to users
         </a>
     </div>
 

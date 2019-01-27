@@ -8,6 +8,7 @@ use App\Mail\User\AccountCreated;
 use App\Mail\User\AccountUpdated;
 use App\Traits\RedirectTo;
 use App\Traits\User\Crudable;
+use App\UseCases\RemoveResource;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -98,8 +99,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user = null)
     {
-        //
+        RemoveResource::perform('User', $user);
+
+        return $this->redirectAfterDeleting('users');
     }
 }
