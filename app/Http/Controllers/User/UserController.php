@@ -4,9 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Mail\User\AccountCreated;
+use App\Mail\User\AccountUpdated;
 use App\Traits\RedirectTo;
 use App\Traits\User\Crudable;
 use App\User;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -44,6 +47,8 @@ class UserController extends Controller
     {
         $user = User::create($this->attributes());
 
+        Mail::to($user)->send(new AccountCreated($user, $this->getPassword()));
+
         return $this->redirectAfterStoring('users', $user)
             ->with($this->storeResponse());
     }
@@ -80,6 +85,8 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($this->attributes());
+
+        Mail::to($user)->send(new AccountUpdated($user, $this->getPassword()));
 
         return $this->redirectAfterUpdate('users', $user)
             ->with($this->updateResponse());
