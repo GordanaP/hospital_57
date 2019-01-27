@@ -1,5 +1,4 @@
 .feather { width: 24px; height: 24px; vertical-align: text-bottom; }
-/*.w-main {width: 83%}*/
 .w-sidebar {width: 17%}
 .w-7 {width: 7%}
 .w-10 {width: 10%}
@@ -20,4 +19,5 @@ a { color: inherit; text-decoration: none !important }
 
 .invalid-feedback { display: inline; }
 
-
+/*.toast-success {background-color: #33998f; }*/
+.toast-success {background-color: #00AB8E; }

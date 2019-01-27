@@ -79,10 +79,19 @@
 .button-teal {
     @apply .bg-teal-light .text-lg;
     color: #FFFFFF;
-    box-shadow: 0 2px 4px 0 #4dc0b5;
+    box-shadow: 1px 1px 2px 1px #4dc0b5;
 }
 
 .button-teal:hover {
     @apply .bg-teal;
     color: #FFFFFF;
+}
+
+.form-footer {
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #ebebeb !important;
+}
+
+.form-shadow {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.04), 0 6px 4px 0 rgba(0,0,0,0.08)
 }

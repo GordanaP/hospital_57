@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\Traits\RedirectTo;
+use App\Traits\User\Crudable;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    use Crudable, RedirectTo;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -38,7 +42,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create($this->attributes());
+
+        return back()->with($this->storeResponse());
     }
 
     /**

@@ -1,13 +1,15 @@
 @extends('layouts.admin')
 
+@section('title', ' | Users')
+
 @section('content')
 
     <header class="flex items-center justify-between mb-4 ">
         <h2>Users</h2>
 
         <span>
-            <a href="#" class="btn button-teal">
-                Create User
+            <a href="{{ route('users.create') }}" class="btn button-teal">
+                Add User
             </a>
         </span>
     </header>

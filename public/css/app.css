@@ -16692,12 +16692,21 @@ table {
   background-color: #64d5ca;
   font-size: 1.125rem;
   color: #fff;
-  box-shadow: 0 2px 4px 0 #4dc0b5;
+  box-shadow: 1px 1px 2px 1px #4dc0b5;
 }
 
 .button-teal:hover {
   background-color: #4dc0b5;
   color: #fff;
+}
+
+.form-footer {
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #ebebeb !important;
+}
+
+.form-shadow {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04), 0 6px 4px 0 rgba(0, 0, 0, .08);
 }
 
 @media (min-width: 576px) {
