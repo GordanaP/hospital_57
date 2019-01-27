@@ -1,7 +1,7 @@
 <div class="bg-teal-lighter h-14 p-3 flex items-center">
     <h5>
-        <a href="#">
-            Laraoffice
+        <a href="{{ route('welcome') }}" class="text-white">
+            {{ config('app.name') }}
         </a>
     </h5>
 </div>

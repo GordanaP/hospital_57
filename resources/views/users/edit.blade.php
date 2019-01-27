@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="flex items-center justify-between w-4/5 mx-auto mb-4">
-        <h4>Create User</h4>
+        <h4>Edit User</h4>
 
         <a href="{{ route('users.index') }}" class="underline text-teal text-lg">
             Back

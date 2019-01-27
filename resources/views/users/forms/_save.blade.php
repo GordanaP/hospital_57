@@ -9,10 +9,14 @@
     <div class="card form-shadow w-4/5 mx-auto">
         <div class="card-body">
 
-            <p class="text-sm text-grey-darker font-gabriela">* Required fields</p>
+            <div class=" p-4 -ml-5 border-l-4 border-teal-lighter">
+                <p class="text-sm text-grey-darker font-gabriela">
+                    * Required fields
+                </p>
+            </div>
 
             <!-- Name -->
-            <div class="form-group row p-3 w-4/5">
+            <div class="form-group row xl:p-3 xl:w-4/5">
                 <label for="name" class="col-sm-4 col-form-label text-md-right
                 text-grey-dark">Name:<span class="text-red text-lg">*</span></label>
                 <div class="col-sm-8 px-6">
@@ -26,7 +30,7 @@
             </div>
 
             <!-- Email -->
-            <div class="form-group row p-3 w-4/5">
+            <div class="form-group row xl:p-3 xl:w-4/5">
                 <label for="email" class="col-sm-4 col-form-label text-md-right
                 text-grey-dark">E-mail address:<span class="text-red text-lg">*</span>
                 </label>
@@ -41,7 +45,7 @@
             </div>
 
             <!-- Password -->
-            <div class="form-group row p-3 w-4/5">
+            <div class="form-group row xl:p-3 xl:w-4/5">
                 <label for="password" class="col-sm-4 col-form-label text-md-right
                 text-grey-dark">
                     Password: @if (request()->route()->named('users.create')
@@ -95,13 +99,13 @@
 
         <!-- Buttons -->
         <div class="card-footer form-footer">
-            <button type="submit" class="btn button-teal float-right mr-6"
+            <button type="submit" class="btn button-teal xl:float-right mr-6"
                 name="submitbtn"
                 value="doAndDisplay">
                 {{ $btn_redirect }}
             </button>
 
-            <button type="submit" class="btn button-teal float-right mr-6"
+            <button type="submit" class="btn button-teal xl:float-right mr-6"
                 name="submitbtn"
                 value="doAndRepeat">
                 {{ $btn_back }}
