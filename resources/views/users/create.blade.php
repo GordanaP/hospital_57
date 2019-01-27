@@ -3,6 +3,15 @@
 @section('title', ' | Add User')
 
 @section('content')
+
+    <div class="flex items-center justify-between w-4/5 mx-auto mb-4">
+        <h4>dit User</h4>
+
+        <a href="{{ route('users.index') }}" class="underline text-teal text-lg">
+            Back
+        </a>
+    </div>
+
     @include('users.forms._save', [
         'route' => route('users.store'),
         'name' => old('name'),

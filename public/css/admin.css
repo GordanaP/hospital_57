@@ -9,7 +9,7 @@
 .bg-red-300 { background: #ef5350 }
 .font-gabriela {font-family: 'Gabriela', serif;}
 
-a { color: inherit; text-decoration: none !important }
+.nav-item a { color: inherit; text-decoration: none !important }
 .active { font-weight: bold; }
 
 ::placeholder {

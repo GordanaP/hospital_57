@@ -42,9 +42,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($this->attributes());
+        $user = User::create($this->attributes());
 
-        return back()->with($this->storeResponse());
+        return $this->redirectAfterStoring('users', $user)
+            ->with($this->storeResponse());
     }
 
     /**
@@ -66,7 +67,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -78,7 +79,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->update($this->attributes());
+
+        return $this->redirectAfterUpdate('users', $user)
+            ->with($this->updateResponse());
     }
 
     /**
