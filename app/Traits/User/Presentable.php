@@ -2,6 +2,8 @@
 
 namespace App\Traits\User;
 
+use Carbon\Carbon;
+
 trait Presentable
 {
     /**
@@ -25,4 +27,15 @@ trait Presentable
     {
         $this->attributes['email'] = strtolower($value);
     }
+
+    /**
+     * Get the date of creation.
+     *
+     * @return date
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+
 }

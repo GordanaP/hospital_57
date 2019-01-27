@@ -92,6 +92,22 @@
     border-bottom: 1px solid #ebebeb !important;
 }
 
-.form-shadow {
+.card-shadow {
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.04), 0 6px 4px 0 rgba(0,0,0,0.08)
 }
+
+.button-delete {
+    color: #B8C2CC;
+    background: #FFFFFF;
+    border: 1px solid #DAE1E7;
+    border-radius: .25rem;
+}
+.button-delete:hover { @apply .bg-grey-lightest; color: #606F7B; }
+
+.button-edit {
+    @apply .bg-teal-light;
+    color: #FFFFFF;
+    border: 1px solid #4DC0B5;
+    border-radius: .25rem;
+}
+.button-edit:hover { @apply .bg-teal-dark; color: #FFFFFF; }

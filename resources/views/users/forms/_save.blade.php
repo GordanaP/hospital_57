@@ -6,7 +6,7 @@
         @method('PUT')
     @endif
 
-    <div class="card form-shadow w-4/5 mx-auto">
+    <div class="card card-shadow w-4/5 mx-auto">
         <div class="card-body">
 
             <div class=" p-4 -ml-5 border-l-4 border-teal-lighter">

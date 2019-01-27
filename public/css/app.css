@@ -16705,8 +16705,32 @@ table {
   border-bottom: 1px solid #ebebeb !important;
 }
 
-.form-shadow {
+.card-shadow {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04), 0 6px 4px 0 rgba(0, 0, 0, .08);
+}
+
+.button-delete {
+  color: #b8c2cc;
+  background: #fff;
+  border: 1px solid #dae1e7;
+  border-radius: .25rem;
+}
+
+.button-delete:hover {
+  background-color: #f8fafc;
+  color: #606f7b;
+}
+
+.button-edit {
+  background-color: #64d5ca;
+  color: #fff;
+  border: 1px solid #4dc0b5;
+  border-radius: .25rem;
+}
+
+.button-edit:hover {
+  background-color: #38a89d;
+  color: #fff;
 }
 
 @media (min-width: 576px) {
