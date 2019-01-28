@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
+        App\Providers\UtilityServiceProvider::class,
 
     ],
 
@@ -224,7 +225,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Title' => App\Services\Utilities\Title::class,
+        'Specialty' => App\Services\Utilities\Specialty::class,
+        'Color' => App\Services\Utilities\Color::class,
+        'AppSlot' => App\Services\Utilities\AppSlot::class,
     ],
 
 ];

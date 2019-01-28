@@ -22,4 +22,18 @@ class AjaxController extends Controller
             'data' => $users
         ]);
     }
+
+    /**
+     * Get the doctor resource collection.
+     *
+     * @return array
+     */
+    public function doctorsIndex()
+    {
+        $doctors = $this->doctorsResourceCollection();
+
+        return response([
+            'data' => $doctors
+        ]);
+    }
 }

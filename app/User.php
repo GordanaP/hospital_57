@@ -28,4 +28,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the doctor profile associated with the given user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+
+    /**
+     * Determine if the user has the doctor.
+     *
+     * @return boolean
+     */
+    public function hasDoctor()
+    {
+        return $this->doctor;
+    }
+
 }

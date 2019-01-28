@@ -19,5 +19,10 @@
                 <span data-feather="users" class="mr-2"></span> Users
             </a>
         </li>
+        <li class="nav-item text-base py-2">
+            <a href="{{ route('doctors.index') }}" class="hover:text-blue-lighter">
+                <span data-feather="disc" class="mr-2"></span> Doctors
+            </a>
+        </li>
     </ul>
 </div>
