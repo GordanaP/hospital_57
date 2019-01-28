@@ -67,7 +67,7 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        //
+        return view('doctors.edit', compact('doctor'));
     }
 
     /**
@@ -79,7 +79,12 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        //
+        $doctor->image->removeOld($doctor->image);
+
+        $doctor->update($this->attributes());
+
+        return $this->redirectAfterUpdate('doctors', $doctor)
+            ->with($this->updateResponse());
     }
 
     /**

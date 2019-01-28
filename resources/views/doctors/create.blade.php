@@ -22,7 +22,6 @@
         'biography' => old('biography'),
         'color' => old('color'),
         'app_slot' => old('app_slot'),
-        'userId' => old('user_id'),
         'btn_redirect' => 'Create Doctor',
         'btn_back' => 'Create Doctor & Add Another',
     ])

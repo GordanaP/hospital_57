@@ -50,7 +50,7 @@ class Image
      * @param  string $default_path
      * @return
      */
-    public function display($default_path = 'images/default.jpg')
+    public function display($default_path = 'images/default_doctor.svg')
     {
         return asset($this->image ? $this->asPath() : $default_path);
     }

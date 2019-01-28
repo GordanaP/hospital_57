@@ -16,8 +16,8 @@
             </div>
 
             <!-- Image -->
-            <div class="form-group row p-3 w-4/5">
-                <label for="title" class="{{ request()->route()->named('doctors.edit') ? 'col-sm-7 py-0 pr-0 pl-4' :
+            <div class="form-group row p-3">
+                <label for="title" class="{{ request()->route()->named('doctors.edit') ? 'col-sm-6 py-0 pr-0 pl-4' :
                 'col-sm-4' }} col-form-label text-md-right text-grey-dark">
                     @if (request()->route()->named('doctors.edit'))
                         <img src="{{ $doctor->image->display() }}" alt="{{ $doctor->full_name }}" class="w-2/5">
@@ -54,182 +54,155 @@
             </div>
 
             <!-- Title -->
-            <div class="form-group row p-3 w-4/5">
-                <label for="title" class="col-sm-4 col-form-label text-md-right text-grey-dark">Title:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <select name="title" id="title" class="form-control">
-                        <option value="">Select a title</option>
-                        @foreach (Title::all() as $key => $name)
-                            <option value="{{ $key }}"
-                                {{ getSelected($key, $title) }}
-                            >
-                                {{ $name }}
-                            </option>
-                        @endforeach
-                    </select>
+            <div class="form-group p-3">
+                <label for="title" class="text-grey-dark">Title:<span class="text-red text-lg">*</span></label>
+                <select name="title" id="title" class="form-control">
+                    <option value="">Select a title</option>
+                    @foreach (Title::all() as $key => $name)
+                        <option value="{{ $key }}"
+                            {{ getSelected($key, $title) }}
+                        >
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
 
-                    @include('errors._field', [
-                        'field' => 'title',
-                    ])
+                @include('errors._field', [
+                    'field' => 'title',
+                ])
+            </div>
+
+            <div class="row">
+                <!-- First Name -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="first_name" class="text-md-right text-grey-dark">First Name:<span class="text-red text-lg">*</span></label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{ $first_name }}">
+
+                        @include('errors._field', [
+                            'field' => 'first_name',
+                        ])
+                    </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="last_name" class="text-md-right text-grey-dark">Last Name:<span class="text-red text-lg">*</span></label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{ $last_name }}">
+
+                        @include('errors._field', [
+                            'field' => 'last_name',
+                        ])
+                    </div>
+
                 </div>
             </div>
 
-            <!-- First Name -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="first_name" class="col-sm-4 col-form-label text-md-right text-grey-dark">First Name:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{ $first_name }}">
+            <div class="row">
+                <!-- Specialty -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="specialty" class="text-md-right text-grey-dark">Specialty:<span class="text-red text-lg">*</span></label>
+                        <select name="specialty" id="specialty" class="form-control">
+                            <option value="">Select a specialty</option>
+                            @foreach (Specialty::all() as $key => $name)
+                                <option value="{{ $key }}"
+                                    {{ getSelected($key, $specialty) }}
+                                >
+                                    {{ $name }}
+                                </option>
+                            @endforeach
+                        </select>
 
-                    @include('errors._field', [
-                        'field' => 'first_name',
-                    ])
+                        @include('errors._field', [
+                            'field' => 'specialty',
+                        ])
+                    </div>
                 </div>
-            </div>
 
-            <!-- Last Name -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="last_name" class="col-sm-4 col-form-label text-md-right text-grey-dark">Last Name:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{ $last_name }}">
+                <!-- License -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="license" class="text-md-right text-grey-dark ">License:<span class="text-white text-lg">*</span></label>
+                        <input type="text" class="form-control" id="license" name="license" placeholder="License" value="{{ $license }}">
 
-                    @include('errors._field', [
-                        'field' => 'last_name',
-                    ])
-                </div>
-            </div>
-
-            <!-- Specialty -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="specialty" class="col-sm-4 col-form-label text-md-right text-grey-dark">Specialty:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <select name="specialty" id="specialty" class="form-control">
-                        <option value="">Select a specialty</option>
-                        @foreach (Specialty::all() as $key => $name)
-                            <option value="{{ $key }}"
-                                {{ getSelected($key, $specialty) }}
-                            >
-                                {{ $name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    @include('errors._field', [
-                        'field' => 'specialty',
-                    ])
-                </div>
-            </div>
-
-            <!-- License -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="license" class="col-sm-4 col-form-label text-md-right text-grey-dark">License:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <input type="text" class="form-control" id="license" name="license" placeholder="License" value="{{ $license }}">
-
-                    @include('errors._field', [
-                        'field' => 'license',
-                    ])
+                        @include('errors._field', [
+                            'field' => 'license',
+                        ])
+                    </div>
                 </div>
             </div>
 
             <!-- Biography -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="biography" class="col-sm-4 col-form-label text-md-right text-grey-dark">Biography:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <textarea name="biography" id="biography" class="form-control" cols="30" rows="3" placeholder="biography">{{ $biography }}</textarea>
+            <div class="form-group p-3">
+                <label for="biography" class="text-md-right text-grey-dark">Biography:</label>
+                <textarea name="biography" id="biography" class="form-control" cols="30" rows="3" placeholder="biography">{{ $biography }}</textarea>
 
-                    @include('errors._field', [
-                        'field' => 'biography',
-                    ])
-                </div>
+                @include('errors._field', [
+                    'field' => 'biography',
+                ])
             </div>
 
-            <!-- Color -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="color" class="col-sm-4 col-form-label text-md-right text-grey-dark">Color:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <select name="color" id="color" class="form-control">
-                        <option value="">Select a color</option>
-                        @foreach (Color::all() as $key => $name)
-                            <option value="{{ $key }}"
-                                {{ getSelected($key, $color) }}
-                            >
-                                {{ $name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    @include('errors._field', [
-                        'field' => 'color',
-                    ])
-                </div>
-            </div>
-
-            <!-- App Slot -->
-            <div class="form-group row p-3 xl:w-4/5">
-                <label for="app_slot" class="col-sm-4 col-form-label text-md-right text-grey-dark">Appointment Slot:<span class="text-red text-lg">*</span></label>
-                <div class="col-sm-8 px-6">
-                    <select name="app_slot" id="app_slot" class="form-control">
-                        <option value="">Select a slot</option>
-                        @foreach (AppSlot::all() as $key => $name)
-                            <option value="{{ $key }}"
-                                {{ getSelected($key, $app_slot) }}
-                            >
-                                {{ $name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    @include('errors._field', [
-                        'field' => 'app_slot',
-                    ])
-                </div>
-            </div>
-
-            <!-- User -->
-            {{-- <div class="form-group row p-3 xl:w-4/5">
-                <label for="user_id" class="col-sm-4 col-form-label text-md-right text-grey-dark">Available User:</label>
-                <div class="col-sm-8 px-6">
-                    <select name="user_id" id="user_id" class="form-control" >
-                        <option value="">Select a user</option>
-
-                        @if ( Request::is('doctors/create/*'))
-                            <option value="{{ $user->id }}" selected>
-                                {{ $user->email }}
-                            </option>
-                        @else
-                            @foreach ($available_users as $user)
-                                <option value="{{ $user->id }}"
-                                    {{ getSelected($user->id, $userId) }}
+            <div class="row">
+                <!-- Color -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="color" class="text-md-right text-grey-dark">Color:</label>
+                        <select name="color" id="color" class="form-control">
+                            <option value="">Select a color</option>
+                            @foreach (Color::all() as $key => $name)
+                                <option value="{{ $key }}"
+                                    {{ getSelected($key, $color) }}
                                 >
-                                    {{ $user->email }}
+                                    {{ $name }}
                                 </option>
                             @endforeach
-                        @endif
-                    </select>
+                        </select>
 
-                    @include('errors._field', [
-                        'field' => 'user_id',
-                    ])
+                        @include('errors._field', [
+                            'field' => 'color',
+                        ])
+                    </div>
                 </div>
-            </div> --}}
+
+                <!-- App Slot -->
+                <div class="col-md-6">
+                    <div class="form-group p-3">
+                        <label for="app_slot" class="text-md-right text-grey-dark">Appointment Slot:</label>
+                        <select name="app_slot" id="app_slot" class="form-control">
+                            <option value="">Select a slot</option>
+                            @foreach (AppSlot::all() as $key => $name)
+                                <option value="{{ $key }}"
+                                    {{ getSelected($key, $app_slot) }}
+                                >
+                                    {{ $name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @include('errors._field', [
+                            'field' => 'app_slot',
+                        ])
+                    </div>
+                </div>
+            </div>
 
         </div>
 
         <!-- Buttons -->
-    <div class="card-footer form-footer">
-        <button type="submit" class="btn button-teal xl:float-right mr-6"
-            name="submitbtn"
-            value="doAndDisplay">
-            {{ $btn_redirect }}
-        </button>
+        <div class="card-footer form-footer">
+            <button type="submit" class="btn button-teal xl:float-right mr-6"
+                name="submitbtn"
+                value="doAndDisplay">
+                {{ $btn_redirect }}
+            </button>
 
-        <button type="submit" class="btn button-teal xl:float-right mr-6"
-            name="submitbtn"
-            value="doAndRepeat">
-            {{ $btn_back }}
-        </button>
+            <button type="submit" class="btn button-teal xl:float-right mr-6"
+                name="submitbtn"
+                value="doAndRepeat">
+                {{ $btn_back }}
+            </button>
+        </div>
     </div>
-
-    </div>
-
 </form>
