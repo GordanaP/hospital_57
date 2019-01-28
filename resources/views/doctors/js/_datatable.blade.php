@@ -18,6 +18,11 @@ var doctorsDatatable = doctorsTable.DataTable({
         },
         {
             data: 'image_path',
+            render: function(data, type, row, meta) {
+                return '<img src="' + data + '" alt="" class="rounded-full w-2/5">'
+            },
+            searchable: false,
+            sortable: false,
         },
         {
             data: 'name',
@@ -38,10 +43,6 @@ var doctorsDatatable = doctorsTable.DataTable({
         },
         {
             data: 'link.edit',
-            visible: false
-        },
-        {
-            data: 'link.user',
             visible: false
         },
     ],

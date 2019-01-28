@@ -18,10 +18,11 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'doctor' => 'doctor name',
+            'doctor' => optional($this->doctor)->inverse_name,
             'link' => [
                 'show' => route('users.show', $this),
                 'edit' => route('users.edit', $this),
+                'doctor' => $this->hasDoctor() ? route('doctors.show', $this->doctor) : '',
             ]
         ];
     }

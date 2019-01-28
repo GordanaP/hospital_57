@@ -34,15 +34,21 @@
   background-color: #eee;
 }
 
+.checkmark#file { background: #aaa }
+
 /* On mouse-over, add a grey background color */
-.checkbox-container:hover input ~ .checkmark {
+.checkbox-container:hover input ~ .checkmark,
+.checkbox-container:hover input ~ .checkmark#file {
   background-color: #ccc;
 }
 
+
 /* When the checkbox is checked, add a blue background */
-.checkbox-container input:checked ~ .checkmark {
+.checkbox-container input:checked ~ .checkmark,
+.checkbox-container input:checked ~ .checkmark#file {
   background-color: #64D5CA;
 }
+
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {

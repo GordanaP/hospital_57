@@ -51,8 +51,7 @@ class RemoveResource
      */
     private function deleteSingle($modelName, $instance)
     {
-        // $modelName == 'Doctor' ? $instance->remove() : $instance->delete();
-        $instance->delete();
+        $modelName == 'Doctor' ? $instance->remove() : $instance->delete();
     }
 
     /**

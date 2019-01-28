@@ -26,9 +26,9 @@ var usersDatatable = usersTable.DataTable({
         },
         {
             data: 'doctor',
-            // render: function(data, type, row, meta) {
-            //   return data ? '<a href="' + row.link.doctor + '" class="text-teal-light hover:text-teal-dark font-bold">' + data + '</a>' : '<span class="text-teal-light hover:text-teal-dark font-bold">-</span>'
-            // },
+            render: function(data, type, row, meta) {
+              return data ? '<a href="' + row.link.doctor + '" class="text-teal-light hover:text-teal-dark font-bold">' + data + '</a>' : '<span class="text-teal-light hover:text-teal-dark font-bold">-</span>'
+            },
         },
         {
           render: function(data, type, row, meta) {

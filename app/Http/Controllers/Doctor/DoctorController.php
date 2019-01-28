@@ -6,6 +6,7 @@ use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Traits\Doctor\Crudable;
 use App\Traits\RedirectTo;
+use App\UseCases\RemoveResource;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -90,11 +91,13 @@ class DoctorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Doctor  $doctor
+     * @param  \App\Doctor | null  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy(Doctor $doctor = null)
     {
-        //
+        RemoveResource::perform('Doctor', $doctor);
+
+        return $this->redirectAfterDeleting('doctors');
     }
 }

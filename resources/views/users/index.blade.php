@@ -35,11 +35,7 @@
 
         @include('users.js._datatable')
 
-        var usersDeleteButton = 'deleteUser';
-        var usersDeleteUrl = "{{ route('users.destroy') }}";
-        var usersCheckbox = 'users';
-        var usersLocation = '#usersIndexTable';
-
+        // Delete records
         @include('users.js._delete')
 
     </script>

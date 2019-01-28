@@ -6,7 +6,7 @@
         @method('PUT')
     @endif
 
-    <div class="card  card-shadow w-4/5 mx-auto">
+    <div class="card card-shadow w-4/5 mx-auto">
         <div class="card-body">
 
             <div class=" p-4 -ml-5 border-l-4 border-teal-lighter">
@@ -16,7 +16,7 @@
             </div>
 
             <!-- Image -->
-            <div class="form-group row p-3">
+            <div class="form-group row px-3 py-5 bg-grey-lightest mx-4">
                 <label for="title" class="{{ request()->route()->named('doctors.edit') ? 'col-sm-6 py-0 pr-0 pl-4' :
                 'col-sm-4' }} col-form-label text-md-right text-grey-dark">
                     @if (request()->route()->named('doctors.edit'))
@@ -41,7 +41,7 @@
                         <div class="checkbox mt-16">
                             <label class="checkbox-container">
                                 <input type="checkbox" class="checkitem" name="deleteImage" >
-                                <span class="checkmark"></span>
+                                <span class="checkmark" id="file"></span>
                             </label>
                             <span class="text-sm ml-8">Delete file</span>
                         </div>

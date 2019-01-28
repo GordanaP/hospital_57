@@ -44,4 +44,19 @@ class Doctor extends Model
     {
         return $this->user;
     }
+
+    /**
+     * Delete the doctor.
+     *
+     * @return void
+     */
+    public function remove()
+    {
+        $this->image->removeFromStorage($this->image);
+
+        optional($this->user)->delete();
+
+        $this->delete();
+    }
+
 }
