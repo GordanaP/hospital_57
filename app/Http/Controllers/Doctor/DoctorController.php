@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Doctor;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\Doctor\Crudable;
+use App\Traits\RedirectTo;
+use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
+    use Crudable, RedirectTo;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +31,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        return view('doctors.create');
     }
 
     /**
@@ -38,7 +42,10 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $doctor = Doctor::create($this->attributes());
+
+        return $this->redirectAfterStoring('doctors', $doctor)
+            ->with($this->storeResponse());
     }
 
     /**

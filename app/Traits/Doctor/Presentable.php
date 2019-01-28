@@ -2,6 +2,7 @@
 
 namespace App\Traits\Doctor;
 
+use App\ValueObjects\Image;
 use Carbon\Carbon;
 
 trait Presentable
@@ -97,4 +98,16 @@ trait Presentable
     {
         return Carbon::parse($value)->format('Y-m-d');
     }
+
+    /**
+     * Get the image.
+     *
+     * @param  string $value
+     * @return string
+     */
+    public function getImageAttribute($value)
+    {
+        return new Image($value);
+    }
+
 }

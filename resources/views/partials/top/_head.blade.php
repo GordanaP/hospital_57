@@ -34,4 +34,5 @@
 <!-- Custom styles-->
 <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 <link href="{{ asset('css/checkbox.css') }}" rel="stylesheet">
+<link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
 <link href="{{ asset('css/datatable.css') }}" rel="stylesheet">
