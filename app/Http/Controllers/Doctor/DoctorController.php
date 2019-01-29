@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DoctorRequest;
 use App\Traits\Doctor\Crudable;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
@@ -38,10 +39,10 @@ class DoctorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DoctorRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoctorRequest $request)
     {
         $doctor = Doctor::create($this->attributes());
 
@@ -74,11 +75,11 @@ class DoctorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DoctorRequest  $request
      * @param  \App\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(DoctorRequest $request, Doctor $doctor)
     {
         $doctor->image->removeOld($doctor->image);
 

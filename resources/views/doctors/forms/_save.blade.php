@@ -33,9 +33,11 @@
                         Choose file
                     </span>
 
-                    @include('errors._field', [
-                        'field' => 'image',
-                    ])
+                    <div class="mt-4">
+                        @include('errors._field', [
+                            'field' => 'image',
+                        ])
+                    </div>
 
                     @if (request()->route()->named('doctors.edit') && $doctor->image->image != null)
                         <div class="checkbox mt-16">
@@ -45,11 +47,11 @@
                             </label>
                             <span class="text-sm ml-8">Delete file</span>
                         </div>
-                    @endif
 
-                    @include('errors._field', [
-                        'field' => 'deleteImage',
-                    ])
+                        @include('errors._field', [
+                            'field' => 'deleteImage',
+                        ])
+                    @endif
                 </div>
             </div>
 
