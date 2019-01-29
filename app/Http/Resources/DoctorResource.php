@@ -19,9 +19,11 @@ class DoctorResource extends JsonResource
             'name' => $this->inverse_title_name,
             'specialty' => $this->specialty,
             'image_path' => $this->image->asPath() ?: '',
+            'user' => optional($this->user)->email,
             'link' => [
                 'show' => route('doctors.show', $this),
                 'edit' => route('doctors.edit', $this),
+                'user' => $this->hasUser() ? route('users.show', $this->user) : '',
             ]
         ];
     }

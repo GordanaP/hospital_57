@@ -49,4 +49,14 @@ class User extends Authenticatable
         return $this->doctor;
     }
 
+    /**
+     * Add doctor to a user.
+     *
+     * @param \App\Doctor $doctor
+     */
+    public function addDoctor($doctor)
+    {
+        return $this->doctor()->save($doctor);
+    }
+
 }

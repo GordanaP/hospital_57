@@ -69,8 +69,8 @@
                         <label class="checkbox-container"><input type="radio"
                             class="checkitem" name="handle-password" value="auto"
                             {{
-                                request()->route()->named('users.create')
-                                || request()->route()->named('users.create.fordoctor')
+                                request()->route()->named('users.create') ||
+                                request()->route()->named('doctors.users.create')
                                 ? 'checked' : ''
                             }}>
                             <span class="checkmark radio-checkmark"></span>

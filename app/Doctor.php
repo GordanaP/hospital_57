@@ -46,6 +46,16 @@ class Doctor extends Model
     }
 
     /**
+     * Determine if the doctor has an image.
+     *
+     * @return boolean
+     */
+    public function hasImage()
+    {
+        return $this->image;
+    }
+
+    /**
      * Delete the doctor.
      *
      * @return void

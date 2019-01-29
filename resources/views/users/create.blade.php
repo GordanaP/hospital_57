@@ -13,7 +13,8 @@
     </div>
 
     @include('users.forms._save', [
-        'route' => route('users.store'),
+        'route' => request()->route()->named('users.create')
+            ? route('users.store') : route('doctors.users.store', $doctor),
         'name' => old('name'),
         'email' => old('email'),
         'btn_redirect' => 'Create User',
