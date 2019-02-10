@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Doctor;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DoctorRequest;
-use App\Traits\Doctor\Crudable;
+use App\Traits\Doctor\GetAttributes;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
+use App\User;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
-    use Crudable, RedirectTo;
+    use GetAttributes, RedirectTo;
 
     /**
      * Display a listing of the resource.
@@ -44,7 +45,7 @@ class DoctorController extends Controller
      */
     public function store(DoctorRequest $request)
     {
-        $doctor = Doctor::create($this->attributes());
+        $doctor = Doctor::createNew($this->attributes());
 
         return $this->redirectAfterStoring('doctors', $doctor)
             ->with($this->storeResponse());

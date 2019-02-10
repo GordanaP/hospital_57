@@ -20,6 +20,8 @@
         </div>
     </header>
 
-    @include('doctors.html._details')
+    <main class="card card-body card-shadow">
+        @include('doctors.html._details')
+    </main>
 
 @endsection

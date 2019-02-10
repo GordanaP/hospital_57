@@ -190,7 +190,22 @@
                 </div>
             </div>
 
-        </div>
+            @if (request()->route()->named('users.doctors.create'))
+                <div class="form-group p-3">
+                    <label for="user_id" class="text-md-right text-grey-dark">User:</label>
+                    <select name="user_id" id="user_id" class="form-control">
+                        <option value="{{ $user->id}}">
+                            {{ $user->email }}
+                        </option>
+                    </select>
+
+                    @include('errors._field', [
+                        'field' => 'user_id',
+                    ])
+                </div>
+            @endif
+
+        </div><!-- /.Card body -->
 
         <!-- Buttons -->
         <div class="card-footer form-footer">

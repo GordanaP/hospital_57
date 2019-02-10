@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\User\Crudable;
 use App\Traits\User\Presentable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable, Presentable;
+    use Crudable, Notifiable, Presentable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,7 +57,7 @@ class User extends Authenticatable
      */
     public function addDoctor($doctor)
     {
-        return $this->doctor()->save($doctor);
+        return $doctor ? $this->doctor()->save($doctor) : '';
     }
 
 }

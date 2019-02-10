@@ -2,12 +2,16 @@
 
 namespace App;
 
+use App\Traits\Doctor\HasAttributes;
+use App\Traits\Doctor\HasUser;
+use App\Traits\Doctor\Crudable;
 use App\Traits\Doctor\Presentable;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    use Presentable;
+    use HasAttributes, HasUser, Crudable, Presentable;
 
     /**
      * The attributes that are mass assignable.
@@ -36,37 +40,17 @@ class Doctor extends Model
     }
 
     /**
-     * Determine if the doctor has a user account.
+     * Get doctors without user account.
      *
-     * @return boolean
+     * @param \App\User | null $user
+     * @return Illuminate\Support\Collection
      */
-    public function hasUser()
+    public static function hasNoAccountCollection($user = null)
     {
-        return $this->user;
+        $available_doctors = static::doesnthave('user')->get();
+
+        optional($user)->doctor ? $available_doctors->push($user->doctor) : '';
+
+        return $available_doctors;
     }
-
-    /**
-     * Determine if the doctor has an image.
-     *
-     * @return boolean
-     */
-    public function hasImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Delete the doctor.
-     *
-     * @return void
-     */
-    public function remove()
-    {
-        $this->image->removeFromStorage($this->image);
-
-        optional($this->user)->delete();
-
-        $this->delete();
-    }
-
 }

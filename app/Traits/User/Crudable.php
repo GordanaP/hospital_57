@@ -2,37 +2,41 @@
 
 namespace App\Traits\User;
 
+use App\Doctor;
+
 trait Crudable
 {
     /**
-     * The user attributes.
+     * Create a new user.
      *
-     * @return array
+     * @param  array $data
+     * @return \App\User
      */
-    public function attributes()
+    public static function createNew($attributes)
     {
-        $attributes = request()->except('password');
+        $user = static::create($attributes);
 
-        if (request('handle-password') == 'auto') {
+        $doctor = Doctor::find(request('doctor_id'));
 
-            $attributes['password'] = str_random(6);
-        }
-        else if (request('handle-password') == 'manual') {
+        $doctor ? $doctor->addUser($user) : '';
 
-            $attributes['password'] = request('password');
-        }
-
-        return $attributes;
+        return $user;
     }
 
     /**
-     * Get the password.
+     * Update the user.
      *
-     * @return string
+     * @return void
      */
-    public function getPassword()
+    public function saveChanges($attributes)
     {
-        return array_key_exists("password", $this->attributes())
-            ? $this->attributes()['password'] : '';
+        $this->hasDoctor() && $this->doctor->id !== request('doctor_id')
+            ? $this->doctor->detachUser() : '';
+
+        $doctor = Doctor::find(request('doctor_id'));
+
+        $this->update($attributes);
+
+        $this->addDoctor($doctor);
     }
 }

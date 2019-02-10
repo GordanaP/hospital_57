@@ -20,6 +20,8 @@
         </div>
     </header>
 
-    @include('users.html._details')
+    <main class="card card-body card-shadow">
+        @include('users.html._details')
+    </main>
 
 @endsection

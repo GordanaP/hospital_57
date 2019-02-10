@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\AlphaNumSpace;
+use App\Rules\HasNoAccount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,14 +28,17 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'string', 'max:30', new AlphaNumSpace
+                'sometimes', 'required', 'string', 'max:30', new AlphaNumSpace
             ],
             'email' => [
-                'required', 'email', 'max:100',
+                'sometimes', 'required', 'email', 'max:100',
                 Rule::unique('users')->ignore(optional($this->user)->id)
             ],
             'password'=>[
-                'required_if:handle-password,manual'
+                'sometimes', 'required_if:handle-password,manual'
+            ],
+            'doctor_id' =>[
+                'nullable', 'exists:doctors,id', new HasNoAccount($this->user)
             ]
         ];
     }

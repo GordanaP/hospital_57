@@ -8,14 +8,14 @@ use App\Http\Requests\UserRequest;
 use App\Mail\User\AccountCreated;
 use App\Mail\User\AccountUpdated;
 use App\Traits\RedirectTo;
-use App\Traits\User\Crudable;
+use App\Traits\User\GetAttributes;
 use App\UseCases\RemoveResource;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    use Crudable, RedirectTo;
+    use GetAttributes, RedirectTo;
 
     /**
      * Display a listing of the resource.
@@ -36,7 +36,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $doctorsWithoutAccount = Doctor::hasNoAccountCollection();
+
+        return view('users.create', compact('doctorsWithoutAccount'));
     }
 
     /**
@@ -47,7 +49,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::create($this->attributes());
+        $user = User::createNew($this->attributes());
 
         Mail::to($user)->send(new AccountCreated($user, $this->getPassword()));
 
@@ -74,7 +76,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $doctorsWithoutAccount = Doctor::hasNoAccountCollection($user);
+
+        return view('users.edit', compact('doctorsWithoutAccount', 'user'));
     }
 
     /**
@@ -86,7 +90,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user->update($this->attributes());
+        $user->saveChanges($this->attributes());
 
         Mail::to($user)->send(new AccountUpdated($user, $this->getPassword()));
 

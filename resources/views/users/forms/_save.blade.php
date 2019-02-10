@@ -95,7 +95,39 @@
                     ])
                 </div>
             </div>
-        </div>
+
+            <!-- Doctor -->
+            @if ($doctorsWithoutAccount->count())
+                <div class="form-group row xl:p-3 xl:w-4/5">
+                    <label for="doctor_id" class="col-sm-4 col-form-label
+                    text-md-right text-grey-dark">Doctor:</label>
+
+                    <div class="col-sm-8 px-6">
+                        <select name="doctor_id" id="doctor_id" class="form-control" >
+                            @if (request()->route()->named('doctors.users.create'))
+                                <option value="{{ $doctor->id }}">
+                                    {{ $doctor->inverse_title_name }}
+                                </option>
+                            @else
+                                <option value="">Select a doctor</option>
+                                @foreach ($doctorsWithoutAccount as $doctor)
+                                    <option value="{{ $doctor->id }}"
+                                        {{ getSelected($doctor->id, $doctorId) }}
+                                    >
+                                        {{ $doctor->inverse_title_name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+
+                        @include('errors._field', [
+                            'field' => 'doctor_id',
+                        ])
+                    </div>
+                </div>
+            @endif
+
+        </div><!-- /.Card body -->
 
         <!-- Buttons -->
         <div class="card-footer form-footer">

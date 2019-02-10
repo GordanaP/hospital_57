@@ -5,18 +5,33 @@ namespace App\Traits\Doctor;
 trait Crudable
 {
     /**
-     * The model's attributes.
+     * Create a new doctor.
      *
-     * @return array
+     * @param  array $data
+     * @return \App\Doctor
      */
-    protected function attributes()
+    public static function createNew($attributes)
     {
-        $attributes = request()->except('image');
+        $doctor = static::create($attributes);
 
-        request('image') ? $attributes['image'] = request('image')->store('doctors', 'public') : '';
+        $user = User::find(request('user_id'));
 
-        request('deleteImage') ? $attributes['image'] = NULL : '';
+        optional($user)->addDoctor($doctor);
 
-        return $attributes;
+        return $doctor;
+    }
+
+    /**
+     * Delete the doctor.
+     *
+     * @return void
+     */
+    public function remove()
+    {
+        $this->image->removeFromStorage($this->image);
+
+        optional($this->user)->delete();
+
+        $this->delete();
     }
 }

@@ -3,6 +3,7 @@
 @section('title', ' | Doctors')
 
 @section('content')
+
     <header class="flex items-center justify-between mb-4 ">
         <h2>Doctors</h2>
 
@@ -22,6 +23,7 @@
 
         @include('doctors.table._thead')
     @enddatatable
+
 @endsection
 
 @section('scripts')

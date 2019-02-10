@@ -62,6 +62,10 @@ class DoctorRequest extends FormRequest
             'app_slot' => [
                 'nullable','in:'.AppSlot::namesArray()
             ],
+            'user_id' => [
+                'sometimes', 'required', 'exists:users,id',
+                Rule::unique('doctors')->ignore(optional($this->doctor)->id)
+            ],
         ];
     }
 }

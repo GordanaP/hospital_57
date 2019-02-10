@@ -4,21 +4,25 @@
 
 @section('content')
 
-    <div class="flex items-center justify-between w-4/5 mx-auto mb-4">
+    <header class="flex items-center justify-between w-4/5 mx-auto mb-4">
         <h4>Edit User</h4>
 
         <a href="{{ route('users.index') }}" class="underline text-teal text-lg">
             Back to users
         </a>
-    </div>
+    </header>
 
-    @include('users.forms._save', [
-        'route' => route('users.update', $user),
-        'name' => old('name') ?: $user->name,
-        'email' => old('email') ?: $user->email,
-        'btn_redirect' => 'Save Changes',
-        'btn_back' => 'Save & Continue Editing'
-    ])
+    <main>
+        @include('users.forms._save', [
+            'route' => route('users.update', $user),
+            'name' => old('name') ?: $user->name,
+            'email' => old('email') ?: $user->email,
+            'doctorId' => old('doctor_id') ?: optional($user->doctor)->id,
+            'btn_redirect' => 'Save Changes',
+            'btn_back' => 'Save & Continue Editing'
+        ])
+    </main>
+
 @endsection
 
 @section('scripts')
