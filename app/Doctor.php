@@ -40,6 +40,16 @@ class Doctor extends Model
     }
 
     /**
+     * Get the patients that belong to the doctor.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function patients()
+    {
+        return $this->hasMany(Patient::class);
+    }
+
+    /**
      * Get doctors without user account.
      *
      * @param \App\User | null $user

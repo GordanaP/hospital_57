@@ -37,3 +37,7 @@ Route::put('users/{user}/doctors', 'User\UserDoctorController@update')
     ->name('users.doctors.update');
 Route::get('users/{user}/doctors/assign', 'User\UserDoctorController@create')
     ->name('users.doctors.create');
+
+
+// Patient
+Route::resource('patients', 'Patient\PatientController');
