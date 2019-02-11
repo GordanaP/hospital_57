@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Doctor;
 use App\Traits\Patient\Presentable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +45,34 @@ class Patient extends Model
     public function hasDoctor()
     {
         return $this->doctor;
+    }
+
+    /**
+     * Add a doctor to a patient.
+     *
+     * @param \App\Doctor $doctor
+     * @return void
+     */
+    public function addDoctor($doctor)
+    {
+        $this->doctor()->associate($doctor)->save();
+    }
+
+    /**
+     * Create a new patient.
+     *
+     * @param  array $data
+     * @return \App\Patient
+     */
+    public static function createNew($data)
+    {
+        $patient = static::create($data);
+
+        $doctor = Doctor::find(request('doctor_id'));
+
+        $patient->addDoctor($doctor);
+
+        return $patient;
     }
 
 }

@@ -11,7 +11,7 @@ trait GetAttributes
      */
     public function attributes()
     {
-        $attributes = request()->except('password');
+        $attributes = request()->except('password', 'doctor_id');
 
         if (request('handle-password') == 'auto') {
 

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Patient;
 
-use App\Patient;
-use Illuminate\Http\Request;
+use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Patient;
+use App\Traits\RedirectTo;
+use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
+    use RedirectTo;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +31,9 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        $doctors = Doctor::orderBy('last_name')->get();
+
+        return view('patients.create', compact('doctors'));
     }
 
     /**
@@ -38,7 +44,10 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $patient = Patient::createNew($request->except('doctor_id'));
+
+        return $this->redirectAfterStoring('patients', $patient)
+            ->with($this->storeResponse('patients'));
     }
 
     /**

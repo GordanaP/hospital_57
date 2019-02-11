@@ -11,7 +11,7 @@ trait GetAttributes
      */
     protected function attributes()
     {
-        $attributes = request()->except('image');
+        $attributes = request()->except('image', 'user_id');
 
         request('image') ? $attributes['image'] = request('image')->store('doctors', 'public') : '';
 
