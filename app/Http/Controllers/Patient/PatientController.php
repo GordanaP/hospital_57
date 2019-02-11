@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Patient;
 
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PatientRequest;
 use App\Patient;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
@@ -43,7 +44,7 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PatientRequest $request)
     {
         $patient = Patient::createNew($request->except('doctor_id'));
 
@@ -82,7 +83,7 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(PatientRequest $request, Patient $patient)
     {
         $patient->saveChanges($request->except('doctor_id'));
 

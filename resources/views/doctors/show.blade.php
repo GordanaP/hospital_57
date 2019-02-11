@@ -64,6 +64,5 @@
         // Delete patient
         @include('patients.js._delete')
 
-
     </script>
 @endsection
