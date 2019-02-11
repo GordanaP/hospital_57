@@ -61,18 +61,33 @@ class Patient extends Model
     /**
      * Create a new patient.
      *
-     * @param  array $data
+     * @param  array $attributes
      * @return \App\Patient
      */
-    public static function createNew($data)
+    public static function createNew($attributes)
     {
-        $patient = static::create($data);
+        $patient = static::create($attributes);
 
         $doctor = Doctor::find(request('doctor_id'));
 
         $patient->addDoctor($doctor);
 
         return $patient;
+    }
+
+    /**
+     * Update the patient.
+     *
+     * @param  array $attributes
+     * @return void
+     */
+    public function saveChanges($attributes)
+    {
+        $doctor = Doctor::find(request('doctor_id'));
+
+        $this->addDoctor($doctor);
+
+        $this->update($attributes);
     }
 
 }

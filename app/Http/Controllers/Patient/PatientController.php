@@ -69,7 +69,9 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        //
+        $doctors = Doctor::orderBy('last_name')->get();
+
+        return view('patients.edit', compact('doctors', 'patient'));
     }
 
     /**
@@ -81,7 +83,10 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
-        //
+        $patient->saveChanges($request->except('doctor_id'));
+
+        return $this->redirectAfterUpdate('patients', $patient)
+            ->with($this->updateResponse('patients'));
     }
 
     /**
