@@ -6,6 +6,7 @@ use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Patient;
 use App\Traits\RedirectTo;
+use App\UseCases\RemoveResource;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -95,8 +96,10 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patient)
+    public function destroy(Patient $patient = null)
     {
-        //
+        RemoveResource::perform('Patient', $patient);
+
+        return $this->redirectAfterDeleting('patients');
     }
 }

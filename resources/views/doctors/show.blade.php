@@ -61,5 +61,9 @@
 
         @include('patients.js._datatable')
 
+        // Delete patient
+        @include('patients.js._delete')
+
+
     </script>
 @endsection

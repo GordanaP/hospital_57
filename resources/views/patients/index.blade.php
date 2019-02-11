@@ -35,5 +35,8 @@
 
         @include('patients.js._datatable')
 
+        // Delete records
+        @include('patients.js._delete')
+
     </script>
 @endsection

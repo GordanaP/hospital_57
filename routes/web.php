@@ -38,6 +38,9 @@ Route::put('users/{user}/doctors', 'User\UserDoctorController@update')
 Route::get('users/{user}/doctors/assign', 'User\UserDoctorController@create')
     ->name('users.doctors.create');
 
-
 // Patient
-Route::resource('patients', 'Patient\PatientController');
+Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
+    ->name('patients.destroy');
+Route::resource('patients', 'Patient\PatientController', [
+    'except' => 'destroy'
+]);
