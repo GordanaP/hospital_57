@@ -26,7 +26,7 @@ trait HasUser
     }
 
     /**
-     * Dissociate user from a doctor.
+     * Detache user from the doctor.
      *
      * @return void
      */

@@ -103,9 +103,11 @@
                     text-md-right text-grey-dark">Doctor:</label>
 
                     <div class="col-sm-8 px-6">
-                        <select name="doctor_id" id="doctor_id" class="form-control" >
+                        <select name="doctor_id" id="doctor_id" class="form-control"
+                        {{ request()->route()->named('doctors.users.create') ? 'disabled' : '' }}
+                        >
                             @if (request()->route()->named('doctors.users.create'))
-                                <option value="{{ $doctor->id }}">
+                                <option value="{{ $doctor->id }}" selected>
                                     {{ $doctor->inverse_title_name }}
                                 </option>
                             @else

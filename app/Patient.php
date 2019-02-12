@@ -59,6 +59,16 @@ class Patient extends Model
     }
 
     /**
+     * Detach doctor from the patient.
+     *
+     * @return void
+     */
+    public function detachDoctor()
+    {
+        $this->doctor()->dissociate()->save();
+    }
+
+    /**
      * Create a new patient.
      *
      * @param  array $attributes

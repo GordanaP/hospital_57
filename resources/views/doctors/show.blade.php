@@ -31,7 +31,8 @@
             <h4>Patients</h4>
 
             <span>
-                <a href="{{ route('patients.create') }}" class="btn button-teal">
+                <a href="{{ route('doctors.patients.create', $doctor) }}"
+                class="btn button-teal">
                     Add Patient
                 </a>
             </span>

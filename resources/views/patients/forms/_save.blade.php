@@ -135,15 +135,23 @@
                 <label for="doctor_id" class="col-sm-4 col-form-label text-md-right text-grey-dark">Doctor:</label>
 
                 <div class="col-sm-8 px-6">
-                    <select name="doctor_id" id="doctor_id" class="form-control" >
-                        <option value="">Select a doctor</option>
-                        @foreach ($doctors as $doctor)
-                            <option value="{{ $doctor->id }}"
-                                {{ getSelected($doctor->id, $doctorId) }}
-                            >
+                    <select name="doctor_id" id="doctor_id" class="form-control"
+                        {{ request()->route()->named('doctors.patients.create') ? 'disabled' : '' }}
+                    >
+                        @if (request()->route()->named('doctors.patients.create'))
+                            <option value="{{ $doctor->id }}" selected>
                                 {{ $doctor->inverse_title_name }}
                             </option>
-                        @endforeach
+                        @else
+                            <option value="">Select a doctor</option>
+                            @foreach ($doctors as $doctor)
+                                <option value="{{ $doctor->id }}"
+                                    {{ getSelected($doctor->id, $doctorId) }}
+                                >
+                                    {{ $doctor->inverse_title_name }}
+                                </option>
+                            @endforeach
+                        @endif
                     </select>
 
                     @include('errors._field', [

@@ -15,6 +15,14 @@ Route::resource('users', 'User\UserController', [
     'except' => 'destroy'
 ]);
 
+// UserDoctor
+Route::delete('users/{user}/detach', 'User\UserDoctorController@destroy')
+    ->name('users.doctors.destroy');
+Route::put('users/{user}/doctors', 'User\UserDoctorController@update')
+    ->name('users.doctors.update');
+Route::get('users/{user}/doctors/create', 'User\UserDoctorController@create')
+    ->name('users.doctors.create');
+
 // Doctor
 Route::delete('doctors/{doctor?}', 'Doctor\DoctorController@destroy')
     ->name('doctors.destroy');
@@ -24,19 +32,15 @@ Route::resource('doctors', 'Doctor\DoctorController', [
 
 // DoctorUser
 Route::post('doctors/{doctor}/users', 'Doctor\DoctorUserController@store')
-        ->name('doctors.users.store');
+    ->name('doctors.users.store');
 Route::delete('doctors/{doctor}/users', 'Doctor\DoctorUserController@destroy')
-        ->name('doctors.users.destroy');
+    ->name('doctors.users.destroy');
 Route::get('doctors/{doctor}/users/create', 'Doctor\DoctorUserController@create')
     ->name('doctors.users.create');
 
-// UserDoctor
-Route::delete('users/{user}/detach', 'User\UserDoctorController@destroy')
-    ->name('users.doctors.destroy');
-Route::put('users/{user}/doctors', 'User\UserDoctorController@update')
-    ->name('users.doctors.update');
-Route::get('users/{user}/doctors/assign', 'User\UserDoctorController@create')
-    ->name('users.doctors.create');
+// DoctorPatient
+Route::get('doctors/{doctor}/create_patient', 'Doctor\DoctorPatientController')
+    ->name('doctors.patients.create');
 
 // Patient
 Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
@@ -44,3 +48,11 @@ Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
 Route::resource('patients', 'Patient\PatientController', [
     'except' => 'destroy'
 ]);
+
+// PatientDoctor
+Route::get('patients/{patient}/add-doctor', 'Patient\PatientDoctorController@create')
+    ->name('patients.doctors.create');
+Route::patch('patients/{patient}/add-doctor', 'Patient\PatientDoctorController@update')
+    ->name('patients.doctors.update');
+Route::delete('patients/{patient}/detach-doctor', 'Patient\PatientDoctorController@destroy')
+    ->name('patients.doctors.destroy');

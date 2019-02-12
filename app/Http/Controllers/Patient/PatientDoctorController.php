@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Patient;
 
 use App\Doctor;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PatientRequest;
+use App\Http\Requests\PatientDoctorRequest;
 use App\Patient;
 use App\Traits\RedirectTo;
-use App\UseCases\RemoveResource;
 use Illuminate\Http\Request;
 
-class PatientController extends Controller
+class PatientDoctorController extends Controller
 {
     use RedirectTo;
 
@@ -21,9 +20,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
-
-        return view('patients.index', compact('patients'));
+        //
     }
 
     /**
@@ -31,11 +28,11 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Patient $patient)
     {
         $doctors = Doctor::orderBy('last_name')->get();
 
-        return view('patients.create', compact('doctors'));
+        return view('patients.add_doctor', compact('doctors', 'patient'));
     }
 
     /**
@@ -44,12 +41,9 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRequest $request)
+    public function store(Request $request)
     {
-        $patient = Patient::createNew($request->except('doctor_id'));
-
-        return $this->redirectAfterStoring('patients', $patient)
-            ->with($this->storeResponse('patients'));
+        //
     }
 
     /**
@@ -60,7 +54,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        return view('patients.show', compact('patient'));
+        //
     }
 
     /**
@@ -71,9 +65,7 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        $doctors = Doctor::orderBy('last_name')->get();
-
-        return view('patients.edit', compact('doctors', 'patient'));
+        //
     }
 
     /**
@@ -83,9 +75,11 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(PatientRequest $request, Patient $patient)
+    public function update(PatientDoctorRequest $request, Patient $patient)
     {
-        $patient->saveChanges($request->except('doctor_id'));
+        $doctor = Doctor::find($request->doctor_id);
+
+        $patient->addDoctor($doctor);
 
         return $this->redirectAfterUpdate('patients', $patient)
             ->with($this->updateResponse('patients'));
@@ -97,10 +91,11 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patient = null)
+    public function destroy(Patient $patient)
     {
-        RemoveResource::perform('Patient', $patient);
+        $patient->detachDoctor();
 
-        return $this->redirectAfterDeleting('patients');
+        return back()
+            ->with(getAlert('The doctor has been detached from the patient', 'success'));
     }
 }
