@@ -40,13 +40,25 @@ class Doctor extends Model
     }
 
     /**
-     * Get the patients that belong to the doctor.
+     * Get the doctor's patients.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function patients()
     {
         return $this->hasMany(Patient::class);
+    }
+
+    /**
+     * Get the doctor's working days.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function working_days()
+    {
+        return $this->belongsToMany(WorkingDay::class)
+            ->as('hour')
+            ->withPivot('start_at', 'end_at');
     }
 
     /**
@@ -62,5 +74,36 @@ class Doctor extends Model
         optional($user)->doctor ? $available_doctors->push($user->doctor) : '';
 
         return $available_doctors;
+    }
+
+    /**
+     * Determine if the doctor has a work schedule.
+     *
+     * @return boolean
+     */
+    public function hasWorkSchedule()
+    {
+        return $this->working_days->count();
+    }
+
+    /**
+     * Get the doctor's workdays.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function workDays()
+    {
+        return $this->working_days->pluck('index');
+    }
+
+    /**
+     * Determine if the doctor is working on a specific day.
+     *
+     * @param  integer  $day
+     * @return boolean
+     */
+    public function isWorkingOnDay($day)
+    {
+        return $this->workDays()->contains($day);
     }
 }

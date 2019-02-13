@@ -229,6 +229,7 @@ return [
         'Specialty' => App\Services\Utilities\Specialty::class,
         'Color' => App\Services\Utilities\Color::class,
         'AppSlot' => App\Services\Utilities\AppSlot::class,
+        'Day' => App\Services\Utilities\Day::class,
 
     ],
 

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Utilities\AppSlot;
 use App\Services\Utilities\Color;
+use App\Services\Utilities\Day;
 use App\Services\Utilities\Specialty;
 use App\Services\Utilities\Title;
 use Illuminate\Support\ServiceProvider;
@@ -46,7 +47,7 @@ class UtilityServiceProvider extends ServiceProvider
         /**
          * Register a binding of the Color class with the related container.
          */
-        $this->app->bind('Color', function()
+        $this->app->bind('color', function()
         {
             return new Color;
         });
@@ -57,6 +58,14 @@ class UtilityServiceProvider extends ServiceProvider
         $this->app->bind('appSlot', function()
         {
             return new AppSlot;
+        });
+
+        /**
+         * Register a binding of the Day class with the related container.
+         */
+        $this->app->bind('day', function()
+        {
+            return new Day;
         });
     }
 }

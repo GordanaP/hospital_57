@@ -9,6 +9,7 @@ use App\Traits\Doctor\GetAttributes;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
 use App\User;
+use App\WorkingDay;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -59,7 +60,9 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        return view('doctors.show', compact('doctor'));
+        $business_days = WorkingDay::all();
+
+        return view('doctors.show', compact('doctor', 'business_days'));
     }
 
     /**

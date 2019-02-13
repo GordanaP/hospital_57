@@ -42,6 +42,12 @@ Route::get('doctors/{doctor}/users/create', 'Doctor\DoctorUserController@create'
 Route::get('doctors/{doctor}/create_patient', 'Doctor\DoctorPatientController')
     ->name('doctors.patients.create');
 
+// DoctorWorkSchedule
+Route::resource('schedule', 'Doctor\DoctorWorkScheduleController', [
+    'parameters' => ['schedule' => 'doctor'],
+]);
+
+
 // Patient
 Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
     ->name('patients.destroy');

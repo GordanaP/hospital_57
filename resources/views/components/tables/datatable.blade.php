@@ -1,4 +1,4 @@
-<main class="card card-body border-grey-lighter px-0" id="{{ $card_id }}">
+<main class="card card-body border-grey-lighter card-shadow px-0" id="{{ $card_id }}">
 
     @if ($collection->count())
         <table class="table hover mt-2 admin-table" cellspacing="0" width="100%"
