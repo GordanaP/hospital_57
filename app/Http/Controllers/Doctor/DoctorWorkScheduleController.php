@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Doctor;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\RedirectTo;
+use App\WorkingDay;
+use Illuminate\Http\Request;
 
 class DoctorWorkScheduleController extends Controller
 {
+    use RedirectTo;
+
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +62,9 @@ class DoctorWorkScheduleController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        return view('schedules.edit', compact('doctor'));
+        $business_days = WorkingDay::all();
+
+        return view('schedules.edit', compact('doctor', 'business_days'));
     }
 
     /**
@@ -70,7 +76,10 @@ class DoctorWorkScheduleController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        //
+        $doctor->addWorkSchedule($request->days);
+
+        return $this->redirectAfterSavingSchedule('doctors', $doctor)
+            ->with($this->saveResponse('schedule'));
     }
 
     /**

@@ -2,16 +2,17 @@
 
 namespace App;
 
+use App\Traits\Doctor\Crudable;
 use App\Traits\Doctor\HasAttributes;
 use App\Traits\Doctor\HasUser;
-use App\Traits\Doctor\Crudable;
+use App\Traits\Doctor\HasWorkSchedule;
 use App\Traits\Doctor\Presentable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    use HasAttributes, HasUser, Crudable, Presentable;
+    use HasAttributes, HasUser, Crudable, Presentable, HasWorkSchedule;
 
     /**
      * The attributes that are mass assignable.
@@ -77,33 +78,14 @@ class Doctor extends Model
     }
 
     /**
-     * Determine if the doctor has a work schedule.
+     * Determine if the doctor has patients.
      *
      * @return boolean
      */
-    public function hasWorkSchedule()
+    public static function hasPatients()
     {
-        return $this->working_days->count();
+        return $this->patients->count();
     }
 
-    /**
-     * Get the doctor's workdays.
-     *
-     * @return Illuminate\Support\Collection
-     */
-    public function workDays()
-    {
-        return $this->working_days->pluck('index');
-    }
 
-    /**
-     * Determine if the doctor is working on a specific day.
-     *
-     * @param  integer  $day
-     * @return boolean
-     */
-    public function isWorkingOnDay($day)
-    {
-        return $this->workDays()->contains($day);
-    }
 }

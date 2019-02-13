@@ -2,10 +2,16 @@
     <h4>Work Schedule</h4>
 
     <span>
-        <a href="{{ route('schedule.edit', $doctor) }}"
-        class="btn button-teal">
-            {{ $doctor->hasWorkSchedule() ? 'Update' : 'Add' }} Schedule
-        </a>
+        @if ($doctor->hasWorkSchedule())
+            @include('partials.buttons._delete_edit', [
+                'name' => 'schedule',
+                'parameter' => $doctor
+            ])
+        @else
+            <a href="{{ route('schedule.edit', $doctor) }}"  class="btn button-edit pt-2 ml-1">
+                <span data-feather="plus-square"></span>
+            </a>
+        @endif
     </span>
 </header>
 

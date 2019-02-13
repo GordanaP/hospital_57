@@ -4,7 +4,7 @@
     <span>
         <a href="{{ route('doctors.patients.create', $doctor) }}"
         class="btn button-teal">
-            Add Patient
+            <span data-feather="plus-square"></span>
         </a>
     </span>
 </header>
