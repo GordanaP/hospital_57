@@ -90,6 +90,9 @@ class DoctorWorkScheduleController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
-        //
+        $doctor->deleteWorkSchedule();
+
+        return back()
+            ->with(getAlert('The work schedule has been deleted.', 'success'));
     }
 }

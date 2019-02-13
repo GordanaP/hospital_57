@@ -69,6 +69,16 @@ trait HasWorkSchedule
     }
 
     /**
+     * Delete the doctor's work schedule.
+     *
+     * @return void
+     */
+    public function deleteWorkSchedule()
+    {
+        $this->working_days()->detach();
+    }
+
+    /**
      * Make a schedule.
      *
      * @param  array $days
