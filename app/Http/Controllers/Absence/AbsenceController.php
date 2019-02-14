@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Absence;
-use Illuminate\Http\Request;
+use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Traits\RedirectTo;
+use Illuminate\Http\Request;
 
 class AbsenceController extends Controller
 {
+    use RedirectTo;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +31,9 @@ class AbsenceController extends Controller
      */
     public function create()
     {
-        //
+        $doctors = Doctor::orderBy('last_name')->get();
+
+        return view('absences.create', compact('doctors'));
     }
 
     /**
@@ -38,7 +44,10 @@ class AbsenceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Absence::createNew($request->except('doctor_id'));
+
+        return $this->redirectAfterStoring('absences')
+            ->with($this->storeResponse('absences'));
     }
 
     /**

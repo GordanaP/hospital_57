@@ -11,7 +11,7 @@ trait RedirectTo
      * @param  \App\Model $parameter
      * @return \Illuminate\Http\Response
      */
-    public function redirectAfterStoring($name, $parameter)
+    public function redirectAfterStoring($name, $parameter = null)
     {
         switch (request()->submitbtn) {
             case 'doAndDisplay':

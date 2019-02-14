@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Doctor;
 use Illuminate\Database\Eloquent\Model;
 
 class Absence extends Model
@@ -23,6 +24,23 @@ class Absence extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    /**
+     * Create a new absence.
+     *
+     * @param  array $data
+     * @return \App\Absence
+     */
+    public static function createNew($attributes)
+    {
+        $absence = new static($attributes);
+
+        $doctor = Doctor::find(request('doctor_id'));
+
+        $doctor->addAbsence($absence);
+
+        return $absence;
     }
 
 }
