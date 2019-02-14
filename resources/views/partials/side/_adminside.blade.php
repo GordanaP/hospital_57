@@ -30,5 +30,11 @@
                 Patients
             </a>
         </li>
+        <li class="nav-item text-base py-2">
+            <a href="{{ route('absences.index') }}" class="hover:text-blue-lighter">
+                <span data-feather="external-link" class="mr-2"></span>
+                Abscences
+            </a>
+        </li>
     </ul>
 </div>

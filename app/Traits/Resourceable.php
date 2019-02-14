@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
+use App\Absence;
 use App\Doctor;
+use App\Http\Resources\AbsenceResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
@@ -50,6 +52,19 @@ trait Resourceable
     }
 
     /**
+     * Get the absence collection.
+     *
+     * @param  \App\Doctor $doctor [description]
+     * @return Illuminate\Support\Collection
+     */
+    public function absencesResourceCollection($doctor)
+    {
+        $absences = $this->selectAbsences($doctor);
+
+        return AbsenceResource::collection($absences);
+    }
+
+    /**
      * Select a doctor's patients.
      *
      * @param  \App\Doctor | null $doctor
@@ -60,4 +75,15 @@ trait Resourceable
         return optional($doctor)->patients ?: Patient::all();
     }
 
+    /**
+     * Select a doctor's absences.
+     *
+     * @param  \App\Doctor| null $doctor
+     * @return Illuminate\Support\Collection
+     */
+    private function selectAbsences($doctor = null)
+    {
+        return $doctor ? collect($doctor->absences)->sortByDesc('start_at')
+            : Absence::all();
+    }
 }

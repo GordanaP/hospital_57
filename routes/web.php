@@ -44,9 +44,9 @@ Route::get('doctors/{doctor}/create_patient', 'Doctor\DoctorPatientController')
 
 // DoctorWorkSchedule
 Route::resource('schedule', 'Doctor\DoctorWorkScheduleController', [
+    'only' => ['edit', 'update', 'destroy'],
     'parameters' => ['schedule' => 'doctor'],
 ]);
-
 
 // Patient
 Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
@@ -62,3 +62,10 @@ Route::patch('patients/{patient}/add-doctor', 'Patient\PatientDoctorController@u
     ->name('patients.doctors.update');
 Route::delete('patients/{patient}/detach-doctor', 'Patient\PatientDoctorController@destroy')
     ->name('patients.doctors.destroy');
+
+// Absence
+Route::delete('absences/{absence?}', 'Absence\AbsenceController@destroy')
+        ->name('absences.destroy');
+Route::resource('absences', 'Absence\AbsenceController', [
+    'except' => 'destroy'
+]);

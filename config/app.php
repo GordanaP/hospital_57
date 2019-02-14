@@ -230,6 +230,7 @@ return [
         'Color' => App\Services\Utilities\Color::class,
         'AppSlot' => App\Services\Utilities\AppSlot::class,
         'Day' => App\Services\Utilities\Day::class,
+        'Absence' => App\Services\Utilities\Absence::class,
 
     ],
 

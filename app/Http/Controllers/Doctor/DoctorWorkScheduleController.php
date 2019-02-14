@@ -4,55 +4,13 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ScheduleRequest;
 use App\Traits\RedirectTo;
 use App\WorkingDay;
-use Illuminate\Http\Request;
 
 class DoctorWorkScheduleController extends Controller
 {
     use RedirectTo;
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Doctor  $doctor
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Doctor $doctor)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -74,7 +32,7 @@ class DoctorWorkScheduleController extends Controller
      * @param  \App\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(ScheduleRequest $request, Doctor $doctor)
     {
         $doctor->addWorkSchedule($request->days);
 

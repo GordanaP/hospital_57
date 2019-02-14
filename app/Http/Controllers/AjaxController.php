@@ -52,4 +52,19 @@ class AjaxController extends Controller
             'data' => $patients
         ]);
     }
+
+    /**
+     * Get the absence resource collection.
+     *
+     * @param  \App\Doctor | null $doctor
+     * @return JSON response
+     */
+    public function absencesIndex(Doctor $doctor = null)
+    {
+        $absences = $this->absencesResourceCollection($doctor);
+
+        return response([
+            'data' => $absences
+        ]);
+    }
 }

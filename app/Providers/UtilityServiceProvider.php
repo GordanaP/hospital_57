@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Utilities\Absence;
 use App\Services\Utilities\AppSlot;
 use App\Services\Utilities\Color;
 use App\Services\Utilities\Day;
@@ -66,6 +67,14 @@ class UtilityServiceProvider extends ServiceProvider
         $this->app->bind('day', function()
         {
             return new Day;
+        });
+
+        /**
+         * Register a binding of the Absence class with the related container.
+         */
+        $this->app->bind('absence', function()
+        {
+            return new Absence;
         });
     }
 }

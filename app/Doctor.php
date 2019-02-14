@@ -63,6 +63,16 @@ class Doctor extends Model
     }
 
     /**
+     * Get the doctor's absences.
+     *
+     * @return  \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function absences()
+    {
+        return $this->hasMany(Absence::class);
+    }
+
+    /**
      * Get doctors without user account.
      *
      * @param \App\User | null $user
@@ -87,5 +97,13 @@ class Doctor extends Model
         return $this->patients->count();
     }
 
-
+    /**
+     * Determine if the doctor has absences.
+     *
+     * @return boolean
+     */
+    public function hasAbsences()
+    {
+        return $this->absences->count();
+    }
 }
