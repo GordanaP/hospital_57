@@ -29,7 +29,7 @@ class Absence extends Model
     /**
      * Create a new absence.
      *
-     * @param  array $data
+     * @param  array $attributes
      * @return \App\Absence
      */
     public static function createNew($attributes)
@@ -41,6 +41,23 @@ class Absence extends Model
         $doctor->addAbsence($absence);
 
         return $absence;
+    }
+
+    /**
+     * Update an absence.
+     *
+     * @param  array $data
+     * @return \App\Absence
+     */
+    public function saveChanges($attributes)
+    {
+        $this->update($attributes);
+
+        $doctor = Doctor::find(request('doctor_id'));
+
+        $doctor->addAbsence($this);
+
+        return $this;
     }
 
 }

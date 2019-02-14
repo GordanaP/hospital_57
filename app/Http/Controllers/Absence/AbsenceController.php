@@ -69,7 +69,9 @@ class AbsenceController extends Controller
      */
     public function edit(Absence $absence)
     {
-        //
+        $doctors = Doctor::orderBy('last_name')->get();
+
+        return view('absences.edit', compact('doctors', 'absence'));
     }
 
     /**
@@ -81,7 +83,10 @@ class AbsenceController extends Controller
      */
     public function update(Request $request, Absence $absence)
     {
-        //
+        $absence->saveChanges($request->except('doctor_id'));
+
+        return $this->redirectAfterUpdate('absences', $absence)
+            ->with($this->updateResponse('absences'));
     }
 
     /**
