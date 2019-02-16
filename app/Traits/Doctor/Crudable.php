@@ -9,16 +9,13 @@ trait Crudable
     /**
      * Create a new doctor.
      *
-     * @param  array $data
+     * @param  array $attributes
      * @return \App\Doctor
      */
     public static function createNew($attributes)
     {
-        $doctor = static::create($attributes);
-
-        $user = User::find(request('user_id'));
-
-        optional($user)->addDoctor($doctor);
+        $doctor = tap(static::create($attributes))
+            ->addUser(request('user_id'));
 
         return $doctor;
     }

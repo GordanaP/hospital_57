@@ -53,9 +53,11 @@ class Patient extends Model
      * @param \App\Doctor $doctor
      * @return void
      */
-    public function addDoctor($doctor)
+    public function addDoctor($id)
     {
-        $this->doctor()->associate($doctor)->save();
+        $doctor = Doctor::find($id);
+
+        $doctor ? $this->doctor()->associate($doctor)->save() : $this->detachDoctor();
     }
 
     /**
@@ -76,11 +78,8 @@ class Patient extends Model
      */
     public static function createNew($attributes)
     {
-        $patient = static::create($attributes);
-
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $patient->addDoctor($doctor);
+        $patient = tap(static::create($attributes))
+            ->addDoctor(request('doctor_id'));
 
         return $patient;
     }
@@ -93,11 +92,9 @@ class Patient extends Model
      */
     public function saveChanges($attributes)
     {
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $this->addDoctor($doctor);
-
-        $this->update($attributes);
+        tap($this)
+            ->update($attributes)
+            ->addDoctor(request('doctor_id'));
     }
 
 }

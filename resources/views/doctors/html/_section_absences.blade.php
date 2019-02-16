@@ -2,7 +2,7 @@
     <h4>Absences</h4>
 
     <span>
-        <a href="#" class="btn button-teal">
+        <a href="{{ route('doctors.absences.create', $doctor) }}" class="btn button-teal">
             <span data-feather="plus-square"></span>
         </a>
     </span>

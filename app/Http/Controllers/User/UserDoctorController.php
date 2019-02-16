@@ -24,24 +24,6 @@ class UserDoctorController extends Controller
         return view('doctors.create', compact('user'));
     }
 
-
-    /**
-     * Update a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserRequest $request, User $user)
-    {
-        $doctor = Doctor::find($request->doctor_id);
-
-        $user->addDoctor($doctor);
-
-        return $this->redirectAfterUpdate('users', $user)
-            ->with($this->updateResponse());
-    }
-
     /**
      * Remove the specified resource from storage.
      *

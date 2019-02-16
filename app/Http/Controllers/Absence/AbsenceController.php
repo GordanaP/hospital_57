@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Absence;
 use App\Absence;
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AbsenceRequest;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
-use Illuminate\Http\Request;
 
 class AbsenceController extends Controller
 {
@@ -43,7 +43,7 @@ class AbsenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AbsenceRequest $request)
     {
         Absence::createNew($request->except('doctor_id'));
 
@@ -82,7 +82,7 @@ class AbsenceController extends Controller
      * @param  \App\Absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Absence $absence)
+    public function update(AbsenceRequest $request, Absence $absence)
     {
         $absence->saveChanges($request->except('doctor_id'));
 

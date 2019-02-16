@@ -2,6 +2,8 @@
 
 namespace App\Traits\Doctor;
 
+use App\User;
+
 trait HasUser
 {
     /**
@@ -20,9 +22,11 @@ trait HasUser
      * @param \App\User $user
      * @return void
      */
-    public function addUser($user)
+    public function addUser($id)
     {
-        $this->user()->associate($user)->save();
+        $user = User::find($id);
+
+        $user ? $this->user()->associate($user)->save() : '';
     }
 
     /**

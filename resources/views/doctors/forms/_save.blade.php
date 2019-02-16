@@ -193,7 +193,7 @@
             @if (request()->route()->named('users.doctors.create'))
                 <div class="form-group p-3">
                     <label for="user_id" class="text-md-right text-grey-dark">User:</label>
-                    <select name="user_id" id="user_id" class="form-control" disabled>
+                    <select name="user_id" id="user_id" class="form-control" read-only>
                         <option value="{{ $user->id}}">
                             {{ $user->email }}
                         </option>

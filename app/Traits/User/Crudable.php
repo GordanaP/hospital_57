@@ -9,14 +9,13 @@ trait Crudable
     /**
      * Create a new user.
      *
-     * @param  array $data
+     * @param  array $attributes
      * @return \App\User
      */
     public static function createNew($attributes)
     {
-        $user = static::create($attributes);
-
-        $user->addDoctor(request('doctor_id'));
+        $user = tap(static::create($attributes))
+            ->addDoctor(request('doctor_id'));
 
         return $user;
     }
@@ -24,6 +23,7 @@ trait Crudable
     /**
      * Update the user.
      *
+     * @param  array $attributes
      * @return void
      */
     public function saveChanges($attributes)
@@ -31,10 +31,8 @@ trait Crudable
         $this->hasDoctor() && $this->doctor->id !== request('doctor_id')
             ? $this->doctor->detachUser() : '';
 
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $this->update($attributes);
-
-        $this->addDoctor($doctor);
+        tap($this)
+            ->update($attributes)
+            ->addDoctor(request('doctor_id'));
     }
 }

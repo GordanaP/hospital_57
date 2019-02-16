@@ -2,7 +2,7 @@
 
     @csrf
 
-    @if (request()->route()->named('absences.edit') || request()->route()->named('doctors.absences.edit'))
+    @if (request()->route()->named('absences.edit'))
         @method('PUT')
     @endif
 
@@ -17,13 +17,13 @@
 
             <!-- Doctor -->
             <div class="form-group row p-3 w-4/5">
-                <label for="doctor_id" class="col-sm-4 col-form-label text-md-right text-grey-dark">Doctor:</label>
+                <label for="doctor_id" class="col-sm-4 col-form-label text-md-right text-grey-dark">Doctor:<span class="text-red text-lg">*</span></label>
 
                 <div class="col-sm-8 px-6">
                     <select name="doctor_id" id="doctor_id" class="form-control"
-                        {{ request()->route()->named('doctors.patients.create') ? 'disabled' : '' }}
+                        {{ request()->route()->named('doctors.absences.create') ? 'read-only' : '' }}
                     >
-                        @if (request()->route()->named('doctors.patients.create'))
+                        @if (request()->route()->named('doctors.absences.create'))
                             <option value="{{ $doctor->id }}" selected>
                                 {{ $doctor->inverse_title_name }}
                             </option>

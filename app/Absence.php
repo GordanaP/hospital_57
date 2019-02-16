@@ -34,9 +34,7 @@ class Absence extends Model
      */
     public static function createNew($attributes)
     {
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $absence = (new static($attributes))->addDoctor($doctor);
+        $absence = (new static($attributes))->addDoctor(request('doctor_id'));
 
         return $absence;
     }
@@ -49,13 +47,9 @@ class Absence extends Model
      */
     public function saveChanges($attributes)
     {
-        $this->update($attributes);
-
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $doctor->addAbsence($this);
-
-        return $this;
+        tap($this)
+            ->update($attributes)
+            ->addDoctor(request('doctor_id'));
     }
 
     /**
@@ -64,9 +58,11 @@ class Absence extends Model
      * @param \App\Doctor $doctor
      *
      */
-    public function addDoctor($doctor)
+    public function addDoctor($id)
     {
-        return $this->doctor()->associate($doctor)->save();
+        $doctor = Doctor::find($id);
+
+        return $doctor ? $this->doctor()->associate($doctor)->save() : '';
     }
 
 }
