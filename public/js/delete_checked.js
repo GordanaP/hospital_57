@@ -20,7 +20,7 @@ function sendSuccessNotification(message)
  */
  function deleteSingleRecord(deleteButton, deleteUrl, datatable, locationField)
  {
-     $(document).on('click', '#'+deleteButton, function(e) {
+     $(document).on('click', deleteButton, function(e) {
          e.preventDefault();
 
          var record = $(this).attr('data-user');
@@ -39,16 +39,16 @@ function sendSuccessNotification(message)
  * @param  string locationField
  * @return void
  */
-function deleteManyRecords(checkbox, deleteUrl, datatable, locationField)
+function deleteManyRecords(items, deleteUrl, datatable, locationField)
 {
-    $(document).on('click', '#delete'+checkbox, function(e) {
+    $(document).on('click', '#delete'+items, function(e) {
         e.preventDefault();
 
         var data = {
-            ids: getCheckedValues(checkbox)
+            ids: getCheckedValues(items.toLowerCase())
         }
 
-        swalDeleteMany(deleteUrl, datatable, locationField, data)
+        swalDeleteMany(items, deleteUrl, datatable, locationField, data)
     });
 }
 
@@ -93,7 +93,7 @@ function swalDelete(url, datatable, locationField)
  * @param  string field
  * @return void
  */
-function swalDeleteMany(url, datatable, locationField, data)
+function swalDeleteMany(items, url, datatable, locationField, data)
 {
     swal({
         title: 'Are you sure you want to delete the records?',
@@ -110,25 +110,14 @@ function swalDeleteMany(url, datatable, locationField, data)
                 url: url,
                 data: data,
                 success: function(response) {
-                    countDTRows(datatable) == 1 ? $(locationField).load(location.href + ' ' + locationField) : datatable.ajax.reload();
+                    countDTRows(datatable) == 1 || allValuesChecked(items) ? $(locationField).load(location.href + ' ' + locationField) : datatable.ajax.reload();
                     sendSuccessNotification(response.alertMessage)
-                    $('.dt-button.delete-checked').removeAttr('id', 'deleteMany').hide()
-                    $('#checkAll').prop('checked', false);
+                    $('#delete'+items).hide()
+                    $('#checkAll'+items).prop('checked', false);
                 }
             })
         }
     });
-}
-
-/**
- * Get a total # of the datatable rows
- *
- * @param  object datatable
- * @return integer
- */
-function countDTRows(datatable)
-{
-    return datatable.data().count();
 }
 
 /**
@@ -149,6 +138,17 @@ function getCheckedValues(name)
 }
 
 /**
+ * Get a total # of the datatable rows
+ *
+ * @param  object datatable
+ * @return integer
+ */
+function countDTRows(datatable)
+{
+    return datatable.data().count();
+}
+
+/**
  * Get the # of checked values.
  *
  * @param  string $name
@@ -160,49 +160,84 @@ function countChecked(name)
 }
 
 /**
+ * Determine if all checkbox values are checked
+ *
+ * @param  string items
+ * @return boolewn
+ */
+function allValuesChecked(items)
+{
+    return $(".checkitem"+items+":checked").length == $(".checkitem"+items).length
+}
+
+function noValuesChecked(checkbox)
+{
+    return countChecked(checkbox) == 0
+}
+
+/**
  * Check all values in a datatable checkbox.
  *
+ * @param  string items
  * @param  string table
+ * @param  string deleteManyButton
  * @return void
  */
-function checkAll(checkbox, table)
+function checkAll(items, table, button)
 {
-    var deleteMany = 'delete'+checkbox
-
-    /* Handle datatable check/uncheck all */
-    table.on('click', "#checkAll", function () {
+    table.on('click', "#checkAll"+items, function () {
 
         // If all checked, display deleteMany btn
-        $('.checkitem').prop('checked', $(this).prop("checked"));
-        $('.dt-button.delete-checked').attr('id', deleteMany).show()
+        $('.checkitem'+items).prop('checked', $(this).prop("checked"));
+        showButton(button)
 
         // If all unchecked, remove deleteMany btn
         if($(this).prop("checked") == false) {
-            $('.dt-button.delete-checked').removeAttr('id', deleteMany).hide()
+            hideButton(button)
         }
     });
 
-    /* Handle datatable check/uncheck a single checkbox  */
-    table.on('click', ".checkitem", function () {
+    table.on('click', ".checkitem"+items, function () {
 
         // If one box checked, display hidden btn
-        if($(this).prop("checked") == true) {
-            $('.dt-button.delete-checked').attr('id', deleteMany).show()
+        if(isCheckedStatus($(this), true)) {
+            showButton(button)
         }
 
         // If one box unchecked, uncheck checkAll box
-        if($(this).prop("checked") == false) {
-            $('#checkAll').prop("checked", false)
+        if(isCheckedStatus($(this), false)) {
+            checkAllStatus(items, false)
         }
 
         // If all boxes are checked, check checkAll box
-        if($(".checkitem:checked").length == $(".checkbox").length) {
-            $('#checkAll').prop('checked', true)
+        if(allValuesChecked(items)) {
+            checkAllStatus(items, true)
         }
 
         // If all boxes unchecked, remove delete button Id
-        if($(".checkitem:checked").length == 0) {
-            $('.dt-button.delete-checked').removeAttr('id', deleteMany).hide()
+        if(noValuesChecked(items.toLowerCase())) {
+            hideButton(button)
         }
     });
+}
+
+
+function isCheckedStatus(checkbox, status)
+{
+    return checkbox.prop("checked") == status;
+}
+
+function checkAllStatus(items, status)
+{
+    return $('#checkAll'+items).prop('checked', status);
+}
+
+function hideButton(button)
+{
+    return button.hide()
+}
+
+function showButton(button)
+{
+    return button.show()
 }

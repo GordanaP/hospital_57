@@ -1,7 +1,15 @@
 var usersDatatable = usersTable.DataTable({
-
-    @include('partials.buttons._datatable'),
-
+    @include('partials.datatable._dom'),
+    buttons : [
+        @include('partials.datatable._buttons'),
+        {
+            text: '<i class="fa fa-trash fa-lg text-grey-dark delete-checked"></i>',
+            className: 'delete-checked',
+            attr:  {
+                id: 'deleteUsers'
+            }
+        },
+    ],
     "ajax": {
         "url": usersIndexUrl,
         "type": "GET"
@@ -10,7 +18,7 @@ var usersDatatable = usersTable.DataTable({
     "columns": [
         {
             render: function(data, type, row, meta) {
-              return '<div class="checkbox"><label class="checkbox-container"><input type="checkbox" class="checkitem" name="users[]" value="' + row.id + '"><span class="checkmark"></span></label></div>'
+              return '<div class="checkbox"><label class="checkbox-container"><input type="checkbox" class="checkitemUsers" name="users[]" value="' + row.id + '"><span class="checkmark"></span></label></div>'
             },
             searchable: false,
             sortable: false,

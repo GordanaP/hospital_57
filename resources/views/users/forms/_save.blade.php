@@ -104,7 +104,7 @@
 
                     <div class="col-sm-8 px-6">
                         <select name="doctor_id" id="doctor_id" class="form-control"
-                        {{ request()->route()->named('doctors.users.create') ? 'disabled' : '' }}
+                        {{ request()->route()->named('doctors.users.create') ? 'read-only' : '' }}
                         >
                             @if (request()->route()->named('doctors.users.create'))
                                 <option value="{{ $doctor->id }}" selected>

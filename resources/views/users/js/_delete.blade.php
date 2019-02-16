@@ -1,10 +1,11 @@
-var usersDeleteButton = 'deleteUser';
+var users = 'Users';
+var deleteUser = '#deleteUser';
+var deleteUsers = $('#deleteUsers')
 var usersDeleteUrl = "{{ route('users.destroy') }}";
-var usersCheckbox = 'users';
-var usersLocation = '#usersIndexTable';
+var usersLocation = '#usersIndexCard';
 
-deleteSingleRecord(usersDeleteButton, usersDeleteUrl, usersDatatable, usersLocation)
+deleteSingleRecord(deleteUser, usersDeleteUrl, usersDatatable, usersLocation)
 
-deleteManyRecords(usersCheckbox, usersDeleteUrl, usersDatatable, usersLocation)
+deleteManyRecords(users, usersDeleteUrl, usersDatatable, usersLocation)
 
-checkAll(usersCheckbox, usersTable)
+checkAll(users, usersTable, deleteUsers)

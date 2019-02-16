@@ -14,15 +14,18 @@
         </span>
     </header>
 
-    @datatable(['collection' => $absences])
-        @slot('card_id') absencesIndexTable
-        @endslot
+    <main id="absencesIndexCard">
+        @datatable(['collection' => $absences])
+            @slot('table_id') absencesTable
+            @endslot
 
-        @slot('table_id') absencesTable
-        @endslot
+            @include('absences.table._thead')
 
-        @include('absences.table._thead')
-    @enddatatable
+            @slot('items') absences
+            @endslot
+
+        @enddatatable
+    </main>
 
 @endsection
 
@@ -35,6 +38,9 @@
         var doctorExists = false;
 
         @include('absences.js._datatable')
+
+        // Delete records
+        @include('absences.js._delete')
 
     </script>
 @endsection

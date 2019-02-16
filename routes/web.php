@@ -31,8 +31,6 @@ Route::resource('doctors', 'Doctor\DoctorController', [
 ]);
 
 // DoctorUser
-Route::post('doctors/{doctor}/users', 'Doctor\DoctorUserController@store')
-    ->name('doctors.users.store');
 Route::delete('doctors/{doctor}/users', 'Doctor\DoctorUserController@destroy')
     ->name('doctors.users.destroy');
 Route::get('doctors/{doctor}/users/create', 'Doctor\DoctorUserController@create')

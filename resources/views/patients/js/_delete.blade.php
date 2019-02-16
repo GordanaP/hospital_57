@@ -1,10 +1,11 @@
-var patientsDeleteButton = 'deletePatient';
-var patientsDeleteUrl = "{{ route('patients.destroy') }}";
-var patientsCheckbox = 'patients';
-var patientsLocation = '#patientsIndexTable';
+var patients = 'Patients';
+var deletePatient = '#deletePatient';
+var deletePatients = $('#deletePatients')
+var deletePatientsUrl = "{{ route('patients.destroy') }}";
+var patientsLocation = '#patientsIndexCard';
 
-deleteSingleRecord(patientsDeleteButton, patientsDeleteUrl, patientsDatatable, patientsLocation)
+deleteSingleRecord(deletePatient, deletePatientsUrl, patientsDatatable, patientsLocation)
 
-deleteManyRecords(patientsCheckbox, patientsDeleteUrl, patientsDatatable, patientsLocation)
+deleteManyRecords(patients, deletePatientsUrl, patientsDatatable, patientsLocation)
 
-checkAll(patientsCheckbox, patientsTable)
+checkAll(patients, patientsTable, deletePatients)

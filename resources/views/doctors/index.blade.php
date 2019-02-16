@@ -14,15 +14,19 @@
         </span>
     </header>
 
-    @datatable(['collection' => $doctors])
-        @slot('card_id') doctorsIndexTable
-        @endslot
+    <main id="doctorsIndexCard">
+        @datatable(['collection' => $doctors])
 
-        @slot('table_id') doctorsTable
-        @endslot
+            @slot('table_id') doctorsTable
+            @endslot
 
-        @include('doctors.table._thead')
-    @enddatatable
+            @include('doctors.table._thead')
+
+            @slot('items') doctors
+            @endslot
+
+        @enddatatable
+    </main>
 
 @endsection
 

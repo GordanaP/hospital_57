@@ -14,8 +14,7 @@
 
     <main>
         @include('users.forms._save', [
-            'route' => request()->route()->named('users.create')
-                ? route('users.store') : route('doctors.users.store', $doctor),
+            'route' => route('users.store'),
             'name' => old('name'),
             'email' => old('email'),
             'doctorId' => old('doctor_id'),

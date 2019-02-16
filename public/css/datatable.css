@@ -13,7 +13,11 @@ table.admin-table tbody tr td { border-top: none !important; padding-left: 16px;
 .dataTables_length {margin-left: 20px;}
 .dataTables_filter {margin-right: 20px;}
 .dataTables_length select, .dataTables_filter input { height: 34px; border-radius: 2px }
-.dt-button {border-color: #ddd !important; background-image: linear-gradient(to bottom, #fff 0%, #e9e9e9 100%);}
+.dt-button {
+    border-color: #ddd !important;
+    background-image:
+    linear-gradient(to bottom, #fff 0%, #e9e9e9 100%);
+}
 .dt-button.delete-checked {display: none; border: 2px solid #64D5CA!important; background: #fff }
 
 /* Pagination buttons */

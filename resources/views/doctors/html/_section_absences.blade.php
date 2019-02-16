@@ -8,7 +8,7 @@
     </span>
 </header>
 
-<main>
+<main id="absencesIndexCard">
     @datatable(['collection' => $doctor->absences])
         @slot('card_id') absencesIndexTable
         @endslot
@@ -17,5 +17,8 @@
         @endslot
 
         @include('absences.table._thead')
+
+        @slot('items') absences
+        @endslot
     @enddatatable
 </main>

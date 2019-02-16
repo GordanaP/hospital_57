@@ -6,6 +6,7 @@ use App\Absence;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Traits\RedirectTo;
+use App\UseCases\RemoveResource;
 use Illuminate\Http\Request;
 
 class AbsenceController extends Controller
@@ -95,8 +96,10 @@ class AbsenceController extends Controller
      * @param  \App\Absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Absence $absence)
+    public function destroy(Absence $absence = null)
     {
-        //
+        RemoveResource::perform('Absence', $absence);
+
+        return $this->redirectAfterDeleting('absences');
     }
 }

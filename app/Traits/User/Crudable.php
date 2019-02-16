@@ -16,9 +16,7 @@ trait Crudable
     {
         $user = static::create($attributes);
 
-        $doctor = Doctor::find(request('doctor_id'));
-
-        $doctor ? $doctor->addUser($user) : '';
+        $user->addDoctor(request('doctor_id'));
 
         return $user;
     }

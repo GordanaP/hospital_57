@@ -33,12 +33,15 @@
 
         @include('patients.js._delete')
 
+
         // Absences
         var absencesTable = $('#doctorAbsencesTable');
         var absencesIndexUrl = "{{ route('api.absences.index', $doctor) }}";
         var doctorExists = true;
 
         @include('absences.js._datatable')
+
+        @include('absences.js._delete')
 
     </script>
 @endsection

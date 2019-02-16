@@ -1,5 +1,15 @@
 var doctorsDatatable = doctorsTable.DataTable({
-    @include('partials.buttons._datatable'),
+    @include('partials.datatable._dom'),
+    buttons : [
+        @include('partials.datatable._buttons'),
+        {
+            text: '<i class="fa fa-trash fa-lg text-grey-dark delete-checked"></i>',
+            className: 'delete-checked',
+            attr:  {
+                id: 'deleteDoctors'
+            }
+        },
+    ],
     "ajax": {
         "url": doctorsIndexUrl,
         "type": "GET"
@@ -8,7 +18,7 @@ var doctorsDatatable = doctorsTable.DataTable({
     "columns": [
         {
             render: function(data, type, row, meta) {
-                return '<div class="checkbox"><label class="checkbox-container"><input type="checkbox" class="checkitem" name="doctors[]" value="' + row.id + '"><span class="checkmark"></span></label></div>'
+                return '<div class="checkbox"><label class="checkbox-container"><input type="checkbox" class="checkitemDoctors" name="doctors[]" value="' + row.id + '"><span class="checkmark"></span></label></div>'
             },
             searchable: false,
             sortable: false,

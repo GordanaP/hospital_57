@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Doctor;
 use App\Traits\User\Crudable;
 use App\Traits\User\Presentable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -55,9 +56,10 @@ class User extends Authenticatable
      *
      * @param \App\Doctor $doctor
      */
-    public function addDoctor($doctor)
+    public function addDoctor($id)
     {
+        $doctor = Doctor::find($id);
+
         return $doctor ? $this->doctor()->save($doctor) : '';
     }
-
 }

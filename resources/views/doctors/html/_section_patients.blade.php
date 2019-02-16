@@ -9,7 +9,7 @@
     </span>
 </header>
 
-<main>
+<main id="patientsIndexCard">
     @datatable(['collection' => $doctor->patients])
         @slot('card_id') patientsIndexTable
         @endslot
@@ -18,5 +18,8 @@
         @endslot
 
         @include('patients.table._thead')
+
+        @slot('items') patients
+        @endslot
     @enddatatable
 </main>

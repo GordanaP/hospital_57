@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Doctor;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Mail\User\AccountCreated;
 use App\Traits\RedirectTo;
 use App\Traits\User\Crudable;
+use App\Traits\User\GetAttributes;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class DoctorUserController extends Controller
 {
-    use Crudable, RedirectTo;
+    use Crudable, GetAttributes, RedirectTo;
 
     /**
      * Show the form for creating a new resource.
@@ -24,20 +26,6 @@ class DoctorUserController extends Controller
         $doctorsWithoutAccount = Doctor::hasNoAccountCollection();
 
         return view('users.create', compact('doctorsWithoutAccount', 'doctor'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request, Doctor $doctor)
-    {
-        User::create($this->attributes())->addDoctor($doctor);
-
-        return $this->redirectAfterStoring('users', $doctor->user)
-            ->with($this->storeResponse());
     }
 
     /**
