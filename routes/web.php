@@ -48,6 +48,13 @@ Route::resource('schedule', 'Doctor\DoctorWorkScheduleController', [
 Route::get('doctors/{doctor}/create_absence', 'Doctor\DoctorAbsenceController')
     ->name('doctors.absences.create');
 
+// DoctorAppointment
+Route::get('doctors/{doctor}/appointments', 'Doctor\DoctorAppointmentController@index')
+    ->name('doctors.appointments.index');
+Route::post('doctors/{doctor}/appointments', 'Doctor\DoctorAppointmentController@store')
+    ->name('doctors.appointments.store');
+
+
 // Patient
 Route::delete('patients/{patient?}', 'Patient\PatientController@destroy')
     ->name('patients.destroy');
@@ -67,5 +74,12 @@ Route::delete('patients/{patient}/detach-doctor', 'Patient\PatientDoctorControll
 Route::delete('absences/{absence?}', 'Absence\AbsenceController@destroy')
         ->name('absences.destroy');
 Route::resource('absences', 'Absence\AbsenceController', [
+    'except' => 'destroy'
+]);
+
+// Appointment
+Route::delete('appointments/{appointment?}', 'Appointment\AppointmentController@destroy')
+        ->name('appointments.destroy');
+Route::resource('appointments', 'Appointment\AppointmentController', [
     'except' => 'destroy'
 ]);

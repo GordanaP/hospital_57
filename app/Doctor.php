@@ -73,6 +73,16 @@ class Doctor extends Model
     }
 
     /**
+     * Get the doctor's appointments.
+     *
+     * @return  \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    /**
      * Get doctors without user account.
      *
      * @param \App\User | null $user

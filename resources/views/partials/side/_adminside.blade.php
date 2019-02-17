@@ -36,5 +36,11 @@
                 Abscences
             </a>
         </li>
+        <li class="nav-item text-base py-2">
+            <a href="{{ route('appointments.index') }}" class="hover:text-blue-lighter">
+                <span data-feather="calendar" class="mr-2"></span>
+                Appointments
+            </a>
+        </li>
     </ul>
 </div>

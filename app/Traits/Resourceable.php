@@ -3,8 +3,10 @@
 namespace App\Traits;
 
 use App\Absence;
+use App\Appointment;
 use App\Doctor;
 use App\Http\Resources\AbsenceResource;
+use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\DoctorResource;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
@@ -62,6 +64,18 @@ trait Resourceable
         $absences = $this->selectAbsences($doctor);
 
         return AbsenceResource::collection($absences);
+    }
+
+    /**
+     * Get the appointment collection.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function appointmentsResourceCollection()
+    {
+        $apps = Appointment::all();
+
+        return AppointmentResource::collection($apps);
     }
 
     /**

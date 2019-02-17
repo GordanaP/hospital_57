@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Appointment;
 use App\Doctor;
 use App\Traits\Resourceable;
 use Illuminate\Http\Request;
@@ -65,6 +66,30 @@ class AjaxController extends Controller
 
         return response([
             'data' => $absences
+        ]);
+    }
+
+    /**
+     * Get the appointments.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function appointmentsIndex(Doctor $doctor = null)
+    {
+        return $doctor ? $doctor->appointments->load('doctor', 'patient')
+                       : Appointment::with('doctor', 'patient')->get() ;
+    }
+
+    /**
+     * Edit a specific appointment
+     *
+     * @param  \App\Appointment $appointment
+     * @return JSON response
+     */
+    public function appointmentsEdit(Appointment $appointment)
+    {
+        return response([
+            'app' => $appointment->load('patient')
         ]);
     }
 }
