@@ -39,6 +39,8 @@
             var appIndexUrl = "{{ route('api.appointments.index', $doctor) }}";
             var appStoreUrl = "{{ route('doctors.appointments.store', $doctor) }}";
             var doctorExists = true;
+
+            var absences = @json($doctor->absences);
         @else
             var appIndexUrl = "{{ route('api.appointments.index') }}";
             var doctorExists = false;
@@ -69,6 +71,10 @@
         calendar.fullCalendar({
             @include('appointments.fullcalendar._custom_button'),
             @include('appointments.fullcalendar._basic'),
+            @include('appointments.fullcalendar._events'),
+            @include('appointments.fullcalendar._day_render'),
+            @include('appointments.fullcalendar._event_mouse'),
+
         });
 
     </script>

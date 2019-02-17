@@ -1,6 +1,8 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/delete_checked.js') }}"></script>
 <script src="{{ asset('js/form_helpers.js') }}"></script>
+<script src="{{ asset('js/fullcalendar.js') }}"></script>
+<script src="{{ asset('js/fc_doctor.js') }}"></script>
 
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
