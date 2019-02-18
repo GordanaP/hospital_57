@@ -89,6 +89,10 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+
+        return response([
+            'message' => 'The appointment has been deleted.'
+        ]);
     }
 }

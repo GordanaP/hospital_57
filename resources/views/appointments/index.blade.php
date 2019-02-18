@@ -65,7 +65,6 @@
             var doctorExists = false;
         @endif
 
-
         /**
          * Calendar
          */
@@ -131,6 +130,8 @@
         @include('appointments.js._store')
 
         @include('appointments.js._update')
+
+        @include('appointments.js._delete')
 
     </script>
 @endsection
