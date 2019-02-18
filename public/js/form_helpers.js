@@ -1,8 +1,23 @@
-/**
- * Remove the error on inserting the new value.
- *
- * @return void
- */
+function errorResponse(errors, modal)
+{
+    if(errors) {
+        displayErrors(errors)
+        clearErrorOnNewInput()
+    }
+}
+
+function displayErrors(errors)
+{
+    for (error in errors)
+    {
+        var field = $("."+error)
+        var feedback = $("span."+error).show()
+
+        // Attach server side validation
+        displayServerError(field, feedback, errors[error][0])
+    }
+}
+
 function clearErrorOnNewInput()
 {
     $("input, textarea").on('keydown', function () {
@@ -25,7 +40,6 @@ function clearErrorOnNewInput()
         clearError(id)
     });
 
-
     $("input[type=checkbox], input[type=radio]").click(function() {
 
         var id = $(this).parents(':eq(1)').attr('id');
@@ -39,17 +53,17 @@ function clearErrorOnNewInput()
     })
 }
 
-/**
- * Remove the server side error for a specified field.
- *
- * @param  {string} name
- * @return void
- */
+function displayServerError(field, feedback, error)
+{
+    // field.addClass('is-invalid')
+    feedback.text(error)
+}
+
 function clearError(name)
 {
     var field = $("."+name);
     var feedback = $("span."+name).hide();
 
-    field.removeClass('is-invalid');
+    // field.removeClass('is-invalid');
     feedback.text('');
 }

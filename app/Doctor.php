@@ -116,4 +116,16 @@ class Doctor extends Model
     {
         return $this->absences->count();
     }
+
+    /**
+     * Add the appointment to the doctor.
+     *
+     * @param \App\Appointment $appointment
+     * @return void
+     */
+    public function addAppointment($appointment)
+    {
+        $this->appointments()->save($appointment);
+    }
+
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Doctor;
 
+use App\Appointment;
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Patient;
 use Illuminate\Http\Request;
 
 class DoctorAppointmentController extends Controller
@@ -15,7 +17,9 @@ class DoctorAppointmentController extends Controller
      */
     public function index(Doctor $doctor)
     {
-        return view('appointments.index', compact('doctor'));
+        $doctors = Doctor::all();
+
+        return view('appointments.index', compact('doctors', 'doctor'));
     }
 
     /**
@@ -26,6 +30,12 @@ class DoctorAppointmentController extends Controller
      */
     public function store(Request $request, Doctor $doctor)
     {
-        //
+        $appointment = Appointment::createNew($doctor);
+
+        return response([
+            'message' => 'A new appointment has been scheduled.',
+            'appointment' => $appointment
+        ]);
     }
 }
+

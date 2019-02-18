@@ -3,6 +3,8 @@
 <script src="{{ asset('js/form_helpers.js') }}"></script>
 <script src="{{ asset('js/fullcalendar.js') }}"></script>
 <script src="{{ asset('js/fc_doctor.js') }}"></script>
+<script src="{{ asset('js/fc_modal.js') }}"></script>
+<script src="{{ asset('js/fc_event.js') }}"></script>
 
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

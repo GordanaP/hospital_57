@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
         App\Providers\UtilityServiceProvider::class,
+        App\Providers\ObserverServiceProvider::class,
 
     ],
 
@@ -231,7 +232,8 @@ return [
         'AppSlot' => App\Services\Utilities\AppSlot::class,
         'Day' => App\Services\Utilities\Day::class,
         'Absence' => App\Services\Utilities\Absence::class,
-
+        'AppCarbon' => App\Services\CustomClasses\AppCarbon::class,
+        'Holiday' => App\Services\CustomClasses\Holiday::class,
     ],
 
 ];

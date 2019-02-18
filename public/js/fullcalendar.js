@@ -198,3 +198,29 @@ function isSunday(date)
 {
     return date.day() == 0;
 }
+
+/**
+ * Get the view-specific fullcalendar event start.
+ *
+ * @param  {moment} date
+ * @param  {fullcalendar} view
+ * @param  {integer} weekOpen
+ * @param  {integer} weekendOpen
+ * @param  {string} timeFormat
+ * @return {moment}
+ */
+function getAgendaViewTime(date, view, weekOpen, weekendOpen, timeFormat = "HH:mm")
+{
+    if(view.name == "month" && ! isSaturday(date))
+    {
+        return fromMoment(date.set('hour', weekOpen), timeFormat)
+    }
+    else if(view.name == "month" && isSaturday(date))
+    {
+        return fromMoment(date.set('hour', weekendOpen), timeFormat)
+    }
+    else
+    {
+        return fromMoment(date, timeFormat);
+    }
+}

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Patient;
+use App\Services\CustomClasses\AppCarbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
@@ -47,7 +49,6 @@ class Appointment extends Model
         return $this->belongsTo(Patient::class);
     }
 
-
     /**
      * Get the appointment end time.
      *
@@ -56,5 +57,33 @@ class Appointment extends Model
     public function getEndAtAttribute()
     {
         return $this->start_at->addMinutes($this->doctor->app_slot)->toDateTimeString();
+    }
+
+    public function addPatient($patient)
+    {
+        return $this->patient()->associate($patient);
+    }
+
+    public function addDoctor($doctor)
+    {
+        return $this->doctor()->associate($doctor);
+    }
+
+    /**
+     * Create a new appointment.
+     *
+     * @param  \App\Doctor $doctor
+     * @return \App\Appointment
+     */
+    public static function createNew($doctor)
+    {
+        $patient = Patient::requestAppointment($doctor);
+
+        $appointment = (new static)
+            ->addDoctor($doctor)
+            ->addPatient($patient)
+            ->save();
+
+        return $appointment;
     }
 }

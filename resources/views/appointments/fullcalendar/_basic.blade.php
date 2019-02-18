@@ -13,8 +13,7 @@ firstDay: firstDay,
 navLinks: true,
 selectable: true,
 slotDuration: slotDuration,
-// businessHours: doctorExists ? drBusinessHoursArray : [
-businessHours: [
+businessHours: doctorExists ? drWorkHoursArray : [
     {
         dow: standardDays,
         start: standardOpen,
