@@ -105,7 +105,6 @@
         /**
          * Form
          */
-        // Form
         var doctorId = $('#doctor_id');
         var appDate = $('#app_date');
         var appTime = $('#app_start');
@@ -117,8 +116,7 @@
         var appButton = $(".app-button");
         var deleteButton = $("#deleteApp");
 
-        disableOnUpdate = [ patientFirstName, patientLastName, patientBirthday ];
-
+        disabledOnUpdate = [ patientFirstName, patientLastName, patientBirthday ];
 
         calendar.fullCalendar({
             @include('appointments.fullcalendar._custom_button'),
@@ -126,72 +124,13 @@
             @include('appointments.fullcalendar._events'),
             @include('appointments.fullcalendar._day_render'),
             @include('appointments.fullcalendar._event_mouse'),
-            select: function(start, end, jsEvent, view)
-            {
-                // appModal.open()
-
-                // Open modal
-                doctorExists
-                    && isBusinessOperatingTime(start, view, saturdayOpen, saturdayClose)
-                    && isBusinessDay(start)
-                    && isDoctorWorkDay(drWorkDaysIds, start)
-                    && isDoctorWorkHour(drWorkHoursArray, start)
-                    && isNotDoctorAbsence(absences, start)
-                ? appModal.open() : '';
-
-                // Modal title
-                titleIcon.addClass('fa-calendar');
-                titleSpan.text('New appointment');
-
-                // Form buttons
-                appButton.addClass('bg-purple-darker hover:bg-purple-darkest text-white')
-                    .text('Schedule').attr('id', 'storeApp');
-                deleteButton.hide();
-
-                // Form date & time fields
-                formattedDate = fromMoment(start, dateFormat);
-                formattedTime = getAgendaViewTime(start, view, weekOpenAsNumber, weekendOpenAsNumber);
-
-                appDate.val(formattedDate);
-                appTime.val(formattedTime);
-
-                // Reset the form disabled fields
-                // removeAttribute(disableOnUpdate, 'disabled');
-            }
+            @include('appointments.fullcalendar._date_select'),
+            @include('appointments.fullcalendar._event_click'),
         });
 
-        $(document).on('click', '#storeApp', function() {
+        @include('appointments.js._store')
 
-            var data = {
-                doctor_id: doctorId.val(),
-                app_date: appDate.val(),
-                app_start: appTime.val(),
-                first_name: patientFirstName.val(),
-                last_name: patientLastName.val(),
-                birthday: patientBirthday.val(),
-                phone: patientPhone.val()
-            }
-
-            $.ajax({
-                url: appStoreUrl,
-                type: 'POST',
-                data: data,
-                success: function(response)
-                {
-                    appModal.close();
-
-                    sendSuccessNotification(response.message);
-
-                    renderEvent(calendar, response.appointment);
-                },
-                error: function(response)
-                {
-                    var errors = response.responseJSON.errors
-
-                    errorResponse(errors, appModal)
-                }
-            });
-        });
+        @include('appointments.js._update')
 
     </script>
 @endsection

@@ -11,6 +11,18 @@ function fromMoment(date, format)
 }
 
 /**
+ * Transform date to moment.
+ *
+ * @param  {string} date
+ * @param  {string} format
+ * @return {moment}
+ */
+function toMoment(date, format)
+{
+    return moment(date).format(format);
+}
+
+/**
  * Create a moment date.
  *
  * @param  {integer} year

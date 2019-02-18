@@ -73,7 +73,12 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        $appointment->saveChanges();
+
+        return response([
+            'message' => 'The appointment has been updated.',
+            'appointment' => $appointment
+        ]);
     }
 
     /**

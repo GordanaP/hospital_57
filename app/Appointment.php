@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Doctor;
 use App\Patient;
 use App\Services\CustomClasses\AppCarbon;
 use Illuminate\Database\Eloquent\Model;
@@ -59,11 +60,21 @@ class Appointment extends Model
         return $this->start_at->addMinutes($this->doctor->app_slot)->toDateTimeString();
     }
 
+    /**
+     * Associate the appointment with the patient.
+     *
+     * @param \App\Patient $patient
+     */
     public function addPatient($patient)
     {
         return $this->patient()->associate($patient);
     }
 
+    /**
+     * Associate the appointment with the doctor.
+     *
+     * @param \App\Doctor $doctor
+     */
     public function addDoctor($doctor)
     {
         return $this->doctor()->associate($doctor);
@@ -85,5 +96,24 @@ class Appointment extends Model
             ->save();
 
         return $appointment;
+    }
+
+    /**
+     * Update the appointment.
+     *
+     * @return \App\Appointment
+     */
+    public function saveChanges()
+    {
+        $patient = $this->patient->update([
+            'phone' => request('phone')
+        ]);
+
+        $doctor = Doctor::find(request('doctor_id'));
+
+        return $this
+            ->addDoctor($doctor)
+            ->addPatient($patient)
+            ->save();
     }
 }

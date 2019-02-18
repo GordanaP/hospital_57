@@ -67,3 +67,15 @@ function clearError(name)
     // field.removeClass('is-invalid');
     feedback.text('');
 }
+
+function disableFields(fields) {
+    $.each(fields, function(index, field) {
+        field.attr("disabled", true)
+    });
+}
+
+function enableFields(fields) {
+    $.each(fields, function(index, field) {
+        field.attr("disabled", false)
+    });
+}
