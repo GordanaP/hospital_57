@@ -7,7 +7,6 @@ use App\Traits\Doctor\HasAttributes;
 use App\Traits\Doctor\HasUser;
 use App\Traits\Doctor\HasWorkSchedule;
 use App\Traits\Doctor\Presentable;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
@@ -20,7 +19,8 @@ class Doctor extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'title', 'specialty', 'license', 'biography', 'color', 'app_slot', 'image'
+        'first_name', 'last_name', 'title', 'specialty', 'license', 'biography',
+        'color', 'app_slot', 'image'
     ];
 
     /**

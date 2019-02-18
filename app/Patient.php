@@ -2,13 +2,14 @@
 
 namespace App;
 
-use App\Doctor;
+use App\Traits\Patient\Crudable;
+use App\Traits\Patient\HasDoctor;
 use App\Traits\Patient\Presentable;
 use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    use Presentable;
+    use Crudable, HasDoctor, Presentable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,83 +46,5 @@ class Patient extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
-    }
-
-    /**
-     * Determine if the patient has a doctor.
-     *
-     * @return boolean
-     */
-    public function hasDoctor()
-    {
-        return $this->doctor;
-    }
-
-    /**
-     * Add a doctor to a patient.
-     *
-     * @param \App\Doctor $doctor
-     * @return void
-     */
-    public function addDoctor($id)
-    {
-        $doctor = Doctor::find($id);
-
-        $doctor ? $this->doctor()->associate($doctor)->save() : $this->detachDoctor();
-    }
-
-    /**
-     * Detach doctor from the patient.
-     *
-     * @return void
-     */
-    public function detachDoctor()
-    {
-        $this->doctor()->dissociate()->save();
-    }
-
-    /**
-     * Create a new patient.
-     *
-     * @param  array $attributes
-     * @return \App\Patient
-     */
-    public static function createNew($attributes)
-    {
-        $patient = tap(static::create($attributes))
-            ->addDoctor(request('doctor_id'));
-
-        return $patient;
-    }
-
-    /**
-     * Update the patient.
-     *
-     * @param  array $attributes
-     * @return void
-     */
-    public function saveChanges($attributes)
-    {
-        tap($this)
-            ->update($attributes)
-            ->addDoctor(request('doctor_id'));
-    }
-
-    /**
-     * Identify the patient who requests an appointment.
-     *
-     * @param  \App\Doctor $doctor
-     * @return \App\Patient
-     */
-    public static function requestAppointment($doctor)
-    {
-        $patient = static::updateOrCreate(
-            request()->only('first_name', 'last_name', 'birthday'),
-            request()->only('phone')
-        );
-
-        ! $patient->hasDoctor() ? $patient->addDoctor($doctor->id) : '';
-
-        return $patient;
     }
 }

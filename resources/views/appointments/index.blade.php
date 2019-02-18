@@ -10,6 +10,7 @@
 @endsection
 
 @section('content')
+
     <header class="flex items-center justify-between mx-auto mb-4">
         <h4>
             @if (request()->route()->named('doctors.appointments.index'))
@@ -64,6 +65,22 @@
             var doctorExists = false;
         @endif
 
+        $.ajax({
+            url: appIndexUrl,
+            type: "GET",
+            success: function(response)
+            {
+                console.log(response)
+                var apps = response;
+                var names = [];
+
+                $.each(apps, function(index, app) {
+                    names.push(app.patient.first_name)
+                });
+
+                console.log(names)
+            }
+        })
         /**
          * Calendar
          */

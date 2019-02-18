@@ -2,11 +2,13 @@
 
 namespace App;
 
-use App\Doctor;
+use App\Traits\Absence\Crudable;
 use Illuminate\Database\Eloquent\Model;
 
 class Absence extends Model
 {
+    use Crudable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,44 +27,4 @@ class Absence extends Model
     {
         return $this->belongsTo(Doctor::class);
     }
-
-    /**
-     * Create a new absence.
-     *
-     * @param  array $attributes
-     * @return \App\Absence
-     */
-    public static function createNew($attributes)
-    {
-        $absence = (new static($attributes))->addDoctor(request('doctor_id'));
-
-        return $absence;
-    }
-
-    /**
-     * Update an absence.
-     *
-     * @param  array $data
-     * @return \App\Absence
-     */
-    public function saveChanges($attributes)
-    {
-        tap($this)
-            ->update($attributes)
-            ->addDoctor(request('doctor_id'));
-    }
-
-    /**
-     * Associate a doctor with an absence.
-     *
-     * @param \App\Doctor $doctor
-     *
-     */
-    public function addDoctor($id)
-    {
-        $doctor = Doctor::find($id);
-
-        return $doctor ? $this->doctor()->associate($doctor)->save() : '';
-    }
-
 }

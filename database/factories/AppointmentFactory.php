@@ -9,6 +9,5 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
     return [
         'doctor_id' => Doctor::inRandomOrder()->first()->id,
         'patient_id' => Patient::inRandomOrder()->first()->id,
-        'start_at' => $faker->dateTimeInInterval(Carbon::now(), '+ 5 days'),
     ];
 });

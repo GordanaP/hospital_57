@@ -35,4 +35,26 @@ trait Crudable
             ->update($attributes)
             ->addDoctor(request('doctor_id'));
     }
+
+    /**
+     * Determine if the user has the doctor.
+     *
+     * @return boolean
+     */
+    public function hasDoctor()
+    {
+        return $this->doctor;
+    }
+
+    /**
+     * Add doctor to a user.
+     *
+     * @param \App\Doctor $doctor
+     */
+    public function addDoctor($id)
+    {
+        $doctor = Doctor::find($id);
+
+        return $doctor ? $this->doctor()->save($doctor) : '';
+    }
 }
