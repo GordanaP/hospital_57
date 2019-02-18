@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Appointment;
 use App\Appointment;
 use App\Doctor;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AppointmentRequest;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -71,7 +72,7 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(AppointmentRequest $request, Appointment $appointment)
     {
         $appointment->saveChanges();
 

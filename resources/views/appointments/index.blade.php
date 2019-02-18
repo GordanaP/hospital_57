@@ -10,7 +10,6 @@
 @endsection
 
 @section('content')
-
     <header class="flex items-center justify-between mx-auto mb-4">
         <h4>
             @if (request()->route()->named('doctors.appointments.index'))

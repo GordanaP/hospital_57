@@ -2,6 +2,8 @@
 
 namespace App\Traits\Doctor;
 
+use App\Services\CustomClasses\AppCarbon;
+
 trait HasWorkSchedule
 {
     /**
@@ -107,5 +109,89 @@ trait HasWorkSchedule
         });
 
         return $schedule;
+    }
+
+    /**
+     * Get time slots on a specific working day.
+     *
+     * @param  string $date
+     * @return array
+     */
+    public function getTimeSlotsOnWorkDay($date)
+    {
+        $workingDay = $this->getWorkDay($date);
+
+        $start = $workingDay->hour->start_at;
+        $end = $workingDay->hour->end_at;
+
+        return AppCarbon::slotTimes($start, $end, $this->app_slot);
+    }
+
+    /**
+     * Determine if the doctor is working on a specific date.
+     *
+     * @param  string  $date
+     * @return boolean
+     */
+    public function isWorkingOnDate($date)
+    {
+        return $this->getWorkDay($date);
+    }
+
+    /**
+     * Get the doctor's working day.
+     *
+     * @param  string $date
+     * @return \App\WorkingDay
+     */
+    public function getWorkDay($date)
+    {
+        $dateDay = AppCarbon::isValidDate($date)
+            ? AppCarbon::parse($date)->dayOfWeekIso : '';
+
+        return $workingDay = $this->working_days->find($dateDay);
+    }
+
+    /**
+     * Determine if the doctor is absent from work on a specific date.
+     *
+     * @param  string  $date
+     * @return boolean
+     */
+    public function isAbsentFromWorkOnDate($date)
+    {
+        return $this->absences
+            ->where('start_at', '<', $date)
+            ->where('end_at', '>' ,$date)
+            ->isNotEmpty();
+    }
+
+    /**
+     * Determine if the doctor is working on a specific date and hour.
+     *
+     * @param  string  $date
+     * @param  string  $time
+     * @return boolean
+     */
+    public function isWorkingOnDateHour($date, $time)
+    {
+        $wday = $this->getWorkDay($date);
+
+        return $wday ? $time >= $wday->hour->start_at && $time < $wday->hour->end_at
+                     : '';
+    }
+
+    /**
+     * Determine if the doctor has no appointment on a specific date and time.
+     *
+     * @param  string  $date
+     * @param  string  $time
+     * @return boolean
+     */
+    public function hasNoAppointmentOnDateTime($date, $time)
+    {
+        $start_at = AppCarbon::createDate($date . $time);
+
+        return ! $this->appointments->firstWhere('start_at', $start_at);
     }
 }
