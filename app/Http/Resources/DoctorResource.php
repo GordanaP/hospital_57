@@ -20,10 +20,13 @@ class DoctorResource extends JsonResource
             'specialty' => $this->specialty,
             'image_path' => $this->image->asPath() ?: '',
             'user' => optional($this->user)->email,
+            'hasWorkSchedule' => $this->hasWorkSchedule(),
+            'color' => $this->color,
             'link' => [
                 'show' => route('doctors.show', $this),
                 'edit' => route('doctors.edit', $this),
                 'user' => $this->hasUser() ? route('users.show', $this->user) : '',
+                'calendar' => $this->hasWorkSchedule() ? route('doctors.appointments.index', $this) : '',
             ]
         ];
     }

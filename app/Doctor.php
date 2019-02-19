@@ -118,6 +118,16 @@ class Doctor extends Model
     }
 
     /**
+     * Determine if the doctor has appointments.
+     *
+     * @return boolean
+     */
+    public function hasAppointments()
+    {
+        return $this->appointments->count();
+    }
+
+    /**
      * Add the appointment to the doctor.
      *
      * @param \App\Appointment $appointment

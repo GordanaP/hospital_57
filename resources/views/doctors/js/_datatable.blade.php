@@ -29,7 +29,7 @@ var doctorsDatatable = doctorsTable.DataTable({
         {
             data: 'image_path',
             render: function(data, type, row, meta) {
-                return '<img src="' + data + '" alt="" class="rounded-full w-2/5">'
+                return data ? '<img src="' + data + '" alt="" class="rounded-full w-2/5">' : '-'
             },
             searchable: false,
             sortable: false,
@@ -45,6 +45,13 @@ var doctorsDatatable = doctorsTable.DataTable({
             render: function(data, type, row, meta) {
                 return data ? '<a href="' + row.link.user + '" class="text-teal-light hover:text-teal-dark font-bold">' + data + '</a>' : '<span class="text-teal-light hover:text-teal-dark font-bold">-</span>'
             },
+        },
+        {
+            render: function(data, type, row, meta) {
+                return row.hasWorkSchedule ? '<a href="' + row.link.calendar + '"><svg style="color:' + row.color + '" class="fill-current text-grey-light hover:text-grey-darker inline-block h-6 w-11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"/></svg></a>' : '-'
+            },
+            searchable: false,
+            sortable: false,
         },
         {
             render: function(data, type, row, meta) {
@@ -65,6 +72,18 @@ var doctorsDatatable = doctorsTable.DataTable({
             data: 'link.user',
             visible: false
         },
+        {
+            data: 'link.calendar',
+            visible: false
+        },
+        {
+            data: 'hasWorkSchedule',
+            visible: false
+        },
+        {
+            data: 'color',
+            visible: false
+        },
     ],
     responsive: true,
     columnDefs: [
@@ -72,7 +91,11 @@ var doctorsDatatable = doctorsTable.DataTable({
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 3, targets: 2 },
         {
-            targets: 6,
+            targets: [2,6],
+            className: 'text-center'
+        },
+        {
+            targets: 7,
             className: 'dt-body-right'
         }
     ],
