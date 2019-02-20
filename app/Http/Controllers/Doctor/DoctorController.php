@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Doctor;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DoctorRequest;
-use App\Traits\Doctor\GetAttributes;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
 use App\User;
@@ -14,7 +13,7 @@ use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
-    use GetAttributes, RedirectTo;
+    use RedirectTo;
 
     /**
      * Display a listing of the resource.
@@ -46,7 +45,7 @@ class DoctorController extends Controller
      */
     public function store(DoctorRequest $request)
     {
-        $doctor = Doctor::createNew($this->attributes());
+        $doctor = Doctor::createNew($request->except('image', 'user_id'));
 
         return $this->redirectAfterStoring('doctors', $doctor)
             ->with($this->storeResponse());
@@ -85,9 +84,11 @@ class DoctorController extends Controller
      */
     public function update(DoctorRequest $request, Doctor $doctor)
     {
-        $doctor->image->removeOld($doctor->image);
+        $doctor->saveChanges($request->except('image', 'user_id'));
 
-        $doctor->update($this->attributes());
+        // $doctor->image->removeOld($doctor->image);
+
+        // $doctor->update(Doctor::getDoctorAttributes($request->except('image', 'user_id')));
 
         return $this->redirectAfterUpdate('doctors', $doctor)
             ->with($this->updateResponse());

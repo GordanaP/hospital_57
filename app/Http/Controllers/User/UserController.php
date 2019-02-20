@@ -8,14 +8,13 @@ use App\Http\Requests\UserRequest;
 use App\Mail\User\AccountCreated;
 use App\Mail\User\AccountUpdated;
 use App\Traits\RedirectTo;
-use App\Traits\User\GetAttributes;
 use App\UseCases\RemoveResource;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    use GetAttributes, RedirectTo;
+    use RedirectTo;
 
     /**
      * Display a listing of the resource.
@@ -49,9 +48,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::createNew($this->attributes());
+        $user = User::createNew($request->only('name', 'email'));
 
-        Mail::to($user)->send(new AccountCreated($user, $this->getPassword()));
+        Mail::to($user)->send(new AccountCreated($user, User::getPassword($request->all())));
 
         return $this->redirectAfterStoring('users', $user)
             ->with($this->storeResponse());
@@ -90,9 +89,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user->saveChanges($this->attributes());
+        $user->saveChanges($request->all());
 
-        Mail::to($user)->send(new AccountUpdated($user, $this->getPassword()));
+        Mail::to($user)
+            ->send(new AccountUpdated($user, User::getPassword($request->all())));
 
         return $this->redirectAfterUpdate('users', $user)
             ->with($this->updateResponse());
