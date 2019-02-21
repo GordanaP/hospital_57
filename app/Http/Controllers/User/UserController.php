@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Mail\User\AccountCreated;
 use App\Mail\User\AccountUpdated;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Traits\RedirectTo;
 use App\UseCases\RemoveResource;
 use App\User;
@@ -16,6 +17,13 @@ class UserController extends Controller
 {
     use RedirectTo;
 
+    private $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +31,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = $this->userRepo->getAll();
 
         return view('users.index', compact('users'));
     }
@@ -48,9 +56,10 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::createNew($request->only('name', 'email'));
+        $user = $this->userRepo->create($request->only('name', 'email'))
+            ->addDoctor($request->doctor_id);
 
-        Mail::to($user)->send(new AccountCreated($user, User::getPassword($request->all())));
+        // Mail::to($user)->send(new AccountCreated($user, User::getPassword($request->all())));
 
         return $this->redirectAfterStoring('users', $user)
             ->with($this->storeResponse());
