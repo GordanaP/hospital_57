@@ -21,8 +21,6 @@ $(document).on('click', '#updateApp', function() {
             sendSuccessNotification(response.message);
 
             updateEvent(calendar, response.appointment);
-
-            console.log(response.patient)
         },
         error: function(response)
         {

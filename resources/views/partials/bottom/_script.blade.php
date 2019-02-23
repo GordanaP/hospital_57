@@ -5,6 +5,7 @@
 <script src="{{ asset('js/fc_doctor.js') }}"></script>
 <script src="{{ asset('js/fc_modal.js') }}"></script>
 <script src="{{ asset('js/fc_event.js') }}"></script>
+<script src="{{ asset('js/datepicker.js') }}"></script>
 
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -32,7 +33,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/gcal.min.js"></script>
 
 <!-- Timepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.js"></script>
+ --}}
 
 <!-- Datepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

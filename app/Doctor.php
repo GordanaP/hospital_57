@@ -137,5 +137,4 @@ class Doctor extends Model
     {
         $this->appointments()->save($appointment);
     }
-
 }

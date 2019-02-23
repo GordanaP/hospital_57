@@ -81,7 +81,7 @@ trait Crudable
      * @param  array  $attributes
      * @return array
      */
-    public static function getUserAttributes(array $attributes)
+    private static function getUserAttributes(array $attributes)
     {
         if (request('handle-password') == 'auto') {
 

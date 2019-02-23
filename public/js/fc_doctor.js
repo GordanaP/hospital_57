@@ -8,15 +8,16 @@
  * @param  {string} dateFormat
  * @return void
  */
-function highlightDoctorAbsences(absences, date, cell, color="red", dateFormat = "YYYY-MM-DD")
+function highlightDoctorAbsences(drAbsences, date, cell, color="red", dateFormat = "YYYY-MM-DD")
 {
     var fcDay = fromMoment(date, dateFormat);
+    var dates = []
 
-    $.each(absences, function(index, absence) {
-        if (fcDay >= absence.start_at && fcDay <= absence.end_at ) {
+    for (var i = 0; i < drAbsences.length; i++) {
+        if (fcDay >= drAbsences[i].start_at && fcDay <= drAbsences[i].end_at ) {
             cell.css("background-color", color);
         }
-    });
+    }
 }
 
 /**

@@ -161,8 +161,8 @@ trait HasWorkSchedule
     public function isAbsentFromWorkOnDate($date)
     {
         return $this->absences
-            ->where('start_at', '<', $date)
-            ->where('end_at', '>' ,$date)
+            ->where('start_at', '<=', $date)
+            ->where('end_at', '>=' , $date)
             ->isNotEmpty();
     }
 

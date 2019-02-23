@@ -17,9 +17,9 @@ trait HasUser
     }
 
     /**
-     * Associate user with a doctor.
+     * Associate a user with a doctor.
      *
-     * @param \App\User $user
+     * @param integer $id
      * @return void
      */
     public function addUser($id)

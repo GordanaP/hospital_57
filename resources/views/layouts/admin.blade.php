@@ -4,6 +4,7 @@
 <head>
 
     @include('partials.top._head')
+
     @yield('links')
 
 </head>

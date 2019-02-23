@@ -8,13 +8,12 @@ use App\Http\Requests\UserRequest;
 use App\Mail\User\AccountCreated;
 use App\Traits\RedirectTo;
 use App\Traits\User\Crudable;
-use App\Traits\User\GetAttributes;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
 class DoctorUserController extends Controller
 {
-    use Crudable, GetAttributes, RedirectTo;
+    use Crudable, RedirectTo;
 
     /**
      * Show the form for creating a new resource.

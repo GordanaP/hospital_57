@@ -29,8 +29,8 @@
 <!-- Datepicker -->
 <link rel="stylesheet" href="{{ asset('vendor/jquery-ui-1.12.1/jquery-ui.min.css') }}">
 <!-- Timepicker -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.css" />
-
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.css" />
+ --}}
 <!-- Custom styles-->
 <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 <link href="{{ asset('css/checkbox.css') }}" rel="stylesheet">

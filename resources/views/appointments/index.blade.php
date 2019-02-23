@@ -6,7 +6,8 @@
     <style>
         .fc-newEvent-button {background: #64D5CA; color: #FFFFFF; border-color: #4DC0B5}
         .fc-newEvent-button:hover {background: #38A89D; border: 1px solid #4DC0B5}
-    </style>
+         .doctor-work-day a {background: #6574CD !important; color:#ffffff !important}
+     </style>
 @endsection
 
 @section('content')
@@ -14,7 +15,9 @@
     <header class="flex items-center justify-between mx-auto mb-4">
         <h4>
             @if (request()->route()->named('doctors.appointments.index'))
-                {{ $doctor->title_name }}
+                <a href="{{ route('doctors.show', $doctor) }}">
+                    {{ $doctor->title_name }}
+                </a>
             @else
                 Appointments
             @endif
@@ -52,6 +55,7 @@
         @if (request()->route()->named('doctors.appointments.index'))
             var appIndexUrl = "{{ route('api.appointments.index', $doctor) }}";
             var appStoreUrl = "{{ route('doctors.appointments.store', $doctor) }}";
+            var absencesIndexUrl = "{{ route('api.absences.index', $doctor) }}";
             var doctorExists = true;
 
             var absences = @json($doctor->absences);
@@ -65,22 +69,6 @@
             var doctorExists = false;
         @endif
 
-        $.ajax({
-            url: appIndexUrl,
-            type: "GET",
-            success: function(response)
-            {
-                console.log(response)
-                var apps = response;
-                var names = [];
-
-                $.each(apps, function(index, app) {
-                    names.push(app.patient.first_name)
-                });
-
-                console.log(names)
-            }
-        })
         /**
          * Calendar
          */
@@ -133,14 +121,41 @@
 
         disabledOnUpdate = [ patientFirstName, patientLastName, patientBirthday ];
 
+        appDate.datepicker({
+            firstDay: 1, // Monday,
+            dateFormat: "yy-mm-dd", // 2017-09-27
+            // minDate: 0, // today
+            // maxDate: datepickerMaxDate(),
+            changeMonth: true,
+            changeYear: true,
+            beforeShowDay: function(date)
+            {
+                return highlightDoctorWorkdays(drWorkDaysIds, absences, date);
+            }
+        });
+
+        patientBirthday.datepicker({
+            firstDay: 1, // Monday,
+            dateFormat: "yy-mm-dd", // 2017-09-27
+            maxDate: 0, // today
+            // maxDate: datepickerMaxDate(),
+            changeMonth: true,
+            changeYear: true
+        });
+
         calendar.fullCalendar({
             @include('appointments.fullcalendar._custom_button'),
             @include('appointments.fullcalendar._basic'),
             @include('appointments.fullcalendar._events'),
-            @include('appointments.fullcalendar._day_render'),
             @include('appointments.fullcalendar._event_mouse'),
             @include('appointments.fullcalendar._date_select'),
             @include('appointments.fullcalendar._event_click'),
+            dayRender: function (date, cell) {
+
+                highlightHolidays(date, cell)
+
+                doctorExists ? highlightDoctorAbsences(absences, date, cell) : ''
+            }
         });
 
         @include('appointments.js._store')
