@@ -17,6 +17,16 @@ function datepickerMaxDate()
     return new Date(year, month, day);
 }
 
+/**
+ * Highlight the doctor workdays on datepicker.
+ *
+ * @param  {array} drWorkDaysIds
+ * @param  {array} absences
+ * @param  {string} date
+ * @param  {string} className
+ * @param  {string} dateFormat
+ * @return {mixed}
+ */
 function highlightDoctorWorkdays(drWorkDaysIds, absences, date, className = "doctor-work-day", dateFormat = "YYYY-MM-DD")
 {
     return isNotAbsentFromWork(drWorkDaysIds, absences, date, dateFormat)
@@ -24,14 +34,20 @@ function highlightDoctorWorkdays(drWorkDaysIds, absences, date, className = "doc
         : [false, "", ""];
 }
 
-function isNotAbsentFromWork(drWorkDaysIds, absences, date, dateFormat)
-{
-    var formattedDate = formattedDatepickerDate(date)
-    var formattedDay = date.getDay()
 
-    return isInArray(formattedDay, drWorkDaysIds)
-            && ! isInArray(formattedDate, getHolidayWorkdays(drWorkDaysIds, date, dateFormat))
-            && ! isInArray(formattedDate, getAbsencesWorkdays(drWorkDaysIds, absences, date))
+function highlightDatepickerHolidays(date)
+{
+    var formattedDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+    var holidays = datepickerHolidays(date);
+
+    if (date.getDay() == 0 )
+    {
+        return [false, "markholiday"];
+    }
+    else
+    {
+        return ! isInArray(formattedDate, holidays) ? [true] : [false, "markholiday"];
+    }
 }
 
 function getAbsencesWorkdays(drWorkDaysIds, absences, date)
@@ -83,6 +99,36 @@ var getDatesArray = function(start, end) {
     return datesArray;
 }
 
+function getBookedSlots(slots)
+{
+    var bookedSlots = [];
+
+    for (var i = 0; i < slots.length; i++) {
+       bookedSlots.push([slots[i].start, slots[i].end]);
+    }
+
+    return bookedSlots;
+}
+
+/**
+ * The doctor is not absent from work.
+ *
+ * @param  {array}  drWorkDaysIds
+ * @param  {array}  absences
+ * @param  {string}  date
+ * @param  {string}  dateFormat
+ * @return {boolean}
+ */
+function isNotAbsentFromWork(drWorkDaysIds, absences, date, dateFormat)
+{
+    var formattedDate = formattedDatepickerDate(date)
+    var formattedDay = date.getDay()
+
+    return isInArray(formattedDay, drWorkDaysIds)
+            && ! isInArray(formattedDate, getHolidayWorkdays(drWorkDaysIds, date, dateFormat))
+            && ! isInArray(formattedDate, getAbsencesWorkdays(drWorkDaysIds, absences, date))
+}
+
 
 function getHolidayWorkdays(drWorkDaysIds, date, dateFormat = "YYYY-MM-DD")
 {
@@ -99,21 +145,6 @@ function getHolidayWorkdays(drWorkDaysIds, date, dateFormat = "YYYY-MM-DD")
     });
 
     return holidayWorkdays;
-}
-
-function highlightDatepickerHolidays(date)
-{
-    var formattedDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
-    var holidays = datepickerHolidays(date);
-
-    if (date.getDay() == 0 )
-    {
-        return [false, "markholiday"];
-    }
-    else
-    {
-        return ! isInArray(formattedDate, holidays) ? [true] : [false, "markholiday"];
-    }
 }
 
 function datepickerHolidays(date, dateFormat = "YYYY-MM-DD")
@@ -242,4 +273,14 @@ function formattedDatepickerDate(date)
 function getDay(date)
 {
     return new Date(date).getDay();
+}
+
+function getStartWorkTime(day)
+{
+    return '13:00';
+}
+
+function getEndWorkTime(day)
+{
+    return '18:00';
 }

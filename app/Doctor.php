@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Services\CustomClasses\AppCarbon;
 use App\Traits\Doctor\Crudable;
+use App\Traits\Doctor\HasAppointment;
 use App\Traits\Doctor\HasAttributes;
 use App\Traits\Doctor\HasUser;
 use App\Traits\Doctor\HasWorkSchedule;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    use HasAttributes, HasUser, Crudable, Presentable, HasWorkSchedule;
+    use HasAppointment, HasAttributes, HasUser, Crudable, Presentable, HasWorkSchedule;
 
     /**
      * The attributes that are mass assignable.
@@ -127,14 +129,5 @@ class Doctor extends Model
         return $this->appointments->count();
     }
 
-    /**
-     * Add the appointment to the doctor.
-     *
-     * @param \App\Appointment $appointment
-     * @return void
-     */
-    public function addAppointment($appointment)
-    {
-        $this->appointments()->save($appointment);
-    }
+
 }

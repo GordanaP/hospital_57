@@ -41,7 +41,8 @@ class AppCarbon extends Carbon
 
     public static function dayIndex($date)
     {
-        return $date->dayOfWeekIso;
+        return $date instanceOf Carbon ? $date->dayOfWeekIso
+            : Carbon::parse($date)->dayOfWeekIso;
     }
 
     public static function intervalsCount($startHour, $endHour, $minutes)
@@ -68,9 +69,10 @@ class AppCarbon extends Carbon
      * @param  string $format
      * @return \Carbon\Carbon
      */
-    public static function formatDate($date, $format)
+    public static function formatDate($date, $format='Y-m-d')
     {
-        return $date->format($format);
+        return $date instanceOf Carbon ? $date->format($format)
+            : Carbon::parse($date)->format($format);
     }
 
     public static function createDate($date, $format = 'Y-m-d H:i')

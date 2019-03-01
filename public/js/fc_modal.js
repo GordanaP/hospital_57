@@ -1,10 +1,11 @@
 /**
  * Empty the modal upon close.
  *
- * @param  {array} fields
+ * @param  {array} formFields
+ * @param  {mixed} timepickerField
  * @return void
  */
-$.fn.clearOnClose = function(fields)
+$.fn.clearOnClose = function(formFields, timepickerField)
 {
     $(this).on("hidden.bs.modal", function() {
 
@@ -12,8 +13,10 @@ $.fn.clearOnClose = function(fields)
         $(this).clearForm()
 
         // Clear the server side errors
-        $(this).clearServerErrors(fields)
+        $(this).clearServerErrors(formFields)
 
+        // Remove timepicker
+        $(this).clearTimepicker(timepickerField)
     })
 }
 
@@ -72,6 +75,11 @@ $.fn.clearForm = function()
        clearError(name)
      });
  }
+
+$.fn.clearTimepicker = function(timepickerField)
+{
+    $(this).find(timepickerField).timepicker('remove');
+}
 
 /**
  * Remove the server side error for a specified field.

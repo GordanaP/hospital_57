@@ -56,11 +56,13 @@
             var appIndexUrl = "{{ route('api.appointments.index', $doctor) }}";
             var appStoreUrl = "{{ route('doctors.appointments.store', $doctor) }}";
             var absencesIndexUrl = "{{ route('api.absences.index', $doctor) }}";
+            var availableAppSlotsUrl = "{{ route('api.appointments.available.slots', $doctor) }}"
             var doctorExists = true;
 
             var absences = @json($doctor->absences);
             var businessWeek = [1,2,3,4,5,6];
-            var drAppSlot = '00:'+"{{ $doctor->app_slot }}"+':00';
+            var appSlot = "{{ $doctor->app_slot }}";
+            var formattedAppSlot = '00:'+appSlot+':00';
             var drWorkDays = @json($doctor->working_days);
             var drWorkDaysIds = {{ $doctor->working_days->pluck('id') }}; // !!! No " " !!!
             var drWorkHoursArray = drWorkHoursArray(drWorkDays);
@@ -76,7 +78,7 @@
         var defaultView = doctorExists ? 'agendaWeek' :'month';
         var timeFormat = "HH:mm"; // 24 hour
         var dateFormat = "YYYY-MM-DD";
-        var slotDuration = doctorExists ? drAppSlot :'00:30:00';
+        var slotDuration = doctorExists ? formattedAppSlot :'00:30:00';
         var firstDay = 1;
         var standardDays = [1,2,3,4,5];
         var standardOpen = '09:00';
@@ -96,14 +98,11 @@
         var appModal = $('#appModal');
         var titleIcon = $(".modal-title i");
         var titleSpan = $(".modal-title span");
-        appModal.setAutofocus('app_date')
 
         var errorFields = [
             'doctor_id', 'app_date', 'app_start', 'first_name', 'last_name',
             'birthday', 'phone'
         ];
-
-        appModal.clearOnClose(errorFields);
 
         /**
          * Form
@@ -121,11 +120,42 @@
 
         disabledOnUpdate = [ patientFirstName, patientLastName, patientBirthday ];
 
+        appModal.setAutofocus('app_date')
+        appModal.clearOnClose(errorFields, appTime);
+
         appDate.datepicker({
-            firstDay: 1, // Monday,
+            onSelect: function(date) {
+
+                appTime.timepicker('remove');
+                appTime.val('')
+
+                $.ajax({
+                    type: "POST",
+                    url: availableAppSlotsUrl,
+                    data: {
+                        appointment_date: date,
+                        appointment_time: appTime.val()
+                    },
+                    success: function(response)
+                    {
+                        var slots = response.bookedSlots;
+                        var minTime = response.minTime
+                        var maxTime = response.maxTime
+                        appTime.timepicker({
+                            'timeFormat': 'H:i',
+                            'step': appSlot,
+                            'minTime': minTime,
+                            'maxTime': maxTime,
+                            'disableTimeRanges': getBookedSlots(slots),
+                            'forceRoundTime': true,
+                        });
+                    }
+                });
+            },
+            firstDay: 1,
             dateFormat: "yy-mm-dd", // 2017-09-27
-            // minDate: 0, // today
-            // maxDate: datepickerMaxDate(),
+            minDate: 0, // today
+            maxDate: datepickerMaxDate(),
             changeMonth: true,
             changeYear: true,
             beforeShowDay: function(date)
@@ -135,10 +165,9 @@
         });
 
         patientBirthday.datepicker({
-            firstDay: 1, // Monday,
-            dateFormat: "yy-mm-dd", // 2017-09-27
-            maxDate: 0, // today
-            // maxDate: datepickerMaxDate(),
+            firstDay: 1,
+            dateFormat: "yy-mm-dd",
+            maxDate: 0,
             changeMonth: true,
             changeYear: true
         });
@@ -150,12 +179,7 @@
             @include('appointments.fullcalendar._event_mouse'),
             @include('appointments.fullcalendar._date_select'),
             @include('appointments.fullcalendar._event_click'),
-            dayRender: function (date, cell) {
-
-                highlightHolidays(date, cell)
-
-                doctorExists ? highlightDoctorAbsences(absences, date, cell) : ''
-            }
+            @include('appointments.fullcalendar._day_render'),
         });
 
         @include('appointments.js._store')

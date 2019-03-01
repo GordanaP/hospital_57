@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Services\CustomClasses\AppCarbon;
 use App\Traits\Appointment\Crudable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Appointment extends Model
 {
@@ -22,6 +24,7 @@ class Appointment extends Model
      * @var array
      */
     protected $dates = ['start_at'];
+
 
     /**
      * The accessors to append to the model's array form.
@@ -59,4 +62,5 @@ class Appointment extends Model
     {
         return $this->start_at->addMinutes($this->doctor->app_slot)->toDateTimeString();
     }
+
 }

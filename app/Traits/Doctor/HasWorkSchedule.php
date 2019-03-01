@@ -146,10 +146,11 @@ trait HasWorkSchedule
      */
     public function getWorkDay($date)
     {
-        $dateDay = AppCarbon::isValidDate($date)
-            ? AppCarbon::parse($date)->dayOfWeekIso : '';
+        $day = AppCarbon::isValidDate($date) ? AppCarbon::dayIndex($date) : '';
 
-        return $workingDay = $this->working_days->find($dateDay);
+        $workDay = $this->working_days->find($day);
+
+        return $workDay;
     }
 
     /**

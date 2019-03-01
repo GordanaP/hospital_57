@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Doctor;
+use App\Services\CustomClasses\AppCarbon;
 use App\Traits\Resourceable;
 use Illuminate\Http\Request;
 
@@ -90,6 +91,25 @@ class AjaxController extends Controller
     {
         return response([
             'app' => $appointment->load('patient')
+        ]);
+    }
+
+    /**
+     * The booked slots on a specific date.
+     *
+     * @param  Request $request
+     * @param  integer  $doctorId
+     * @return JSON response
+     */
+    public function appointmentsBookedSlots(Request $request, $doctorId)
+    {
+        $doctor = Doctor::find($doctorId);
+        $date = $request->appointment_date;
+
+        return response([
+            'minTime' => $doctor->startsWork($date),
+            'maxTime' => $doctor->endsWork($date),
+            'bookedSlots' => $doctor->getBookedSlots($date)
         ]);
     }
 }
