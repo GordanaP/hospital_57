@@ -112,4 +112,13 @@ class AjaxController extends Controller
             'bookedSlots' => $doctor->getBookedSlots($date)
         ]);
     }
+
+    public function doctorsShow(Request $request, $doctorId)
+    {
+        $doctor = Doctor::find($doctorId)->load('absences');
+
+        return response([
+            'doctor' => $doctor
+        ]);
+    }
 }

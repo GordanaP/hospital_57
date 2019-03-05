@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ' | Appontments')
+@section('title', ' | Appointments')
 
 @section('links')
     <style>
@@ -93,18 +93,6 @@
         var eventTextColor = '#ffffff';
 
         /**
-         * Modal
-         */
-        var appModal = $('#appModal');
-        var titleIcon = $(".modal-title i");
-        var titleSpan = $(".modal-title span");
-
-        var errorFields = [
-            'doctor_id', 'app_date', 'app_start', 'first_name', 'last_name',
-            'birthday', 'phone'
-        ];
-
-        /**
          * Form
          */
         var doctorId = $('#doctor_id');
@@ -120,58 +108,26 @@
 
         disabledOnUpdate = [ patientFirstName, patientLastName, patientBirthday ];
 
-        appModal.setAutofocus('app_date')
+        /**
+         * Modal
+         */
+        var appModal = $('#appModal');
+        var titleIcon = $(".modal-title i");
+        var titleSpan = $(".modal-title span");
+
+        var errorFields = [
+            'doctor_id', 'app_date', 'app_start', 'first_name', 'last_name',
+            'birthday', 'phone'
+        ];
+
+        appModal.setAutofocus('app_date');
         appModal.clearOnClose(errorFields, appTime);
 
-        appDate.datepicker({
-            onSelect: function(date) {
+        clearErrorOnNewInput()
 
-                appTime.timepicker('remove');
-                appTime.val('')
-
-                $.ajax({
-                    type: "POST",
-                    url: availableAppSlotsUrl,
-                    data: {
-                        appointment_date: date,
-                        appointment_time: appTime.val()
-                    },
-                    success: function(response)
-                    {
-                        var slots = response.bookedSlots;
-                        var minTime = response.minTime
-                        var maxTime = response.maxTime
-                        appTime.timepicker({
-                            'timeFormat': 'H:i',
-                            'step': appSlot,
-                            'minTime': minTime,
-                            'maxTime': maxTime,
-                            'disableTimeRanges': getBookedSlots(slots),
-                            'forceRoundTime': true,
-                        });
-                    }
-                });
-            },
-            firstDay: 1,
-            dateFormat: "yy-mm-dd", // 2017-09-27
-            minDate: 0, // today
-            maxDate: datepickerMaxDate(),
-            changeMonth: true,
-            changeYear: true,
-            beforeShowDay: function(date)
-            {
-                return highlightDoctorWorkdays(drWorkDaysIds, absences, date);
-            }
-        });
-
-        patientBirthday.datepicker({
-            firstDay: 1,
-            dateFormat: "yy-mm-dd",
-            maxDate: 0,
-            changeMonth: true,
-            changeYear: true
-        });
-
+        /**
+         * Fullcalendar
+         */
         calendar.fullCalendar({
             @include('appointments.fullcalendar._custom_button'),
             @include('appointments.fullcalendar._basic'),
@@ -182,10 +138,24 @@
             @include('appointments.fullcalendar._day_render'),
         });
 
+        /**
+         * Datepicker
+         */
+        @include('appointments.js._datepicker')
+
+        /**
+         * Store an appointment
+         */
         @include('appointments.js._store')
 
+        /**
+         * Update an appointment
+         */
         @include('appointments.js._update')
 
+        /**
+         * Delete an appointment
+         */
         @include('appointments.js._delete')
 
     </script>

@@ -32,6 +32,10 @@
 
 @section('scripts')
     <script>
+
         @include('doctors.js._enable_file_input')
+
+        clearErrorOnNewInput()
+
     </script>
 @endsection

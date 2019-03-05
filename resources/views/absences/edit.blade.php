@@ -25,3 +25,11 @@
     </main>
 
 @endsection
+
+@section('scripts')
+    <script>
+
+        clearErrorOnNewInput()
+
+    </script>
+@endsection

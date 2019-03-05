@@ -50,6 +50,23 @@ function highlightDatepickerHolidays(date)
     }
 }
 
+function markDoctorAbsences(absences, date)
+{
+    var formattedDate = formattedDatepickerDate(date);
+    var absenceDates = makeAbsenceDatesArray(absences);
+    var datesArray = [];
+
+    $.each(absenceDates, function(index, dates) {
+         $.each(dates, function(index, value) {
+            datesArray.push(value)
+         });
+    });
+
+    return isInArray(formattedDate, datesArray)
+        ? [false, "absent", "absent"]
+        : [true, "", ""];
+}
+
 function getAbsencesWorkdays(drWorkDaysIds, absences, date)
 {
     var absenceDates = makeAbsenceDatesArray(absences)
@@ -67,6 +84,8 @@ function getAbsencesWorkdays(drWorkDaysIds, absences, date)
 
     return absenceWorkdays;
 }
+
+
 
 function makeAbsenceDatesArray(absences)
 {

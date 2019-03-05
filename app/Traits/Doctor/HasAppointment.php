@@ -2,6 +2,8 @@
 
 namespace App\Traits\Doctor;
 
+use App\Services\CustomClasses\AppCarbon;
+
 trait HasAppointment
 {
     /**

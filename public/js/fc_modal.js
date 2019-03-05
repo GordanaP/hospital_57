@@ -87,11 +87,10 @@ $.fn.clearTimepicker = function(timepickerField)
  * @param  {string} name
  * @return void
  */
-function clearError(name)
-{
-    var field = $("."+name);
-    var feedback = $("span."+name).hide();
+// function clearError(name)
+// {
+//     var field = $("."+name);
+//     var feedback = $("span."+name).hide();
 
-    field.removeClass('is-invalid');
-    feedback.text('');
-}
+//     feedback.text('');
+// }

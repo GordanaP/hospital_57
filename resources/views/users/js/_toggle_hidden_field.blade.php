@@ -1,10 +1,7 @@
-<script>
+$('input:radio').change(function() {
 
-    $('input:radio').change(function() {
+    var value = $("form input[type='radio']:checked").val();
 
-        var value = $("form input[type='radio']:checked").val();
+    value == 'manual' ? $('#password').removeClass('hidden') : $('#password').addClass('hidden')
+});
 
-        value == 'manual' ? $('#password').removeClass('hidden') : $('#password').addClass('hidden')
-    });
-
-</script>

@@ -11,21 +11,30 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::get('users', 'AjaxController@usersIndex')
     ->name('api.users.index');
+
 /**
  * Doctor
  */
 Route::get('doctors', 'AjaxController@doctorsIndex')
     ->name('api.doctors.index');
+Route::post('doctors/{doctor}', 'AjaxController@doctorsShow')
+    ->name('api.doctors.store');
+Route::get('doctors/{doctor}', 'AjaxController@doctorsShow')
+    ->name('api.doctors.show');
+
+
 /**
  * Patient
  */
 Route::get('patients/{doctor?}', 'AjaxController@patientsIndex')
     ->name('api.patients.index');
+
 /**
  * Absence
  */
 Route::get('absences/{doctor?}', 'AjaxController@absencesIndex')
     ->name('api.absences.index');
+
 /**
  * Appointment
  */

@@ -42,8 +42,8 @@ function clearErrorOnNewInput()
 
     $("input[type=checkbox], input[type=radio]").click(function() {
 
-        var id = $(this).parents(':eq(1)').attr('id');
-        var name = $(this).parents(':eq(1)').attr('name');
+        var id = $(this).attr('id');
+        var name = $(this).attr('name');
 
         var splitted = name ? name.split("-") : ''
         var splitted_name = splitted[1]
@@ -55,16 +55,14 @@ function clearErrorOnNewInput()
 
 function displayServerError(field, feedback, error)
 {
-    // field.addClass('is-invalid')
     feedback.text(error)
 }
 
 function clearError(name)
 {
-    var field = $("."+name);
+    // var field = $("."+name);
     var feedback = $("span."+name).hide();
 
-    // field.removeClass('is-invalid');
     feedback.text('');
 }
 

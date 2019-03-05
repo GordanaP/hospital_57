@@ -27,6 +27,12 @@
 
 @section('scripts')
 
-    @include('users.js._toggle_hidden_field')
+    <script>
+
+        @include('users.js._toggle_hidden_field')
+
+        clearErrorOnNewInput()
+
+    </script>
 
 @endsection
