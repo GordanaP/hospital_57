@@ -77,3 +77,12 @@ function enableFields(fields) {
         field.attr("disabled", false)
     });
 }
+
+function swalErrorMessage(text)
+{
+    return Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: text,
+    });
+}

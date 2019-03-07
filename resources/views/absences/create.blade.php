@@ -11,7 +11,6 @@
      </style>
 @endsection
 
-
 @section('content')
 
     <header class="flex items-center justify-between w-4/5 mx-auto mb-4">
@@ -43,33 +42,52 @@
 
         var startAt = $('#start_at')
         var endAt = $('#end_at')
-        var doctorId = $('#doctor_id')
-
-        $("#start_at, .open-start-datepicker").bind("click", function(){
-            doctorId.val() ? startAt.datepicker('show')
-                : Swal.fire({
-                    type: 'error',
-                    title: 'Oops...',
-                    text: 'Please select a doctor first!',
-                });
-        });
-
-        $("#end_at, .open-end-datepicker").bind("click", function(){
-            doctorId.val() ? endAt.datepicker('show')
-                : Swal.fire({
-                    type: 'error',
-                    title: 'Oops...',
-                    text: 'Please select a doctor first!',
-                });
-        });
-
 
         @if (request()->route()->named('doctors.absences.create'))
 
             var absences = @json($doctor->absences);
 
-            @include('absences.datepicker._from_to_pair')
+            @include('absences.datepicker._from')
+
+            @include('absences.datepicker._to')
+
         @else
+
+            $(document).on("click", '#start_at', function() {
+
+                var doctor = $('#doctor_id').val();
+
+                if(doctor) {
+                    $.when(ajaxCallDoctor(doctor)).done(function(response){
+
+                        var absences = response.doctor.absences
+
+                       @include('absences.datepicker._from')
+
+                       from.focus();
+                    });
+                } else {
+                    swalErrorMessage('Please select a doctor first!');
+                }
+            });
+
+            $(document).on("click", '#end_at', function(){
+
+                var doctor = $('#doctor_id').val();
+
+                if(doctor) {
+                    $.when(ajaxCallDoctor(doctor)).done(function(response){
+
+                        var absences = response.doctor.absences
+
+                        @include('absences.datepicker._to')
+
+                        to.focus()
+                    });
+                } else {
+                    swalErrorMessage('Please select a doctor first!');
+                }
+            });
 
             $('#doctor_id').on('change', function(){
 
@@ -78,18 +96,20 @@
                 endAt.datepicker('setDate', null);
                 endAt.datepicker("destroy");
 
-                var doctorId = $(this).val();
-                var showDoctorUrl = '/api/doctors/'+doctorId;
-                var absences;
+                var doctor = $(this).val();
 
-                $.ajax({
-                    url: showDoctorUrl,
-                    type: "POST",
-                }).done(function(response){
-                    absences = response.doctor.absences;
-                });
+                if(doctor) {
+                    $.when(ajaxCallDoctor(doctor)).done(function(response) {
 
-                @include('absences.datepicker._from_to_pair')
+                        var absences = response.doctor.absences
+
+                        @include('absences.datepicker._from')
+
+                        @include('absences.datepicker._to')
+                    });
+                } else {
+                    swalErrorMessage('Please select a doctor first!');
+                }
             });
 
         @endif

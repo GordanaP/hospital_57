@@ -53,18 +53,27 @@ function highlightDatepickerHolidays(date)
 function markDoctorAbsences(absences, date)
 {
     var formattedDate = formattedDatepickerDate(date);
-    var absenceDates = makeAbsenceDatesArray(absences);
-    var datesArray = [];
+    var datesArray = makeAbsenceDatesArray(absences)
+    var absencesArray = [];
 
-    $.each(absenceDates, function(index, dates) {
+    $.each(datesArray, function(index, dates) {
          $.each(dates, function(index, value) {
-            datesArray.push(value)
+              absencesArray.push(value)
          });
     });
 
-    return isInArray(formattedDate, datesArray)
-        ? [false, "absent", "absent"]
-        : [true, "", ""];
+    return isInArray(formattedDate, absencesArray)
+        ? [false, 'absent', ''] : [true, '', '']
+}
+
+function ajaxCallDoctor(doctor)
+{
+    var showDoctorUrl = '/api/doctors/'+doctor;
+
+    return $.ajax({
+        url: showDoctorUrl,
+        type: "POST"
+    });
 }
 
 function getAbsencesWorkdays(drWorkDaysIds, absences, date)
@@ -84,7 +93,6 @@ function getAbsencesWorkdays(drWorkDaysIds, absences, date)
 
     return absenceWorkdays;
 }
-
 
 
 function makeAbsenceDatesArray(absences)
@@ -302,4 +310,18 @@ function getStartWorkTime(day)
 function getEndWorkTime(day)
 {
     return '18:00';
+}
+
+function getDate(datepicker) {
+
+    var date;
+    var dateFormat = "yy-mm-dd";
+
+    try {
+        date = $.datepicker.parseDate(dateFormat, datepicker.value);
+    } catch (error) {
+        date = null
+    }
+
+    return date;
 }

@@ -31,7 +31,7 @@
                             <option value="">Select a doctor</option>
                             @foreach ($doctors as $doctor)
                                 <option value="{{ $doctor->id }}"
-                                    {{-- {{ getSelected($doctor->id, $doctorId) }} --}}
+                                    {{ getSelected($doctor->id, $doctorId) }}
                                 >
                                     {{ $doctor->inverse_title_name }}
                                 </option>
@@ -72,7 +72,10 @@
                 <label for="start_at" class="col-sm-4 col-form-label text-md-right text-grey-dark">Start at:<span class="text-red text-lg">*</span></label>
 
                 <div class="col-sm-8 px-6">
+
                     <input type="text" class="form-control" id="start_at" name="start_at" placeholder="yyyy-mm-dd" value="{{ $start_at }}">
+
+                    <div id="datepicker1"></div>
 
                     <span class="form-control-feedback" style="position: relative; top: -30px; float: right; margin-right: 8px">
                         <i class="fa fa-calendar open-start-datepicker"></i>

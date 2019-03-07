@@ -4,6 +4,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/test', function () {
+    $doctors = \App\Doctor::all();
+    return view('test', compact('doctors'));
+})->name('test');
+
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
