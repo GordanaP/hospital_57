@@ -1,10 +1,9 @@
 var to = endAt.datepicker({
+    @include('absences.datepicker._options'),
+    onClose: function(selectedDate)
+    {
+        startAt.datepicker("option", "maxDate", selectedDate);
 
-    @include('absences.datepicker._options')
-
-}).on("change", function() {
-
-    startAt.datepicker("option", "maxDate", getDate(this));
-
-    clearError('end_at')
+        clearError('end_at')
+    }
 });

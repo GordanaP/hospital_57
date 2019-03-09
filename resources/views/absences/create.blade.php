@@ -42,6 +42,7 @@
 
         var startAt = $('#start_at')
         var endAt = $('#end_at')
+        var minDate = 0;
 
         @if (request()->route()->named('doctors.absences.create'))
 
@@ -113,6 +114,5 @@
             });
 
         @endif
-
     </script>
 @endsection

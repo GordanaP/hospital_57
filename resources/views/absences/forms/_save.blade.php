@@ -21,11 +21,17 @@
 
                 <div class="col-sm-8 px-6">
                     <select name="doctor_id" id="doctor_id" class="form-control"
-                        {{ request()->route()->named('doctors.absences.create') ? 'read-only' : '' }}
+                        {{ request()->route()->named('doctors.absences.create') ||
+                            request()->route()->named('absences.edit')
+                            ? 'read-only' : '' }}
                     >
                         @if (request()->route()->named('doctors.absences.create'))
                             <option value="{{ $doctor->id }}" selected>
                                 {{ $doctor->inverse_title_name }}
+                            </option>
+                        @elseif(request()->route()->named('absences.edit'))
+                            <option value="{{ $absence->doctor->id }}" selected>
+                                {{ $absence->doctor->inverse_title_name }}
                             </option>
                         @else
                             <option value="">Select a doctor</option>

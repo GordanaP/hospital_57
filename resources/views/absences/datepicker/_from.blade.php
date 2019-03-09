@@ -1,10 +1,9 @@
 var from = startAt.datepicker({
+    @include('absences.datepicker._options'),
+    onClose: function(selectedDate)
+    {
+        endAt.datepicker("option", "minDate", selectedDate);
 
-    @include('absences.datepicker._options')
-
-}).on('change', function(){
-
-    endAt.datepicker("option", "minDate", getDate(this));
-
-    clearError('start_at')
+        clearError('start_at')
+    },
 });

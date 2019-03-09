@@ -50,7 +50,7 @@ function highlightDatepickerHolidays(date)
     }
 }
 
-function markDoctorAbsences(absences, date)
+function disableDoctorAbsences(absences, date)
 {
     var formattedDate = formattedDatepickerDate(date);
     var datesArray = makeAbsenceDatesArray(absences)
@@ -66,9 +66,43 @@ function markDoctorAbsences(absences, date)
         ? [false, 'absent', ''] : [true, '', '']
 }
 
-function ajaxCallDoctor(doctor)
+function highlightAbsenceToEdit(absences, absenceToEditId, date)
 {
-    var showDoctorUrl = '/api/doctors/'+doctor;
+    var formattedDate = formattedDatepickerDate(date);
+    var datesToEdit;
+    var disabledDates = [];
+
+    $.each(absences, function(index, absence) {
+        if(absence.id == absenceToEditId)
+        {
+            datesToEdit = getDatesArray(absence.start_at, absence.end_at)
+        }
+        else
+        {
+            var absenceDates = getDatesArray(absence.start_at, absence.end_at);
+
+            disabledDates.push(absenceDates);
+        }
+    });
+
+    var mergedDisabledDates = mergeMultipleArrays(disabledDates);
+
+    if (isInArray(formattedDate, datesToEdit)) {
+        return [true, 'to-edit', ''];
+    }
+    else if(isInArray(formattedDate, mergedDisabledDates))
+    {
+        return [false, 'absent', ''];
+    }
+    else
+    {
+        return [true, '', ''];
+    }
+}
+
+function ajaxCallDoctor(doctorId)
+{
+    var showDoctorUrl = '/api/doctors/'+doctorId;
 
     return $.ajax({
         url: showDoctorUrl,
@@ -94,7 +128,6 @@ function getAbsencesWorkdays(drWorkDaysIds, absences, date)
     return absenceWorkdays;
 }
 
-
 function makeAbsenceDatesArray(absences)
 {
     var absenceDates = [];
@@ -111,8 +144,9 @@ var getDatesArray = function(start, end) {
 
     var dates = new Array();
     var dt = new Date(start);
+    var dt1 = new Date(end);
 
-    while (dt <= end) {
+    while (dt <= dt1) {
         dates.push(new Date(dt));
         dt.setDate(dt.getDate() + 1);
     }

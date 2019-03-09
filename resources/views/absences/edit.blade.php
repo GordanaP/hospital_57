@@ -8,6 +8,16 @@
             background: red !important;
             color: #ffffff !important;
         }
+
+        .to-edit a {
+            background: green !important;
+            color: #ffffff !important;
+        }
+
+        .absent a {
+            background: red !important;
+            color: #ffffff !important;
+        }
      </style>
 @endsection
 
@@ -40,79 +50,26 @@
 
         clearErrorOnNewInput()
 
-        var startAt = $('#start_at')
-        var endAt = $('#end_at')
+        var startAt = $('#start_at');
+        var endAt = $('#end_at');
+        var minDate = '';
+        var doctorId = "{{ $absence->doctor->id }}";
+        var absenceId = "{{ $absence->id }}";
 
-        @if (request()->route()->named('doctors.absences.create'))
+        $.when(ajaxCallDoctor(doctorId)).done(function(response){
 
-            var absences = @json($doctor->absences);
+            var absences = response.doctor.absences
 
-            @include('absences.datepicker._from')
-
-            @include('absences.datepicker._to')
-
-        @else
-
-            $(document).on("click", '#start_at', function() {
-
-                var doctor = $('#doctor_id').val();
-
-                if(doctor) {
-                    $.when(ajaxCallDoctor(doctor)).done(function(response){
-
-                        var absences = response.doctor.absences
-
-                       @include('absences.datepicker._from')
-
-                       from.focus();
-                    });
-                } else {
-                    swalErrorMessage('Please select a doctor first!');
-                }
+            startAt.on('click', function(){
+                @include('absences.datepicker._from')
+                from.focus();
             });
 
-            $(document).on("click", '#end_at', function(){
-
-                var doctor = $('#doctor_id').val();
-
-                if(doctor) {
-                    $.when(ajaxCallDoctor(doctor)).done(function(response){
-
-                        var absences = response.doctor.absences
-
-                        @include('absences.datepicker._to')
-
-                        to.focus()
-                    });
-                } else {
-                    swalErrorMessage('Please select a doctor first!');
-                }
+            $(document).on('click', '#end_at', function(){
+                @include('absences.datepicker._to')
+                to.focus();
             });
-
-            $('#doctor_id').on('change', function(){
-
-                startAt.datepicker('setDate', null);
-                startAt.datepicker("destroy");
-                endAt.datepicker('setDate', null);
-                endAt.datepicker("destroy");
-
-                var doctor = $(this).val();
-
-                if(doctor) {
-                    $.when(ajaxCallDoctor(doctor)).done(function(response) {
-
-                        var absences = response.doctor.absences
-
-                        @include('absences.datepicker._from')
-
-                        @include('absences.datepicker._to')
-                    });
-                } else {
-                    swalErrorMessage('Please select a doctor first!');
-                }
-            });
-
-        @endif
+        });
 
     </script>
 @endsection
