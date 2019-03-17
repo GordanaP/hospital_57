@@ -63,3 +63,27 @@ function getAlert($message, $type)
 
     return $alert;
 }
+
+/**
+ * Create a date range.
+ *
+ * @param  string $first
+ * @param  string $last
+ * @param  string $interval
+ * @param  string $format
+ * @return array
+ */
+function getDateRange( $first, $last, $interval = '+1 day', $format = 'Y-m-d' ) {
+
+    $dates = array();
+    $first = strtotime( $first );
+    $last = strtotime( $last );
+
+    while( $first <= $last ) {
+
+        $dates[] = date( $format, $first );
+        $first = strtotime( $interval, $first );
+    }
+
+    return $dates;
+}

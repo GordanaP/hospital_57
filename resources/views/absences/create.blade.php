@@ -5,6 +5,9 @@
 @section('links')
     <style>
         .ui-datepicker-unselectable.absent span {
+            border-color: red !important;
+        }
+        .ui-datepicker-unselectable.holiday span {
             background: red !important;
             color: #ffffff !important;
         }
@@ -40,9 +43,12 @@
 
         clearErrorOnNewInput()
 
-        var startAt = $('#start_at')
-        var endAt = $('#end_at')
+        var startAt = $('#start_at');
+        var endAt = $('#end_at');
+        var doctorId = $('#doctor_id');
+        dateFormat = "yy-mm-dd";
         var minDate = 0;
+        var editAbsenceUrl = "{{ request()->route()->named('absences.edit') }}";
 
         @if (request()->route()->named('doctors.absences.create'))
 
@@ -56,7 +62,7 @@
 
             $(document).on("click", '#start_at', function() {
 
-                var doctor = $('#doctor_id').val();
+                var doctor = doctorId.val();
 
                 if(doctor) {
                     $.when(ajaxCallDoctor(doctor)).done(function(response){
@@ -74,7 +80,7 @@
 
             $(document).on("click", '#end_at', function(){
 
-                var doctor = $('#doctor_id').val();
+                var doctor = doctorId.val();
 
                 if(doctor) {
                     $.when(ajaxCallDoctor(doctor)).done(function(response){
@@ -90,7 +96,7 @@
                 }
             });
 
-            $('#doctor_id').on('change', function(){
+            doctorId.on('change', function() {
 
                 startAt.datepicker('setDate', null);
                 startAt.datepicker("destroy");

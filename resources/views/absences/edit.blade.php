@@ -5,13 +5,21 @@
 @section('links')
     <style>
         .ui-datepicker-unselectable.absent span {
+            border-color: red !important;
+        }
+        .ui-datepicker-unselectable.holiday span {
             background: red !important;
             color: #ffffff !important;
         }
 
-        .to-edit a {
-            background: green !important;
+        .editable a {
+            background: #64D5CA !important;
             color: #ffffff !important;
+        }
+
+        .editable a:hover {
+            background: #38A89D !important;
+            border-color: #4DC0B5 !important
         }
 
         .absent a {
@@ -50,13 +58,15 @@
 
         clearErrorOnNewInput()
 
+        dateFormat = "yy-mm-dd";
         var startAt = $('#start_at');
         var endAt = $('#end_at');
         var minDate = '';
+        var editAbsenceUrl = "{{ request()->route()->named('absences.edit') }}";
         var doctorId = "{{ $absence->doctor->id }}";
         var absenceId = "{{ $absence->id }}";
 
-        $.when(ajaxCallDoctor(doctorId)).done(function(response){
+        $.when(ajaxCallDoctor(doctorId)).done(function(response) {
 
             var absences = response.doctor.absences
 
@@ -65,7 +75,7 @@
                 from.focus();
             });
 
-            $(document).on('click', '#end_at', function(){
+            endAt.on('click', function(){
                 @include('absences.datepicker._to')
                 to.focus();
             });

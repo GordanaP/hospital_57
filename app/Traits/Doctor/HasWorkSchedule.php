@@ -154,20 +154,6 @@ trait HasWorkSchedule
     }
 
     /**
-     * Determine if the doctor is absent from work on a specific date.
-     *
-     * @param  string  $date
-     * @return boolean
-     */
-    public function isAbsentFromWorkOnDate($date)
-    {
-        return $this->absences
-            ->where('start_at', '<=', $date)
-            ->where('end_at', '>=' , $date)
-            ->isNotEmpty();
-    }
-
-    /**
      * Determine if the doctor is working on a specific date and hour.
      *
      * @param  string  $date

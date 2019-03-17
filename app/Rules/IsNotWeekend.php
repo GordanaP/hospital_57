@@ -2,25 +2,19 @@
 
 namespace App\Rules;
 
+use App\Services\CustomClasses\AppCarbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class IsNotDoctorAbsence implements Rule
+class IsNotWeekend implements Rule
 {
-    /**
-     * The doctor.
-     *
-     * @var \App\Doctor
-     */
-    public $doctor;
-
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($doctor)
+    public function __construct()
     {
-        $this->doctor = $doctor;
+        //
     }
 
     /**
@@ -32,7 +26,7 @@ class IsNotDoctorAbsence implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ! $this->doctor->isAbsentFromWorkOnDate($value);
+        return AppCarbon::isNotWeekend($value);
     }
 
     /**
@@ -42,6 +36,6 @@ class IsNotDoctorAbsence implements Rule
      */
     public function message()
     {
-        return 'The doctor is absent from work this day.';
+        return 'The absence can not start or end on weekend.';
     }
 }

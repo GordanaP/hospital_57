@@ -30,7 +30,7 @@ function datepickerMaxDate()
 function highlightDoctorWorkdays(drWorkDaysIds, absences, date, className = "doctor-work-day", dateFormat = "YYYY-MM-DD")
 {
     return isNotAbsentFromWork(drWorkDaysIds, absences, date, dateFormat)
-        ? [true, className, "Tooltip text"]
+        ? [true, className, ""]
         : [false, "", ""];
 }
 
@@ -50,7 +50,30 @@ function highlightDatepickerHolidays(date)
     }
 }
 
-function disableDoctorAbsences(absences, date)
+
+function disableUnvailableDates(absences, date)
+{
+    var formattedDate = formattedDatepickerDate(date);
+
+    var holidayDates = datepickerHolidays(date);
+
+    var absencesDates = getDoctorAbsences(absences, date);
+
+    if (isInArray(formattedDate, absencesDates))
+    {
+        return [false, 'absent', ""]
+    }
+    else if(isInArray(formattedDate, holidayDates))
+    {
+        return [false, 'holiday', ""]
+    }
+    else
+    {
+        return $.datepicker.noWeekends(date)
+    }
+}
+
+function getDoctorAbsences(absences, date)
 {
     var formattedDate = formattedDatepickerDate(date);
     var datesArray = makeAbsenceDatesArray(absences)
@@ -62,42 +85,64 @@ function disableDoctorAbsences(absences, date)
          });
     });
 
-    return isInArray(formattedDate, absencesArray)
-        ? [false, 'absent', ''] : [true, '', '']
+    return absencesArray;
 }
 
-function highlightAbsenceToEdit(absences, absenceToEditId, date)
+// function disableDoctorAbsences(absences, date)
+// {
+//     var formattedDate = formattedDatepickerDate(date);
+//     var datesArray = makeAbsenceDatesArray(absences)
+//     var absencesArray = [];
+
+//     $.each(datesArray, function(index, dates) {
+//          $.each(dates, function(index, value) {
+//               absencesArray.push(value)
+//          });
+//     });
+
+//     return isInArray(formattedDate, absencesArray)
+//         ? [false, 'absent', ''] : $.datepicker.noWeekends(date)
+// }
+
+function highlightEditableAbsence(absences, editableAbsenceId, date)
 {
     var formattedDate = formattedDatepickerDate(date);
-    var datesToEdit;
-    var disabledDates = [];
+    var holidays = datepickerHolidays(date);
+    var editableAbsence;
+    var otherAbsencesArray = [];
 
     $.each(absences, function(index, absence) {
-        if(absence.id == absenceToEditId)
+        if(absence.id == editableAbsenceId)
         {
-            datesToEdit = getDatesArray(absence.start_at, absence.end_at)
+            editableAbsence = getDatesArray(absence.start_at, absence.end_at);
         }
         else
         {
-            var absenceDates = getDatesArray(absence.start_at, absence.end_at);
+            otherAbsencesDates = getDatesArray(absence.start_at, absence.end_at);
 
-            disabledDates.push(absenceDates);
+            otherAbsencesArray.push(otherAbsencesDates);
         }
     });
 
-    var mergedDisabledDates = mergeMultipleArrays(disabledDates);
+    var otherAbsences = mergeMultipleArrays(otherAbsencesArray);
 
-    if (isInArray(formattedDate, datesToEdit)) {
-        return [true, 'to-edit', ''];
+    if (isInArray(formattedDate, editableAbsence)) {
+        var result = [true, 'editable', ''];
     }
-    else if(isInArray(formattedDate, mergedDisabledDates))
+    else if(isInArray(formattedDate, otherAbsences))
     {
-        return [false, 'absent', ''];
+        var result = [false, 'absent', ''];
+    }
+    else if(isInArray(formattedDate, holidays))
+    {
+        var result = [false, 'holiday', ''];
     }
     else
     {
-        return [true, '', ''];
+        var result = $.datepicker.noWeekends(date);
     }
+
+    return result;
 }
 
 function ajaxCallDoctor(doctorId)
@@ -112,7 +157,7 @@ function ajaxCallDoctor(doctorId)
 
 function getAbsencesWorkdays(drWorkDaysIds, absences, date)
 {
-    var absenceDates = makeAbsenceDatesArray(absences)
+    var absenceDates = makeAbsenceDatesArray(absences);
     var absenceWorkdays = [];
 
     $.each(drWorkDaysIds, function(index, day) {

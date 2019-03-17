@@ -29,7 +29,7 @@ appDate.datepicker({
         });
     },
     firstDay: 1,
-    dateFormat: "yy-mm-dd", // 2017-09-27
+    dateFormat: "yy-mm-dd",
     minDate: 0,
     changeMonth: true,
     changeYear: true,

@@ -38,8 +38,6 @@
 <!-- Timepicker -->
 <script src="{{ asset('vendor/jonthornton-jquery-timepicker/jquery.timepicker.js') }}"></script>
 
-<script src="{{ asset('vendor/jquery-ui-multidatespicker/jquery-ui.multidatespicker.js') }}"></script>
-
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>

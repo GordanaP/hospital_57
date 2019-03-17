@@ -4,6 +4,7 @@
 
 @section('content')
 
+
     <header class="flex items-center justify-between mb-4 ">
         <h2>Absences</h2>
 

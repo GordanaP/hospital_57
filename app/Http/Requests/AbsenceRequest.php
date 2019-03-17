@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Doctor;
-use App\Rules\IsNotDoctorAbsence;
+use App\Rules\IsNotAwayFromWork;
+use App\Rules\IsNotHoliday;
+use App\Rules\IsNotWeekend;
 use App\Services\Utilities\Absence;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -37,11 +39,14 @@ class AbsenceRequest extends FormRequest
             ],
             'start_at' => [
                 'required', 'date:Y-m-d', 'after_or_equal:today',
-                new IsNotDoctorAbsence($doctor)
+                new IsNotAwayFromWork($doctor, $this->end_at),
+                new IsNotWeekend,
+                new IsNotHoliday
             ],
             'end_at' => [
                 'nullable', 'date:Y-m-d', 'after_or_equal:start_at',
-                new IsNotDoctorAbsence($doctor)
+                new IsNotWeekend,
+                new IsNotHoliday
             ],
         ];
     }

@@ -10,6 +10,7 @@ use App\Traits\Doctor\HasUser;
 use App\Traits\Doctor\HasWorkSchedule;
 use App\Traits\Doctor\Presentable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Doctor extends Model
 {
@@ -129,5 +130,46 @@ class Doctor extends Model
         return $this->appointments->count();
     }
 
+    /**
+     * Determine if the doctor is not away from work in a specific period.
+     *
+     * @param  string  $from
+     * @param  string  $to
+     * @return boolean
+     */
+    public function isNotAwayFromWork($from, $to)
+    {
+        $newAbsence = getDateRange($from, $to);
 
+        $currentAbsences = $this->absences->transform(function ($absence, $key) {
+
+            return getDateRange($absence->start_at, $absence->end_at);
+
+        })->flatten();
+
+        return $currentAbsences->intersect($newAbsence)->isEmpty();
+    }
+
+    /**
+     * Get overlapping absences.
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return \Illuminate\Support\Collection
+     */
+    public function ignoreEditableAbsence($from, $to, $absenceId)
+    {
+        $newRange = getDateRange($from, $to);
+
+        $overlapped = $this->absences->transform(function ($absence, $key)
+            use($newRange) {
+
+            $dateRanges = collect(getDateRange($absence->start_at, $absence->end_at));
+
+            return $dateRanges->intersect($newRange)->isNotEmpty() ? collect($absence->id) : '';
+        })->flatten()->filter();
+
+        return $overlapped->isEmpty()
+               || ($overlapped->count() == 1 && $overlapped->contains($absenceId));
+    }
 }

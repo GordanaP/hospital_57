@@ -2,22 +2,12 @@
 
 namespace App\Rules;
 
+use App\Services\CustomClasses\AppCarbon;
 use App\Services\CustomClasses\Holiday;
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
 class IsNotHoliday implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -27,7 +17,7 @@ class IsNotHoliday implements Rule
      */
     public function passes($attribute, $value)
     {
-        $year = Carbon::parse($value)->format('Y');
+        $year = AppCarbon::formatDate($value, 'Y');
 
         return ! Holiday::getAll($year)->contains($value);
     }

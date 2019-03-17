@@ -1,14 +1,11 @@
 firstDay: 1,
-dateFormat: "yy-mm-dd",
+dateFormat: dateFormat,
 minDate: minDate,
 maxDate: "+1y",
 changeMonth: true,
 changeYear: true,
-beforeShowDay: function(selectedDate)
+beforeShowDay: function(date)
 {
-    @if (request()->route()->named('absences.edit'))
-        return highlightAbsenceToEdit(absences, absenceId, selectedDate)
-    @else
-        return disableDoctorAbsences(absences, selectedDate)
-    @endif
+    return editAbsenceUrl ? highlightEditableAbsence(absences, absenceId, date)
+                          : disableUnvailableDates(absences, date)
 }

@@ -83,7 +83,7 @@ class AbsenceController extends Controller
      * @param  \App\Absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Absence $absence)
+    public function update(AbsenceRequest $request, Absence $absence)
     {
         $absence->saveChanges($request->except('doctor_id'));
 

@@ -84,4 +84,9 @@ class AppCarbon extends Carbon
     {
         return date($format, strtotime($date)) == $date;
     }
+
+    public static function isNotWeekend($date)
+    {
+        return self::dayIndex($date) !== 6 && self::dayIndex($date) !== 7;
+    }
 }
