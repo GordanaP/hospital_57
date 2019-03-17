@@ -2,46 +2,56 @@
 
 @section('title', ' | Display doctor')
 
-@section('content')
-
-    <section id="doctorDetails">
-        @include('doctors.html._section_details')
-    </section>
-
-    <section id="doctorSchedule" class="mt-5">
-        @include('doctors.html._section_schedule')
-    </section>
-
-    <section id="doctorAbsences" class="mt-5">
-        @include('doctors.html._section_absences')
-    </section>
-
-    <section id="doctorPatients" class="mt-5">
-        @include('doctors.html._section_patients')
-    </section>
-
+@section('links')
+    <style>
+        .abc { color: #ffecb3; }
+    </style>
 @endsection
 
-@section('scripts')
-    <script>
+@section('content')
 
-        // Patients
-        var patientsTable = $('#doctorPatientsTable');
-        var patientsIndexUrl = "{{ route('api.patients.index', $doctor) }}";
+    <header class="flex items-center justify-between mb-3">
+        <h4 class="flex items-center">
+            {{ $doctor->title_name }}
+        </h4>
 
-        @include('patients.js._datatable')
+        <div class="flex items-center">
+            <a href="{{ route('doctors.index') }}"
+                class="underline text-grey-dark hover:text-grey-darker text-lg mr-4">
+                Back to doctors
+            </a>
 
-        @include('patients.js._delete')
+            @include('partials.buttons._delete_edit', [
+                'name' => 'doctors',
+                'parameter' => $doctor
+            ])
+        </div>
+    </header>
 
+    <div class="row mt-8">
+        <div class="col-md-3">
+            @include('doctors.show.partials._profile')
+        </div>
+        <div class="col-md-3">
+            @include('doctors.show.partials._account')
 
-        // Absences
-        var absencesTable = $('#doctorAbsencesTable');
-        var absencesIndexUrl = "{{ route('api.absences.index', $doctor) }}";
-        var doctorExists = true;
+        </div>
+        <div class="col-md-3">
+            @include('doctors.show.partials._patients')
 
-        @include('absences.js._datatable')
+        </div>
+        <div class="col-md-3">
+            @include('doctors.show.partials._appointments')
+        </div>
+    </div>
 
-        @include('absences.js._delete')
+    <div class="row mt-12">
+        <div class="col-md-3">
+            @include('doctors.show.partials._schedule')
+        </div>
+        <div class="col-md-3">
+            @include('doctors.show.partials._absences')
+        </div>
+    </div>
 
-    </script>
 @endsection

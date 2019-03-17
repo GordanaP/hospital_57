@@ -55,7 +55,7 @@
     <span class="text-grey">{{ $doctor->created_at }}</span>
 </div>
 
-<div class="row px-3 my-2">
+{{-- <div class="row px-3 my-2">
     <span class="text-grey-darkest w-1/5">User</span>
 
     @if ($doctor->hasUser())
@@ -89,3 +89,4 @@
         </a>
     @endif
 </div>
+ --}}

@@ -15,6 +15,7 @@ class BladeServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::component('components.tables.datatable', 'datatable');
+        Blade::component('components.cards.doctor_show', 'showDoctor');
     }
 
     /**

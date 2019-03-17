@@ -13,10 +13,15 @@ class DoctorAbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Doctor $doctor)
+    public function create(Doctor $doctor)
     {
         $doctors = Doctor::orderBy('last_name')->get();
 
         return view('absences.create', compact('doctors', 'doctor'));
+    }
+
+    public function show(Doctor $doctor)
+    {
+        return view('doctors.show.absences', compact('doctor'));
     }
 }

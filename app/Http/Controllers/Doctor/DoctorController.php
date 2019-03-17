@@ -59,9 +59,7 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $business_days = WorkingDay::all();
-
-        return view('doctors.show', compact('doctor', 'business_days'));
+        return view('doctors.show', compact('doctor'));
     }
 
     /**
@@ -85,10 +83,6 @@ class DoctorController extends Controller
     public function update(DoctorRequest $request, Doctor $doctor)
     {
         $doctor->saveChanges($request->except('image', 'user_id'));
-
-        // $doctor->image->removeOld($doctor->image);
-
-        // $doctor->update(Doctor::getDoctorAttributes($request->except('image', 'user_id')));
 
         return $this->redirectAfterUpdate('doctors', $doctor)
             ->with($this->updateResponse());

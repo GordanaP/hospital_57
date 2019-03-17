@@ -37,22 +37,32 @@ Route::resource('doctors', 'Doctor\DoctorController', [
 // DoctorUser
 Route::delete('doctors/{doctor}/users', 'Doctor\DoctorUserController@destroy')
     ->name('doctors.users.destroy');
-Route::get('doctors/{doctor}/users/create', 'Doctor\DoctorUserController@create')
+Route::get('doctors/{doctor}/user-account/create', 'Doctor\DoctorUserController@create')
     ->name('doctors.users.create');
 
 // DoctorPatient
-Route::get('doctors/{doctor}/create_patient', 'Doctor\DoctorPatientController')
+Route::get('doctors/{doctor}/create_patient', 'Doctor\DoctorPatientController@create')
     ->name('doctors.patients.create');
+Route::get('doctors/{doctor}/patients', 'Doctor\DoctorPatientController@show')
+    ->name('doctors.patients.show');
+
 
 // DoctorWorkSchedule
 Route::resource('schedule', 'Doctor\DoctorWorkScheduleController', [
-    'only' => ['edit', 'update', 'destroy'],
+    'only' => ['show','edit', 'update', 'destroy'],
     'parameters' => ['schedule' => 'doctor'],
 ]);
 
 // DoctorAbsence
-Route::get('doctors/{doctor}/create_absence', 'Doctor\DoctorAbsenceController')
+Route::get('doctors/{doctor}/absences', 'Doctor\DoctorAbsenceController@show')
+    ->name('doctors.absences.show');
+Route::get('doctors/{doctor}/create_absence', 'Doctor\DoctorAbsenceController@create')
     ->name('doctors.absences.create');
+
+// DoctorProfile
+Route::get('doctors/{doctor}/profile', 'Doctor\DoctorProfileController')
+    ->name('doctors.profiles.show');
+
 
 // DoctorAppointment
 Route::get('doctors/{doctor}/appointments', 'Doctor\DoctorAppointmentController@index')

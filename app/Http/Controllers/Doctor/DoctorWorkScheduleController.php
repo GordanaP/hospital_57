@@ -12,6 +12,13 @@ class DoctorWorkScheduleController extends Controller
 {
     use RedirectTo;
 
+    public function show(Doctor $doctor)
+    {
+        $business_days = WorkingDay::all();
+
+        return view('doctors.show.schedule', compact('doctor', 'business_days'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

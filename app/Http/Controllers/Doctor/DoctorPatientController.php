@@ -8,8 +8,13 @@ use Illuminate\Http\Request;
 
 class DoctorPatientController extends Controller
 {
-    public function __invoke(Doctor $doctor)
+    public function create(Doctor $doctor)
     {
         return view('patients.create', compact('doctor'));
+    }
+
+    public function show(Doctor $doctor)
+    {
+        return view('doctors.show.patients', compact('doctor'));
     }
 }
