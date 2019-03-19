@@ -28,30 +28,32 @@
         </div>
     </header>
 
-    <div class="row mt-8">
-        <div class="col-md-3">
-            @include('doctors.show.partials._profile')
-        </div>
-        <div class="col-md-3">
-            @include('doctors.show.partials._account')
+    <main>
+        <div class="row mt-8">
+            <div class="col-md-3">
+                @include('doctors.show.partials._profile')
+            </div>
+            <div class="col-md-3">
+                @include('doctors.show.partials._account')
 
-        </div>
-        <div class="col-md-3">
-            @include('doctors.show.partials._patients')
+            </div>
+            <div class="col-md-3">
+                @include('doctors.show.partials._patients')
 
+            </div>
+            <div class="col-md-3">
+                @include('doctors.show.partials._appointments')
+            </div>
         </div>
-        <div class="col-md-3">
-            @include('doctors.show.partials._appointments')
-        </div>
-    </div>
 
-    <div class="row mt-12">
-        <div class="col-md-3">
-            @include('doctors.show.partials._schedule')
+        <div class="row mt-10">
+            <div class="col-md-3">
+                @include('doctors.show.partials._schedule')
+            </div>
+            <div class="col-md-3">
+                @include('doctors.show.partials._absences')
+            </div>
         </div>
-        <div class="col-md-3">
-            @include('doctors.show.partials._absences')
-        </div>
-    </div>
+    </main>
 
 @endsection

@@ -73,17 +73,17 @@ function getAlert($message, $type)
  * @param  string $format
  * @return array
  */
-function getDateRange( $first, $last, $interval = '+1 day', $format = 'Y-m-d' ) {
+// function getDateRange( $first, $last, $interval = '+1 day', $format = 'Y-m-d' ) {
 
-    $dates = array();
-    $first = strtotime( $first );
-    $last = strtotime( $last );
+//     $dates = array();
+//     $first = strtotime( $first );
+//     $last = strtotime( $last );
 
-    while( $first <= $last ) {
+//     while( $first <= $last ) {
 
-        $dates[] = date( $format, $first );
-        $first = strtotime( $interval, $first );
-    }
+//         $dates[] = date( $format, $first );
+//         $first = strtotime( $interval, $first );
+//     }
 
-    return $dates;
-}
+//     return $dates;
+// }

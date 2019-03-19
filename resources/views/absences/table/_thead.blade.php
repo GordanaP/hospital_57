@@ -4,5 +4,6 @@
 @endif
 <th>Start At</th>
 <th>End At</th>
+<th class="text-center">Days</th>
 <th>Description</th>
 <th></th>

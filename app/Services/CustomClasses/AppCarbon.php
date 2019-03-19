@@ -2,7 +2,9 @@
 
 namespace App\Services\CustomClasses;
 
+use App\Services\CustomClasses\Holiday;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class AppCarbon extends Carbon
 {
@@ -88,5 +90,51 @@ class AppCarbon extends Carbon
     public static function isNotWeekend($date)
     {
         return self::dayIndex($date) !== 6 && self::dayIndex($date) !== 7;
+    }
+
+    public static function isNotHoliday($date)
+    {
+        $year = self::formatDate($date, 'Y');
+
+        return ! Holiday::getAll($year)->contains($date);
+    }
+
+    public static function getDatesRange($from, $to) {
+
+        $period = new CarbonPeriod($from, $to);
+
+        $collection = collect($period->toArray());
+
+        return $collection->transform(function($date, $key){
+            return $date->format('Y-m-d');
+        });
+    }
+
+    public static function countBusinessDays($from, $to)
+    {
+        $holidays = Holiday::getInDatesRange($from, $to);
+
+        $holidaysExcludingWeekend = $holidays->filter(function($date, $key) {
+            if (! self::get($date)->isWeekend()) {
+                return true;
+            }
+        })->count();
+
+        $days = self::get($from)->diffInDaysFiltered(function (Carbon $date) {
+            return $date->isWeekday();
+        }, self::get($to)) + 1;
+
+        return $businessDaysCount = $days - $holidaysExcludingWeekend;
+    }
+
+    public static function get($date)
+    {
+        return $date instanceOf Carbon ? $date
+            : Carbon::parse($date);
+    }
+
+    public static function createFrom($year, $month, $date, $format = "Y-m-d")
+    {
+        return Carbon::createFromDate($year, $month, $date)->format($format);
     }
 }

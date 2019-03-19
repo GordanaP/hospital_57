@@ -9,7 +9,6 @@ use App\Rules\IsDoctorAppSlot;
 use App\Rules\IsDoctorWorkDay;
 use App\Rules\IsDoctorWorkHour;
 use App\Rules\IsNotBooked;
-use App\Rules\IsNotDoctorAbsence;
 use App\Rules\IsNotHoliday;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -43,7 +42,6 @@ class AppointmentRequest extends FormRequest
                 'required', 'date_format:Y-m-d', 'after_or_equal:today',
                 new IsNotHoliday,
                 new IsDoctorWorkDay($doctor),
-                new IsNotDoctorAbsence($doctor),
             ],
             'app_start' => [
                 'required', 'date_format:H:i',

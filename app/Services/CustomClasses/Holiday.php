@@ -2,6 +2,7 @@
 
 namespace App\Services\CustomClasses;
 
+use App\Services\CustomClasses\AppCarbon;
 use Carbon\Carbon;
 
 class Holiday
@@ -29,6 +30,46 @@ class Holiday
     }
 
     /**
+     * Get holidays in a range of dates.
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return Illuminate\Support\Collection
+     */
+    public static function getInDatesRange($from, $to)
+    {
+        $datesRange = AppCarbon::getDatesRange($from, $to);
+        $fromDate = AppCarbon::get($from);
+        $toDate = AppCarbon::get($to);
+
+        if ($fromDate->isSameYear($toDate)) {
+
+            $holidays = self::getAll($fromDate->year);
+
+        } else {
+
+            $holidaysFromYear = self::getAll($fromDate->year);
+            $holidaysToYear = self::getAll($toDate->year);
+
+            $holidays = $holidaysFromYear->merge($holidaysToYear);
+        }
+
+        return $datesRange->intersect($holidays);
+    }
+
+    /**
+     * Count holidays in a range of dates.
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return integer
+     */
+    public static function countInDatesRange($from, $to)
+    {
+        return self::getInDatesRange($from, $to)->count();
+    }
+
+    /**
      * Get New Year Day.
      *
      * @param string $year
@@ -36,18 +77,13 @@ class Holiday
      */
     private function NewYearDay($year)
     {
-        $holiday = new self;
+        $January1 = AppCarbon::createFrom($year, 1, 1);
+        $January2 = AppCarbon::createFrom($year, 1, 2);
+        $January3 = AppCarbon::get($January1)->isSunday()
+            || AppCarbon::get($January2)->isSunday()
+            ? AppCarbon::createFrom($year, 1, 3) : '';
 
-        $January1 = $holiday->createDay($year, 1, 1);
-        $January2 = $holiday->createDay($year, 1, 2);
-        $January3 = $holiday->isSunday($January1) || $holiday->isSunday($January2)
-            ? $holiday->createDay($year, 1, 3) : '';
-
-        $NewYearDay = [];
-
-        array_push ($NewYearDay, $January1, $January2, $January3);
-
-        return collect($NewYearDay)->filter();
+        return collect([$January1, $January2, $January3])->filter();
     }
 
     /**
@@ -58,9 +94,7 @@ class Holiday
      */
     private function ChristmasDay($year)
     {
-        $holiday = new self;
-
-        $ChristmasDay = $holiday->createDay($year, 1, 7);
+        $ChristmasDay = AppCarbon::createFrom($year, 1, 7);
 
         return collect($ChristmasDay);
     }
@@ -73,18 +107,13 @@ class Holiday
      */
     private function SovereigntyDay($year)
     {
-        $holiday = new self;
+        $February15 = AppCarbon::createFrom($year, 2, 15);
+        $February16 = AppCarbon::createFrom($year, 2, 16);
+        $February17 = AppCarbon::get($February15)->isSunday()
+            || AppCarbon::get($February16)->isSunday()
+            ? AppCarbon::createFrom($year, 2, 17) : '';
 
-        $February15 = $holiday->createDay($year, 2, 15);
-        $February16 = $holiday->createDay($year, 2, 16);
-        $February17 = $holiday->isSunday($February15) || $holiday->isSunday($February16)
-            ? $holiday->createDay($year, 2, 17) : '';
-
-        $SovereigntyDay = [];
-
-        array_push ($SovereigntyDay, $February15, $February16, $February17);
-
-        return collect($SovereigntyDay)->filter();
+        return collect([$February15, $February16, $February17])->filter();
     }
 
     /**
@@ -94,19 +123,13 @@ class Holiday
      * @param string $format
      * @return Illuminate\Support\Collection
      */
-    private function OrthodoxEaster($year, $format)
+    private function OrthodoxEaster($year, $format = 'Y-m-d')
     {
-        $holiday = new self;
+        $EasterSunday = (new self)->EasterSunday($year);
+        $GoodFriday = AppCarbon::get($EasterSunday)->subDays(2)->format($format);
+        $EasterMonday = AppCarbon::get($EasterSunday)->addDay(1)->format($format);
 
-        $EasterSunday = $holiday->EasterSunday($year);
-        $GoodFriday = Carbon::parse($EasterSunday)->subDays(2)->format($format);
-        $EasterMonday = Carbon::parse($EasterSunday)->addDay(1)->format($format);
-
-        $EasterHoliday = [];
-
-        array_push($EasterHoliday, $GoodFriday, $EasterSunday, $EasterMonday);
-
-        return collect($EasterHoliday);
+        return collect([$GoodFriday, $EasterSunday, $EasterMonday]);
     }
 
     /**
@@ -117,18 +140,13 @@ class Holiday
      */
     private function LabourDay($year)
     {
-        $holiday = new self;
+        $May1 = AppCarbon::createFrom($year, 5, 1);
+        $May2 = AppCarbon::createFrom($year, 5, 2);
+        $May3 = AppCarbon::get($May1)->isSunday()
+            || AppCarbon::get($May2)->isSunday()
+            ? AppCarbon::createFrom($year, 5, 3) : '';
 
-        $May1 = $holiday->createDay($year, 5, 1);
-        $May2 = $holiday->createDay($year, 5, 2);
-        $May3 = $holiday->isSunday($May1) || $holiday->isSunday($May2)
-            ? $holiday->createDay($year, 5, 3) : '';
-
-        $LabourDay = [];
-
-        array_push ($LabourDay, $May1, $May2, $May3);
-
-        return collect($LabourDay)->filter();
+        return collect([$May1, $May2, $May3])->filter();
     }
 
     /**
@@ -139,16 +157,11 @@ class Holiday
      */
     private function ArmisticeDay($year)
     {
-        $holiday = new self;
+        $November11 = AppCarbon::createFrom($year, 11, 11);
+        $November12 = AppCarbon::get($November11)->isSunday()
+            ? AppCarbon::createFrom($year, 11, 12) : '';
 
-        $November11 = $holiday->createDay($year, 11, 11);
-        $November12 = $holiday->isSunday($November11) ? $holiday->createDay($year, 11, 12) : '';
-
-        $ArmisticeDay = [];
-
-        array_push ($ArmisticeDay, $November11, $November12);
-
-        return collect($ArmisticeDay)->filter();
+        return collect([$November11, $November12])->filter();
     }
 
     /**
@@ -159,8 +172,6 @@ class Holiday
      */
     private function EasterSunday($year)
     {
-        $holiday = new self;
-
         $a = $year % 4;
         $b = $year % 7;
         $c = $year % 19;
@@ -169,31 +180,6 @@ class Holiday
         $month = floor(($d + $e + 114) / 31);
         $day = (($d + $e + 114) % 31) + 1;
 
-        return $holiday->createDay($year, $month, ($day+13));
-    }
-
-    /**
-     * Determine if a date is Sunday.
-     *
-     * @param  string  $date
-     * @return boolean
-     */
-    private function isSunday($date)
-    {
-        return Carbon::parse($date)->dayOfWeekIso == 7;
-    }
-
-    /**
-     * Create a day.
-     *
-     * @param  integer $year
-     * @param  integer $month
-     * @param  integer $date
-     * @param  string $format
-     * @return \Carbon\Carbon
-     */
-    private function createDay($year, $month, $date, $format = "Y-m-d")
-    {
-        return Carbon::createFromDate($year, $month, $date)->format($format);
+        return AppCarbon::createFrom($year, $month, ($day+13));
     }
 }

@@ -139,11 +139,11 @@ class Doctor extends Model
      */
     public function isNotAwayFromWork($from, $to)
     {
-        $newAbsence = getDateRange($from, $to);
+        $newAbsence = AppCarbon::getDatesRange($from, $to);
 
         $currentAbsences = $this->absences->transform(function ($absence, $key) {
 
-            return getDateRange($absence->start_at, $absence->end_at);
+            return AppCarbon::getDatesRange($absence->start_at, $absence->end_at);
 
         })->flatten();
 
@@ -159,12 +159,12 @@ class Doctor extends Model
      */
     public function ignoreEditableAbsence($from, $to, $absenceId)
     {
-        $newRange = getDateRange($from, $to);
+        $newRange = AppCarbon::getDatesRange($from, $to);
 
         $overlapped = $this->absences->transform(function ($absence, $key)
             use($newRange) {
 
-            $dateRanges = collect(getDateRange($absence->start_at, $absence->end_at));
+            $dateRanges = AppCarbon::getDatesRange($absence->start_at, $absence->end_at);
 
             return $dateRanges->intersect($newRange)->isNotEmpty() ? collect($absence->id) : '';
         })->flatten()->filter();

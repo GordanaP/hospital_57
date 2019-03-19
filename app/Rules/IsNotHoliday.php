@@ -17,9 +17,7 @@ class IsNotHoliday implements Rule
      */
     public function passes($attribute, $value)
     {
-        $year = AppCarbon::formatDate($value, 'Y');
-
-        return ! Holiday::getAll($year)->contains($value);
+        return AppCarbon::isNotHoliday($value);
     }
 
     /**
