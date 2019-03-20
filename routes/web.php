@@ -4,9 +4,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/test', function () {
-    $doctors = \App\Doctor::all();
-    return view('test', compact('doctors'));
+Route::get('/test/{doctor}', function () {
+    $doctor = 3;
+    return view('test', compact('doctor'));
 })->name('test');
 
 

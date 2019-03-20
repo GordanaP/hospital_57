@@ -2,6 +2,7 @@
 <script src="{{ asset('js/delete_checked.js') }}"></script>
 <script src="{{ asset('js/form_helpers.js') }}"></script>
 <script src="{{ asset('js/fullcalendar.js') }}"></script>
+<script src="{{ asset('js/bs_year_calendar.js') }}"></script>
 <script src="{{ asset('js/fc_doctor.js') }}"></script>
 <script src="{{ asset('js/fc_modal.js') }}"></script>
 <script src="{{ asset('js/fc_event.js') }}"></script>
@@ -37,6 +38,9 @@
 
 <!-- Timepicker -->
 <script src="{{ asset('vendor/jonthornton-jquery-timepicker/jquery.timepicker.js') }}"></script>
+
+<!-- Bootstrap year calendar -->
+<script src="{{ asset('vendor/bootstrap-year-calendar/js/bootstrap-year-calendar.js') }}"></script>
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
