@@ -22,4 +22,5 @@ class Absence
         'unexcused' => "Unexcused absence",
         'other' => "Other reason",
     ];
+
 }

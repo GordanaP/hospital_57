@@ -88,22 +88,6 @@ function getDoctorAbsences(absences, date)
     return absencesArray;
 }
 
-// function disableDoctorAbsences(absences, date)
-// {
-//     var formattedDate = formattedDatepickerDate(date);
-//     var datesArray = makeAbsenceDatesArray(absences)
-//     var absencesArray = [];
-
-//     $.each(datesArray, function(index, dates) {
-//          $.each(dates, function(index, value) {
-//               absencesArray.push(value)
-//          });
-//     });
-
-//     return isInArray(formattedDate, absencesArray)
-//         ? [false, 'absent', ''] : $.datepicker.noWeekends(date)
-// }
-
 function highlightEditableAbsence(absences, editableAbsenceId, date)
 {
     var formattedDate = formattedDatepickerDate(date);

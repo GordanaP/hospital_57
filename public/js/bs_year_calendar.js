@@ -1,13 +1,99 @@
+/**
+ * Calculate # of absence days.
+ *
+ * @param  {string} from
+ * @param  {string} to
+ * @return {integer}
+ */
+function calculateAbsenceDays(from, to)
+{
+    var absenceCount = getDatesArray(from, to).length;
+    var holidaysCount = filterAbsence(from, to).length;
+
+    return absenceCount - holidaysCount;
+}
+
+/**
+ * Filter absence for holidays.
+ *
+ * @param  {string} from
+ * @param  {string} to
+ * @return {array}
+ */
+function filterAbsence(from, to)
+{
+    var absence = getDatesArray(from, to);
+    var holidays = getAllHolidays(from, to);
+
+    var filtered = absence.filter(function(el) {
+        return holidays.indexOf(el) != -1
+    });
+
+    return filtered;
+}
+
+/**
+ * Get all holidays.
+ *
+ * @param  {string} from
+ * @param  {string} to
+ * @return {array}
+ */
+function getAllHolidays(from, to)
+{
+    var yearFrom = new Date(from).getFullYear();
+    var yearTo = new Date(to).getFullYear();
+    var currentYearHolidays = getHolidaysAsString(new Date(to));
+    var previousYearHolidays = getHolidaysAsString(new Date(from));
+
+    if(yearFrom == yearTo)
+    {
+        var holidays = currentYearHolidays
+    }
+    else
+    {
+        var holidays = $.merge(currentYearHolidays, previousYearHolidays);
+    }
+
+    return holidays;
+}
+
+/**
+ * Get holidays as string.
+ *
+ * @param  {JS object} date
+ * @return {string}
+ */
+function getHolidaysAsString(date)
+{
+    var holidaysAsJsDate = getHolidaysAsJsDate (date);
+    var holidaysAsString = [];
+
+    $.each(holidaysAsJsDate, function(index, day) {
+         holidaysAsString.push(formatJsDate(day));
+    });
+
+    return holidaysAsString;
+}
+
+/**
+ * Mark holidays on bs-year-calendar.
+ *
+ * @param  {bs object} element
+ * @param  {Js object} date
+ * @param  {String} color
+ * @return {mixed}
+ */
 function markHolidays(element, date, color = '#ef5350')
 {
-    var holidays = getHolidays (date);
+    var holidays = getHolidaysAsJsDate (date);
 
     $.each(holidays, function(index, holiday) {
          if(formatJsDate(holiday) == formatJsDate(date))
          {
             $(element).css('background-color', color);
             $(element).css('color', 'white');
-            $(element).css('border-radius', '3px');
+            $(element).css('border-radius', '50%');
          }
     });
 }
@@ -19,7 +105,7 @@ function markHolidays(element, date, color = '#ef5350')
  * @param  {string} dateFormat
  * @return {array}
  */
-function getHolidays (date)
+function getHolidaysAsJsDate (date)
 {
     var year = date.getFullYear();
 
@@ -30,18 +116,18 @@ function getHolidays (date)
 
     var January1 = new Date(year, january, 1);
     var January2 = new Date(year, january, 2);
-    January3 = dateIsSunday(January1) || dateIsSunday(January2) ? new Date(year, january, 3) : '';
+    January3 = new Date(year, january, 3);
 
     var February15 = new Date(year, february, 15);
     var February16 = new Date(year, february, 16);
-    February17 = dateIsSunday(February15) || dateIsSunday(February16) ? new Date(year, february, 17) : '';
+    February17 = new Date(year, february, 17);
 
     var May1 = new Date(year, may, 1);
     var May2 = new Date(year, may, 2);
-    May3 = dateIsSunday(May1) || dateIsSunday(May2) ? new Date(year, may, 3) : '';
+    May3 = new Date(year, may, 3);
 
     var November11 = new Date(year, november, 11);
-    November12 = dateIsSunday(November11) ? new Date(year, november, 12) : '';
+    November12 = new Date(year, november, 12);
 
     var ChristmasDay = new Date(year, january, 7);
     var Sunday = orthEasterSunday(year);
@@ -50,12 +136,27 @@ function getHolidays (date)
     var GoodFriday = Sunday.setDate(Sunday.getDate() -3);
 
     var holidays = [ January1, January2, February15, February16, May1, May2, November11,
-        ChristmasDay, GoodFriday, EasterSunday, EasterMonday, ];
+        ChristmasDay, GoodFriday, EasterSunday, EasterMonday];
 
-    January3 !== null ? holidays.push(January3) : '';
-    February17 !== null ? holidays.push(February17) : '';
-    May3 !== null ? holidays.push(May3) : '';
-    November12 !== null ? holidays.push(November12) : '';
+    if (dateIsSunday(January1) || dateIsSunday(January2))
+    {
+        holidays.push(January3);
+    }
+
+    if (dateIsSunday(February15) || dateIsSunday(February16))
+    {
+        holidays.push(February17);
+    }
+
+    if (dateIsSunday(May1) || dateIsSunday(May2))
+    {
+        holidays.push(May3);
+    }
+
+    if (dateIsSunday(November11))
+    {
+        holidays.push(November12);
+    }
 
     return holidays;
 }
@@ -63,7 +164,7 @@ function getHolidays (date)
 /**
  * Get orthodox Easter Sunday
  *
- * @param  {string} year [description]
+ * @param  {string} year
  * @return JS object
  */
 function orthEasterSunday(year)
@@ -94,6 +195,19 @@ function formatJsDate(date) {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
+    return createDateString(year, month, day);
+}
+
+/**
+ * Create date as string.
+ *
+ * @param  {string} year
+ * @param  {string} month
+ * @param  {string} day
+ * @return {string}
+ */
+function createDateString(year, month, day)
+{
     return [year, month, day].join('-');
 }
 
@@ -107,4 +221,3 @@ function dateIsSunday(date)
 {
     return date.getDay() == 0;
 }
-
