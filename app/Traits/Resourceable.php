@@ -66,6 +66,7 @@ trait Resourceable
         return AbsenceResource::collection($absences);
     }
 
+
     /**
      * Get the appointment collection.
      *

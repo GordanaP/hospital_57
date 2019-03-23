@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Absence;
 use App\Appointment;
 use App\Doctor;
 use App\Services\CustomClasses\AppCarbon;
@@ -64,6 +65,16 @@ class AjaxController extends Controller
     public function absencesIndex(Doctor $doctor = null)
     {
         $absences = $this->absencesResourceCollection($doctor);
+
+        return response([
+            'data' => $absences
+        ]);
+    }
+
+
+    public function absencesIndexByYear(Request $request, Doctor $doctor = null)
+    {
+        $absences = $doctor->filterAbsences($request->year);
 
         return response([
             'data' => $absences

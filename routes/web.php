@@ -4,11 +4,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/test/{doctor}', function () {
-    $doctor = 3;
-    return view('test', compact('doctor'));
-})->name('test');
-
+Route::get('/test/{doctor}', 'TestController');
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');

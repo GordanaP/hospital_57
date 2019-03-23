@@ -172,4 +172,22 @@ class Doctor extends Model
         return $overlapped->isEmpty()
                || ($overlapped->count() == 1 && $overlapped->contains($absenceId));
     }
+
+    /**
+     * Filter absences by year.
+     *
+     * @param  string $year
+     * @return Illuminate\Support\Collection
+     */
+    public function filterAbsences($year)
+    {
+        $filteredByYear = ($this->absences)->groupBy(function ($absence) {
+                return \Carbon\Carbon::parse($absence->start_at)->format('Y');
+        })
+        ->filter(function($value, $currentYear) use ($year) {
+            return $currentYear == $year;
+        });
+
+        return $filteredByYear;
+    }
 }

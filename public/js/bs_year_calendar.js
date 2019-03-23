@@ -1,3 +1,25 @@
+function isValidAbsenceStartDate(date)
+{
+    return formatJsDate(date) >= formatJsDate(new Date()) &&
+            ! isInArray(formatJsDate(date), getHolidaysAsString(date));
+}
+
+function calculateAbsenceTypeDays(yearAbsences, type)
+{
+    var countLeave = 0;
+
+    $.each(yearAbsences, function(index, absences) {
+        $.each(absences, function(index, absence) {
+            if(absence.description == type)
+            {
+                countLeave += calculateAbsenceDays(absence.start_at, absence.end_at)
+            }
+        });
+    });
+
+    return countLeave;
+}
+
 /**
  * Calculate # of absence days.
  *
@@ -7,10 +29,24 @@
  */
 function calculateAbsenceDays(from, to)
 {
-    var absenceCount = getDatesArray(from, to).length;
-    var holidaysCount = filterAbsence(from, to).length;
+    var absenceCount = getAbsenceWeekDays(from, to).length;
+    var holidaysCount = getAbsenceHolidays(from, to).length;
 
     return absenceCount - holidaysCount;
+}
+
+function getAbsenceWeekDays(from, to)
+{
+    var allDays = getDatesArray(from,to);
+    var weekDays = [];
+
+    $.each(allDays, function(index, date) {
+         if (! isWeekend(new Date(date))) {
+            weekDays.push(date)
+         }
+    });
+
+    return weekDays;
 }
 
 /**
@@ -20,9 +56,9 @@ function calculateAbsenceDays(from, to)
  * @param  {string} to
  * @return {array}
  */
-function filterAbsence(from, to)
+function getAbsenceHolidays(from, to)
 {
-    var absence = getDatesArray(from, to);
+    var absence = getAbsenceWeekDays(from, to);
     var holidays = getAllHolidays(from, to);
 
     var filtered = absence.filter(function(el) {
@@ -220,4 +256,9 @@ function createDateString(year, month, day)
 function dateIsSunday(date)
 {
     return date.getDay() == 0;
+}
+
+function isWeekend(date)
+{
+    return date.getDay() == 0 || date.getDay() == 6;
 }

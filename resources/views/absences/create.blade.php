@@ -29,7 +29,7 @@
             'route' => route('absences.store'),
             'doctorId' => old('doctor_id'),
             'description' => old('description'),
-            'start_at' => old('start_at'),
+            'start_at' => old('start_at') ?: request('start_at'),
             'end_at' => old('end_at'),
             'btn_redirect' => 'Create Absence',
             'btn_back' => 'Create Absence & Add Another',
