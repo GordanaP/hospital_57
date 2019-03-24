@@ -21,10 +21,12 @@ class CreateAbsencesTable extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors')
                 ->onDelete('cascade');
 
+            $table->unsignedInteger('leave_type_id');
+            $table->foreign('leave_type_id')->references('id')->on('leave_types')
+                ->onDelete('cascade');
+
             $table->date('start_at');
             $table->date('end_at')->nullable();
-
-            $table->enum('description', Absence::names());
 
             $table->timestamps();
         });

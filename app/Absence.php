@@ -16,8 +16,10 @@ class Absence extends Model
      * @var array
      */
     protected $fillable = [
-        'description', 'start_at', 'end_at'
+        'leave_type_id', 'start_at', 'end_at'
     ];
+
+    protected $with = ['leave_type'];
 
     /**
      * Get the doctor that has the given absence.
@@ -29,15 +31,14 @@ class Absence extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public static function groupByYear($year, $doctor)
+    /**
+     * Get the leave type that si assigned to the given absence.
+     *
+     * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function leave_type()
     {
-        $absences = $doctor->absences
-            ->groupBy(function ($absence) {
-                return Carbon::parse($absence->start_at)->format('Y');
-            })->filter(function($value, $currentYear) use($year) {
-                return $currentYear == $year;
-            });
-
-        return $absences;
+        return $this->belongsTo(LeaveType::class);
     }
+
 }

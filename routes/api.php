@@ -37,7 +37,6 @@ Route::get('absences/{doctor?}', 'AjaxController@absencesIndex')
 Route::post('absences/{doctor?}', 'AjaxController@absencesIndexByYear')
     ->name('api.absences.index.by.year');
 
-
 /**
  * Appointment
  */

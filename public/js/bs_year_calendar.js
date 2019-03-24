@@ -1,23 +1,85 @@
+/**
+ * Get annual leave allowed.
+ *
+ * @param  {array} absences
+ * @param  {integer} year
+ * @return {integer}
+ */
+function getAnnualLeaveAllowed(absences, year)
+{
+    var filtered = filterAbsencesByYear(absences, year);
+
+    var allowed;
+
+    if (filtered.length > 0) {
+
+        $.each(filtered[0].leave_types, function(index, leave) {
+
+            if(leave.pivot.year == year) {
+                allowed = leave.pivot.total
+            }
+        });
+    }
+    else
+    {
+        allowed = 0;
+    }
+
+    return allowed;
+}
+
+/**
+ * Filtere absences by year.
+ *
+ * @param  {array} absences
+ * @param  {integer} year
+ * @return {array}
+ */
+function filterAbsencesByYear(absences, year)
+{
+    var filtered = [];
+
+    $.each(absences, function(index, absence) {
+         if(new Date(absence.end_at).getFullYear() == year)
+         {
+            filtered.push(absence);
+         }
+    });
+
+    return filtered;
+}
+
+/**
+ * Determine if the absence is allowed to start on a specific day.
+ *
+ * @param  {js date}  date [description]
+ * @return {Boolean}      [description]
+ */
 function isValidAbsenceStartDate(date)
 {
     return formatJsDate(date) >= formatJsDate(new Date()) &&
             ! isInArray(formatJsDate(date), getHolidaysAsString(date));
 }
 
-function calculateAbsenceTypeDays(yearAbsences, type)
+/**
+ * Count total days for a specific absence type.
+ *
+ * @param  {array} absences
+ * @param  {string} type
+ * @return {integer}
+ */
+function countAbsenceTypeDays(absences, type)
 {
-    var countLeave = 0;
+    var countAbsenceDays = 0;
 
-    $.each(yearAbsences, function(index, absences) {
-        $.each(absences, function(index, absence) {
-            if(absence.description == type)
-            {
-                countLeave += calculateAbsenceDays(absence.start_at, absence.end_at)
-            }
-        });
+    $.each(absences, function(index, absence) {
+        if(absence.type == type)
+        {
+            countAbsenceDays += calculateAbsenceDays(absence.start_at, absence.end_at)
+        }
     });
 
-    return countLeave;
+    return countAbsenceDays;
 }
 
 /**
@@ -35,6 +97,13 @@ function calculateAbsenceDays(from, to)
     return absenceCount - holidaysCount;
 }
 
+/**
+ * Get absence weekdays only.
+ *
+ * @param  {string} from
+ * @param  {string} to
+ * @return {array}
+ */
 function getAbsenceWeekDays(from, to)
 {
     var allDays = getDatesArray(from,to);

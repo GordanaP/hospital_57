@@ -86,6 +86,24 @@ class Doctor extends Model
     }
 
     /**
+     * Get the doctor's leave types.
+     *
+     * @return  \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function leave_types()
+    {
+        return $this->belongsToMany(LeaveType::class)
+            // ->as('days_count')
+            ->withPivot('year', 'total');
+    }
+
+    public function annualLeaves($year)
+    {
+        return $this->belongsToMany(LeaveType::class)
+            ->wherePivot('year', $year);
+    }
+
+    /**
      * Get doctors without user account.
      *
      * @param \App\User | null $user
@@ -189,5 +207,29 @@ class Doctor extends Model
         });
 
         return $filteredByYear;
+    }
+
+    /**
+     * Annual leave allowed.
+     *
+     * @param  integer $year
+     * @return integer
+     */
+    public function getAnnualLeaveAllowed($year)
+    {
+        return $this->leave_types()->wherePivot('year', $year)
+            ->first()->pivot->total;
+    }
+
+    /**
+     * Annual leave allowed.
+     *
+     * @param  integer $year
+     * @return integer
+     */
+    public function getPreviousYearAnnualLeaveAllowed($year)
+    {
+        return $this->leave_types()->wherePivot('year', $year-1)
+            ->first()->pivot->total;
     }
 }

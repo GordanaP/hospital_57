@@ -71,16 +71,6 @@ class AjaxController extends Controller
         ]);
     }
 
-
-    public function absencesIndexByYear(Request $request, Doctor $doctor = null)
-    {
-        $absences = $doctor->filterAbsences($request->year);
-
-        return response([
-            'data' => $absences
-        ]);
-    }
-
     /**
      * Get the appointments.
      *
@@ -108,7 +98,7 @@ class AjaxController extends Controller
     /**
      * The booked slots on a specific date.
      *
-     * @param  Request $request
+     * @param  Illuminate\Support\Request $request
      * @param  integer  $doctorId
      * @return JSON response
      */
@@ -124,6 +114,13 @@ class AjaxController extends Controller
         ]);
     }
 
+    /**
+     * Show doctor.
+     *
+     * @param  Illminate\Support\Request $request
+     * @param  integer  $doctorId
+     * @return \App\Doctor
+     */
     public function doctorsShow(Request $request, $doctorId)
     {
         $doctor = Doctor::find($doctorId)->load('absences');
