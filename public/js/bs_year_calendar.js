@@ -1,31 +1,114 @@
 /**
+ * Get multi-years holidays.
+ *
+ * @param  {integer} number
+ * @return {array}
+ */
+function getMultiYearsHolidays(number)
+{
+    var  holidays = [];
+
+    for (var i = 0; i < number; i++) {
+
+        var date = moment(new Date()).add(i, 'years').toDate();
+
+        holidays[i] = getHolidaysAsJsDate (date)
+    }
+
+    return mergeMultipleArrays(holidays);
+}
+
+/**
+ * Absence start date is not holiday.
+ *
+ * @param  {js date} date
+ * @return {boolean}
+ */
+function absenceStartIsNotHoliday(date) {
+
+    var startDate = formatJsDate(date)
+    var holidays = getHolidaysAsString(date)
+
+    var intersection = $.map(holidays,function(a) {
+         return $.inArray(a, [startDate]) < 0 ? null : a;
+     });
+
+    return intersection.length == 0;
+}
+
+/**
+ * Determine if the selected dates range is not alredy booked.
+ *
+ * @param  {array}  absences
+ * @param  {array}  range
+ * @param  {integer}  year
+ * @return {Boolean}
+ */
+function isValidAbsenceDatesRange(absences, range, year) {
+
+    var currAbsences = filterAbsencesByYear(absences, year);
+    var filtered = [];
+
+    for (i = 0; i < currAbsences.length ; i++) {
+
+       filtered[i] = getDatesArray(currAbsences[i].start_at, currAbsences[i].end_at)
+    }
+
+    var merged = mergeMultipleArrays(filtered)
+
+    var intersection = $.map(merged,function(a) {
+         return $.inArray(a, range) < 0 ? null : a;
+     });
+
+    return intersection.length == 0
+}
+
+function calculateAnnualLeaveAllowed(doctorAnnualLeavesAllowed, doctorJoinYear, year)
+{
+    var currentYear = new Date().getFullYear();
+
+    if(getAnnualLeaveAllowed(doctorAnnualLeavesAllowed, year))
+    {
+            var annualLeaveAllowed = getAnnualLeaveAllowed(doctorAnnualLeavesAllowed, year);
+    }
+    else
+    {
+        if(year < doctorJoinYear)
+        {
+            var annualLeaveAllowed = 0
+        }
+
+        if( year > currentYear) {
+            annualLeaveAllowed = getAnnualLeaveAllowed(doctorAnnualLeavesAllowed, currentYear);
+        }
+    }
+
+    return annualLeaveAllowed;
+}
+
+/**
  * Get annual leave allowed.
  *
  * @param  {array} absences
  * @param  {integer} year
  * @return {integer}
  */
-function getAnnualLeaveAllowed(absences, year)
+function getAnnualLeaveAllowed(doctorAnnualLeavesAllowed, year)
 {
-    var filtered = filterAbsencesByYear(absences, year);
-
     var allowed;
 
-    if (filtered.length > 0) {
-
-        $.each(filtered[0].leave_types, function(index, leave) {
-
-            if(leave.pivot.year == year) {
-                allowed = leave.pivot.total
-            }
-        });
-    }
-    else
+    if(doctorAnnualLeavesAllowed)
     {
-        allowed = 0;
-    }
+        $.each(doctorAnnualLeavesAllowed, function(index, leave) {
+             if(leave.pivot.year == year)
+             {
+                allowed = leave.pivot.total;
+             }
 
-    return allowed;
+        });
+
+        return allowed;
+    }
 }
 
 /**
@@ -89,12 +172,48 @@ function countAbsenceTypeDays(absences, type)
  * @param  {string} to
  * @return {integer}
  */
-function calculateAbsenceDays(from, to)
+function calculateAbsenceDays(from, to, mouseOnDate)
 {
-    var absenceCount = getAbsenceWeekDays(from, to).length;
-    var holidaysCount = getAbsenceHolidays(from, to).length;
+    // var absenceCount = getAbsenceWeekDays(from, to).length;
+    // var holidaysCount = getAbsenceHolidays(from, to).length;
 
-    return absenceCount - holidaysCount;
+    // return absenceCount - holidaysCount;
+
+    var fromYear = new Date(from).getFullYear();
+    var fromMonth = new Date(from).getMonth();
+    var toYear = new Date(to).getFullYear();
+    var toMonth = new Date(to).getMonth();
+    var Dec31 = fromYear+'-12-31';
+    var Jan1 = toYear+'-01-01';
+    var dec = 11;
+    var jan = 0;
+
+    if(fromYear !== toYear)
+    {
+        if(mouseOnDate.getMonth() == jan)
+        {
+            var count = getAbsenceWeekDays(Jan1, to).length
+            var holidaysCount = getAbsenceHolidays(Jan1, to).length;
+
+            var absenceCount = count - holidaysCount
+        }
+        else if(mouseOnDate.getMonth() == dec)
+        {
+            var count = getAbsenceWeekDays(from, Dec31).length
+            var holidaysCount = getAbsenceHolidays(from, Dec31).length;
+
+            var absenceCount = count - holidaysCount
+        }
+    }
+    else
+    {
+        var count = getAbsenceWeekDays(from, to).length
+        var holidaysCount = getAbsenceHolidays(from, to).length;
+
+        var absenceCount = count - holidaysCount;
+    }
+
+    return absenceCount;
 }
 
 /**
@@ -236,9 +355,9 @@ function getHolidaysAsJsDate (date)
 
     var ChristmasDay = new Date(year, january, 7);
     var Sunday = orthEasterSunday(year);
-    var EasterSunday = Sunday.setDate(Sunday.getDate())
-    var EasterMonday = Sunday.setDate(Sunday.getDate() + 1);
-    var GoodFriday = Sunday.setDate(Sunday.getDate() -3);
+    var EasterSunday = orthEasterSunday(year)
+    var EasterMonday = moment(orthEasterSunday(year)).add(1, 'days').toDate();
+    var GoodFriday = moment(orthEasterSunday(year)).subtract(2, 'days').toDate();
 
     var holidays = [ January1, January2, February15, February16, May1, May2, November11,
         ChristmasDay, GoodFriday, EasterSunday, EasterMonday];
@@ -327,7 +446,138 @@ function dateIsSunday(date)
     return date.getDay() == 0;
 }
 
+/**
+ * Determine if the selected day is weekend.
+ *
+ * @param  {js date}  date
+ * @return {Boolean}
+ */
 function isWeekend(date)
 {
     return date.getDay() == 0 || date.getDay() == 6;
+}
+
+function getFullYear(date)
+{
+    return new Date(date).getFullYear();
+}
+
+function totalAnnualLeaveTaken(absences, doctorJoinYear, year)
+{
+    var years = getYearsArray(doctorJoinYear, year);
+    var taken = 0;
+
+    for (var i = 0; i < years.length; i++) {
+
+        taken += countAbsencesTaken(absences, "Annual leave", years[i]);
+    }
+
+    return taken;
+}
+
+function totalAnnualLeaveAllowed(doctorAnnualLeavesAllowed, doctorJoinYear, year)
+{
+    var years = getYearsArray(doctorJoinYear, year);
+    var totalAllowed = 0;
+
+    for (var i = 0; i < years.length; i++) {
+
+        totalAllowed += calculateAnnualLeaveAllowed(doctorAnnualLeavesAllowed, doctorJoinYear, years[i]);
+    }
+
+    return totalAllowed;
+}
+
+function getYearsArray(first, last)
+{
+    var years = [];
+
+    for(i = first; i <= last; i++) {
+        years.push(i);
+    }
+
+    return years;
+}
+
+function countAbsencesTaken(absences, type, year)
+{
+    var filtered = getFilteredAbsences(absences, type, year);
+
+    var count = 0;
+    var Jan1 = year+'-01-01';
+    var Dec31 = year+'-12-31';
+
+    $.each(filtered, function(index, absence) {
+        if(completeAbsenceIsInCurrentYear(absence))
+        {
+             count += countAbsenceDays(absence);
+        }
+        else if(absenceEndsInCurrentYear(absence, year))
+        {
+            count += countSplittedAbsenceDaysFromJan1(absence, year);
+        }
+        else if(absenceStartsInCurrentYear(absence, year))
+        {
+            count += countSplittedAbsenceDaysUntilDec31(absence, year);
+        }
+    });
+
+    return count;
+}
+
+function countSplittedAbsenceDaysUntilDec31(absence, year)
+{
+    var Dec31 = year+'-12-31';
+
+    var weekdays = getAbsenceWeekDays(absence.start_at, Dec31).length;
+    var holidays = getAbsenceHolidays(absence.start_at, Dec31).length;
+
+    return weekdays - holidays;
+}
+
+function countSplittedAbsenceDaysFromJan1(absence, year)
+{
+    var Jan1 = year+'-01-01';
+
+    var weekdays = getAbsenceWeekDays(Jan1, absence.end_at).length;
+    var holidays = getAbsenceHolidays(Jan1, absence.end_at).length;
+
+    return weekdays - holidays;
+}
+
+function countAbsenceDays(absence)
+{
+    var weekdays = getAbsenceWeekDays(absence.start_at, absence.end_at).length;
+    var holidays = getAbsenceHolidays(absence.start_at, absence.end_at).length;
+
+    return weekdays - holidays;
+}
+
+function completeAbsenceIsInCurrentYear(absence)
+{
+    return getFullYear(absence.start_at) == getFullYear(absence.end_at)
+}
+
+function absenceEndsInCurrentYear(absence, year)
+{
+    return getFullYear(absence.end_at) == year
+}
+
+function absenceStartsInCurrentYear(absence, year)
+{
+    return getFullYear(absence.start_at) == year
+}
+
+function getFilteredAbsences(absences, type, year)
+{
+    var filtered = [];
+
+    $.each(absences, function(index, absence) {
+        if(absence.type == type && (absenceStartsInCurrentYear(absence, year) || absenceEndsInCurrentYear(absence, year)))
+        {
+            filtered.push(absence)
+        }
+    });
+
+    return filtered;
 }

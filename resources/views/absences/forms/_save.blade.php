@@ -60,7 +60,7 @@
                         <option value="">Select a reason</option>
                         @foreach (\App\LeaveType::all() as $type)
                             <option value="{{ $type->id }}"
-                                {{ getSelected($type->id, $description) }}
+                                {{ getSelected($type->id, $leave_type_id) }}
                             >
                                 {{ $type->name }}
                             </option>

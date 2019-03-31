@@ -43,7 +43,7 @@
         @include('absences.forms._save', [
             'route' => route('absences.update', $absence),
             'doctorId' => old('doctor_id') ?: $absence->doctor_id,
-            'description' => old('description') ?: $absence->description,
+            'leave_type_id' => old('leave_type_id') ?: $absence->leave_type->id,
             'start_at' => old('start_at')  ?: $absence->start_at,
             'end_at' => old('end_at')  ?: $absence->end_at,
             'btn_redirect' => 'Save Changes',

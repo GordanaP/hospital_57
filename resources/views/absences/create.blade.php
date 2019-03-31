@@ -28,9 +28,9 @@
         @include('absences.forms._save', [
             'route' => route('absences.store'),
             'doctorId' => old('doctor_id'),
-            'description' => old('description'),
+            'leave_type_id' => old('leave_type_id'),
             'start_at' => old('start_at') ?: request('start_at'),
-            'end_at' => old('end_at'),
+            'end_at' => old('end_at') ?: request('end_at'),
             'btn_redirect' => 'Create Absence',
             'btn_back' => 'Create Absence & Add Another',
         ])

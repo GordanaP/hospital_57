@@ -45,7 +45,7 @@ var absencesDatatable = absencesTable.DataTable({
             data: 'days_count',
         },
         {
-            data: 'description',
+            data: 'type',
         },
         {
           render: function(data, type, row, meta) {
