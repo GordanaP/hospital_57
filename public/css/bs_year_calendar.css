@@ -1,0 +1,46 @@
+.event-tooltip  + .tooltip > .tooltip-inner {background-color: #f00;}
+
+.calendar .calendar-header table th.next span {
+  display: block;
+  background-image: url("/images/chevron-sign-right.svg");
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+}
+
+.calendar .calendar-header table th.next span:before {
+  display: none;
+}
+
+.calendar .calendar-header table th.prev {}
+
+.calendar .calendar-header table th.prev span {
+  display: block;
+  background-image: url("/images/chevron-sign-left.svg");
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+}
+
+.calendar .calendar-header table th.prev span:before {
+  display: none;
+}
+
+.absence-summary-table tr td { border-top: none; padding: 2px 0px;}
+
+.vertical-text {
+    /*border: 1px solid #eeeeee;*/
+    position: relative;
+}
+
+.vertical-text span {
+    /*color: red;*/
+    display: block;
+    writing-mode: horizontal-tb;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    position: absolute;
+    top: 26px;
+    left: -12px;
+}

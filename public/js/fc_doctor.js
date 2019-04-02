@@ -296,7 +296,7 @@ function isBusinessDay(date, dateFormat = "YYYY-MM-DD")
 function getHolidayDays(date, dateFormat = "YYYY-MM-DD")
 {
     var holidays = []
-    var allHolidays = getAllHolidays(date, dateFormat)
+    var allHolidays = getHolidays(date, dateFormat)
 
     $.each(allHolidays, function(index, holiday) {
          $.each(holiday, function(index, day) {

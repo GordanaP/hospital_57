@@ -34,8 +34,8 @@ class AbsenceRequest extends FormRequest
             'doctor_id' => [
                 'required', 'exists:doctors,id'
             ],
-            'description' => [
-                'required', 'in:'.Absence::namesArray()
+            'leave_type_id' => [
+                'required', 'exists:leave_types,id'
             ],
             'start_at' => [
                 'required', 'date:Y-m-d', 'after_or_equal:today',

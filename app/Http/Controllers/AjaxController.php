@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Absence;
 use App\Appointment;
 use App\Doctor;
 use App\Services\CustomClasses\AppCarbon;
@@ -97,7 +98,7 @@ class AjaxController extends Controller
     /**
      * The booked slots on a specific date.
      *
-     * @param  Request $request
+     * @param  Illuminate\Support\Request $request
      * @param  integer  $doctorId
      * @return JSON response
      */
@@ -113,6 +114,13 @@ class AjaxController extends Controller
         ]);
     }
 
+    /**
+     * Show doctor.
+     *
+     * @param  Illminate\Support\Request $request
+     * @param  integer  $doctorId
+     * @return \App\Doctor
+     */
     public function doctorsShow(Request $request, $doctorId)
     {
         $doctor = Doctor::find($doctorId)->load('absences');

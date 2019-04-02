@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
      * @var array
      */
     protected $tables = [
-        'users', 'doctors', 'patients', 'working_days', 'absences',
+        'users', 'doctors', 'patients', 'working_days',  'leave_types', 'absences',
     ];
 
     /**
@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DoctorsTableSeeder::class);
         $this->call(PatientsTableSeeder::class);
         $this->call(WorkingDaysTableSeeder::class);
+        $this->call(LeaveTypesTableSeeder::class);
         $this->call(AbsencesTableSeeder::class);
     }
 

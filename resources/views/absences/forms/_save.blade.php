@@ -53,22 +53,22 @@
 
             <!-- Description -->
             <div class="form-group row p-3 w-4/5">
-                <label for="description" class="col-sm-4 col-form-label text-md-right text-grey-dark">Absence Reason:<span class="text-red text-lg">*</span></label>
+                <label for="leave_type_id" class="col-sm-4 col-form-label text-md-right text-grey-dark">Absence Reason:<span class="text-red text-lg">*</span></label>
 
                 <div class="col-sm-8 px-6">
-                    <select name="description" id="description" class="form-control">
+                    <select name="leave_type_id" id="leave_type_id" class="form-control">
                         <option value="">Select a reason</option>
-                        @foreach (Absence::all() as $key => $name)
-                            <option value="{{ $key }}"
-                                {{ getSelected($key, $description) }}
+                        @foreach (\App\LeaveType::all() as $type)
+                            <option value="{{ $type->id }}"
+                                {{ getSelected($type->id, $leave_type_id) }}
                             >
-                                {{ $name }}
+                                {{ $type->name }}
                             </option>
                         @endforeach
                     </select>
 
                     @include('errors._field', [
-                        'field' => 'description',
+                        'field' => 'leave_type_id',
                     ])
                 </div>
             </div>

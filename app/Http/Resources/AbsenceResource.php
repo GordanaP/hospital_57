@@ -21,7 +21,9 @@ class AbsenceResource extends JsonResource
             'doctor_id' => $this->doctor->id,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
-            'description' => $this->description,
+            'leave_types' => $this->doctor->leave_types,
+            'type' => $this->leave_type->name,
+            'color' => $this->leave_type->color,
             'days_count' => AppCarbon::countBusinessDays($this->start_at, $this->end_at),
             'link' => [
                 'edit' => route('absences.edit', $this),
