@@ -46,7 +46,7 @@ function createMoment(year, month, day)
  */
 function highlightHolidays(date, cell, color="#FFED4A", dateFormat = "YYYY-MM-DD")
 {
-    var holidays = getAllHolidays(date);
+    var holidays = getHolidays(date);
     var fcDay = fromMoment(date, dateFormat);
 
     $.each(holidays, function(index, holiday) {
@@ -65,7 +65,7 @@ function highlightHolidays(date, cell, color="#FFED4A", dateFormat = "YYYY-MM-DD
  * @param  {string} dateFormat
  * @return {array}
  */
-function getAllHolidays(date, dateFormat = "YYYY-MM-DD")
+function getHolidays(date, dateFormat = "YYYY-MM-DD")
 {
     var publicHolidays = getPublicHolidays(date, dateFormat);
     var religiousHolidays = getReligiousHolidays(date, dateFormat);

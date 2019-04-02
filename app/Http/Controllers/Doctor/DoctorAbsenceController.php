@@ -22,6 +22,6 @@ class DoctorAbsenceController extends Controller
 
     public function show(Doctor $doctor)
     {
-        return view('doctors.show.absences', compact('doctor'));
+        return view('absences.show', compact('doctor'));
     }
 }

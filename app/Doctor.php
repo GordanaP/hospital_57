@@ -26,6 +26,7 @@ class Doctor extends Model
         'color', 'app_slot', 'image'
     ];
 
+
     /**
      * The accessors to append to the model's array form.
      *

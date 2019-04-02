@@ -38,3 +38,4 @@
 <link href="{{ asset('css/checkbox.css') }}" rel="stylesheet">
 <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
 <link href="{{ asset('css/datatable.css') }}" rel="stylesheet">
+<link href="{{ asset('css/bs_year_calendar.css') }}" rel="stylesheet">
