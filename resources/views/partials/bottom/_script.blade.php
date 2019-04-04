@@ -34,6 +34,10 @@
 <!-- Fullcalendar -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/gcal.min.js"></script>
+<script src="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/core/main.js') }}"></script>
+<script src="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/timeline/main.js') }}"></script>
+<script src="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/resource-common/main.js') }}"></script>
+<script src="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/resource-timeline/main.js') }}"></script>
 
 <!-- Datepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

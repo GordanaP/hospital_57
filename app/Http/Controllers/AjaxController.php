@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Absence;
 use App\Appointment;
 use App\Doctor;
+use App\Http\Resources\DoctorResource;
 use App\Services\CustomClasses\AppCarbon;
 use App\Traits\Resourceable;
 use Illuminate\Http\Request;
@@ -128,5 +129,15 @@ class AjaxController extends Controller
         return response([
             'doctor' => $doctor
         ]);
+    }
+
+    public function schedulerDoctorsIndex()
+    {
+        return Doctor::with('absences')->get();
+    }
+
+    public function schedulerAbsencesIndex()
+    {
+        return Absence::all();
     }
 }

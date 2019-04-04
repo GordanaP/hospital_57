@@ -26,6 +26,9 @@
 <!-- Fullcalendar -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
 <link rel="stylesheet" type="media" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.min.css" />
+<link rel="stylesheet" href="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/core/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/timeline/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('vendor/fullcalendar-scheduler-4.0.1/packages/resource-timeline/main.css') }}" />
 <!-- Datepicker -->
 <link rel="stylesheet" href="{{ asset('vendor/jquery-ui-1.12.1/jquery-ui.min.css') }}">
 <!-- Timepicker -->

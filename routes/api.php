@@ -21,6 +21,8 @@ Route::post('doctors/{doctor}', 'AjaxController@doctorsShow')
     ->name('api.doctors.store');
 Route::get('doctors/{doctor}', 'AjaxController@doctorsShow')
     ->name('api.doctors.show');
+Route::get('sheduler/doctors', 'AjaxController@schedulerDoctorsIndex')
+    ->name('api.scheduler.doctors.index');
 
 
 /**
@@ -36,6 +38,9 @@ Route::get('absences/{doctor?}', 'AjaxController@absencesIndex')
     ->name('api.absences.index');
 Route::post('absences/{doctor?}', 'AjaxController@absencesIndexByYear')
     ->name('api.absences.index.by.year');
+Route::get('sheduler/absences', 'AjaxController@schedulerAbsencesIndex')
+        ->name('api.scheduler.absences.index');
+
 
 /**
  * Appointment

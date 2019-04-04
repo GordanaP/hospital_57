@@ -23,7 +23,7 @@ class AbsenceController extends Controller
     {
         $absences = Absence::all();
 
-        return view('absences.index', compact('absences'));
+        return view('absences.scheduler', compact('absences'));
     }
 
     /**
